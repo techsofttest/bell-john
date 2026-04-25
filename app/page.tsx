@@ -5,6 +5,8 @@ import PromoBanner from "./components/global/PromoBanner";
 import CategorySpotlight from "./components/global/CategorySpotlight";
 import VisionMission from "./components/global/VisionMission";
 import ValueProposition from "./components/global/ValueProposition";
+import ContactSection from "./components/global/ContactSection";
+import MarqueeStrip from "./components/global/MarqueeStrip";
 
 export default function Home() {
   return (
@@ -15,10 +17,15 @@ export default function Home() {
       <PromoBanner />
       <CategorySpotlight />
 
-      {/* New Section Added Here */}
       <VisionMission />
 
       <ValueProposition />
+
+      <ContactSection />
+
+      <MarqueeStrip />
+
+
 
       {/* Contact and Footer are handled globally or further down */}
     </div>
