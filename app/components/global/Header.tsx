@@ -94,18 +94,18 @@ export default function Header() {
                         {/* Region Dropdown */}
                         <div className="relative group z-50 h-full flex items-center cursor-pointer ml-2">
                             <div className="flex items-center gap-1.5 hover:text-brand transition-colors h-full">
-                                <Image src="https://flagcdn.com/w20/kw.png" width={16} height={11} alt="Kuwait Flag" className="shadow-sm" style={{ height: "auto" }} />
+                                <Image src="https://flagcdn.com/w20/kw.png" width={16} height={11} alt="Kuwait Flag" className="shadow-sm" style={{ width: "auto", height: "auto" }} />
                                 <span>Kuwait</span>
                                 <ChevronDown className="w-3 h-3" />
                             </div>
 
                             <div className="absolute top-9 right-0 w-36 bg-white border border-slate-100 shadow-xl p-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                                 <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 text-slate-700 transition-colors text-left font-sans normal-case tracking-normal text-sm">
-                                    <Image src="https://flagcdn.com/w20/kw.png" width={16} height={11} alt="Kuwait Flag" className="shadow-sm" style={{ height: "auto" }} />
+                                    <Image src="https://flagcdn.com/w20/kw.png" width={16} height={11} alt="Kuwait Flag" className="shadow-sm" style={{ width: "auto", height: "auto" }} />
                                     Kuwait
                                 </button>
                                 <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 text-slate-700 transition-colors text-left font-sans normal-case tracking-normal text-sm">
-                                    <Image src="https://flagcdn.com/w20/ae.png" width={16} height={11} alt="UAE Flag" className="shadow-sm" style={{ height: "auto" }} />
+                                    <Image src="https://flagcdn.com/w20/ae.png" width={16} height={11} alt="UAE Flag" className="shadow-sm" style={{ width: "auto", height: "auto" }} />
                                     UAE
                                 </button>
                             </div>

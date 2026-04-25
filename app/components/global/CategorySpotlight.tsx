@@ -11,7 +11,7 @@ const spotlightProducts = [
     { id: 102, title: "Fellowes Powershred 99Ci Cross-Cut Shredder", category: "Office Machines", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=600" },
     { id: 103, title: "Epson EcoTank L15150 A3 Wi-Fi Duplex", category: "Office Machines", image: "/products/Epson EcoTank L15150 A3 Wi-Fi Duplex.jpg" },
     { id: 104, title: "GBC Fusion 5000L A3 Laminator", category: "Office Machines", image: "/products/GBC Fusion 5000L A3 Laminator.jpg" },
-    { id: 105, title: "Canon imageRUNNER ADVANCE DX", category: "Office Machines", image: "/products/Canon imageRUNNER ADVANCE DX.jfif" },
+    { id: 105, title: "Canon imageRUNNER ADVANCE DX", category: "Office Machines", image: "/products/Canon imageRUNNER ADVANCE DX.webp" },
     { id: 106, title: "Brother P-Touch Professional Label Maker", category: "Office Machines", image: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?q=80&w=600" },
 ];
 

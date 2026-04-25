@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 
 const portfolio = [
     { num: "01", title: "Stationery & Supplies", image: "/category/stationery.jpg" },
-    { num: "02", title: "Copier Consumables", image: "/products/Canon imageRUNNER ADVANCE DX.jfif" },
+    { num: "02", title: "Copier Consumables", image: "/products/Canon imageRUNNER ADVANCE DX.webp" },
     { num: "03", title: "Educational Materials", image: "/category/Digital Supplies.jpg" },
     { num: "04", title: "Workspace Solutions", image: "/products/Epson EcoTank L15150 A3 Wi-Fi Duplex.jpg" }
 ];
@@ -58,7 +58,7 @@ export default function ValueProposition() {
                                 </h3>
 
                                 {/* Floating Image relative to the list item */}
-                                <div 
+                                <div
                                     className={`absolute top-1/2 left-[40%] -translate-y-1/2 w-48 h-32 rounded-xl overflow-hidden pointer-events-none z-10 shadow-2xl transition-all duration-500 ease-out border border-white/10 origin-center
                                         ${activeItem === index ? "opacity-100 scale-100 rotate-2 translate-x-0" : "opacity-0 scale-90 -rotate-2 -translate-x-8"}
                                     `}
@@ -67,6 +67,7 @@ export default function ValueProposition() {
                                         src={item.image}
                                         alt={item.title}
                                         fill
+                                        sizes="(max-width: 768px) 192px, 192px"
                                         className="object-cover"
                                     />
                                     <div className="absolute inset-0 bg-black/20"></div>

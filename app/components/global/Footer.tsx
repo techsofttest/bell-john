@@ -128,7 +128,7 @@ export default function Footer() {
                 {/* Bottom Bar: Region & Copyright */}
                 <div className="flex flex-col md:flex-row justify-between items-center py-10 gap-6 border-t border-slate-200">
                     <div className="flex items-center gap-2 text-[12px] font-medium">
-                        <Image src="https://flagcdn.com/w20/kw.png" width={18} height={12} alt="KW" className="rounded-[1px]" />
+                        <Image src="https://flagcdn.com/w20/kw.png" width={18} height={12} alt="KW" className="rounded-[1px]" style={{ width: "auto", height: "auto" }} />
                         <span>Kuwait</span>
                     </div>
 
