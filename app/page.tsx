@@ -27,7 +27,6 @@ export default function Home() {
 
 
 
-      {/* Contact and Footer are handled globally or further down */}
     </div>
   );
 }
