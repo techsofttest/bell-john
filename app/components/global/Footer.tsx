@@ -39,13 +39,21 @@ export default function Footer() {
                 {/* Top Section: Logo + Columns + Socials */}
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-12 mb-20">
 
-                    {/* 1. Logo Column */}
-                    <div className="lg:col-span-1 self-start">
+                    {/* 1. Logo Column & Contact Info */}
+                    <div className="lg:col-span-1 self-start space-y-6">
                         <Link href="/">
-                            <div className="relative w-44 h-14">
+                            <div className="relative w-44 h-14  mb-4">
                                 <Image src="/logo/logo.png" alt="Bell & John" fill sizes="176px" className="object-contain object-left" />
                             </div>
                         </Link>
+                        <div className="space-y-2">
+                            <h4 className="text-[13px] font-bold tracking-tight">Contact Us</h4>
+                            <ul className="space-y-1 text-[13px] text-[#666666]">
+                                <li>Email: <a href="mailto:info@bellandjohn.online" className="hover:text-brand hover:underline transition-colors">info@bellandjohn.online</a></li>
+                                <li>Phone: <a href="tel:+96522459082" className="hover:text-brand hover:underline transition-colors">+965-224-59082</a></li>
+                                <li>Phone: <a href="tel:+96522459083" className="hover:text-brand hover:underline transition-colors">+965-224-59083</a></li>
+                            </ul>
+                        </div>
                     </div>
 
                     {/* 2. Brand/Company */}
@@ -60,19 +68,32 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* 3. Solutions */}
+                    {/* 3. Main Categories */}
                     <div className="space-y-4">
-                        <h4 className="text-[13px] font-bold tracking-tight">Solutions</h4>
+                        <h4 className="text-[13px] font-bold tracking-tight">Main Categories</h4>
                         <ul className="space-y-2 text-[13px] text-[#666666]">
-                            <li><Link href="#" className="hover:underline">Stationery</Link></li>
-                            <li><Link href="#" className="hover:underline">Digital Supplies</Link></li>
-                            <li><Link href="#" className="hover:underline">Office Machines</Link></li>
-                            <li><Link href="#" className="hover:underline">Office Furniture</Link></li>
-                            <li><Link href="#" className="hover:underline">Educational Materials</Link></li>
+                            <li><Link href="/products/category/stationery" className="hover:underline">Stationery</Link></li>
+                            <li><Link href="/products/category/digital-supplies" className="hover:underline">Digital Supplies</Link></li>
+                            <li><Link href="/products/category/office-machines" className="hover:underline">Office Machines</Link></li>
+                            <li><Link href="/products/category/office-furniture" className="hover:underline">Office Furniture</Link></li>
+                            <li><Link href="/products/category/packing-materials" className="hover:underline">Packing Materials</Link></li>
+                            <li><Link href="/products/category/breakroom" className="hover:underline">Breakroom</Link></li>
                         </ul>
                     </div>
 
-                    {/* 4. Support */}
+                    {/* 4. Solutions */}
+                    <div className="space-y-4">
+                        <h4 className="text-[13px] font-bold tracking-tight">Solutions</h4>
+                        <ul className="space-y-2 text-[13px] text-[#666666]">
+                            <li><Link href="#" className="hover:underline">Bulk Ordering</Link></li>
+                            <li><Link href="#" className="hover:underline">Corporate Accounts</Link></li>
+                            <li><Link href="#" className="hover:underline">Procurement Services</Link></li>
+                            <li><Link href="#" className="hover:underline">Custom Printing</Link></li>
+                            <li><Link href="#" className="hover:underline">Office Setup</Link></li>
+                        </ul>
+                    </div>
+
+                    {/* 5. Support */}
                     <div className="space-y-4">
                         <h4 className="text-[13px] font-bold tracking-tight">Get Help</h4>
                         <ul className="space-y-2 text-[13px] text-[#666666]">
@@ -80,16 +101,6 @@ export default function Footer() {
                             <li><Link href="/quote" className="hover:underline">Request a Quote</Link></li>
                             <li><Link href="/shipping" className="hover:underline">Delivery Info</Link></li>
                             <li><Link href="/faq" className="hover:underline">FAQs</Link></li>
-                        </ul>
-                    </div>
-
-                    {/* 5. Contacts (Regional Focus) */}
-                    <div className="space-y-4">
-                        <h4 className="text-[13px] font-bold tracking-tight">Contacts</h4>
-                        <ul className="space-y-2 text-[13px] text-[#666666]">
-                            <li><Link href="#" className="hover:underline">Kuwait Office</Link></li>
-                            <li><Link href="#" className="hover:underline">Dubai Office</Link></li>
-                            <li><Link href="#" className="hover:underline">Media Relations</Link></li>
                         </ul>
                     </div>
 
@@ -115,7 +126,7 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Bar: Region & Copyright */}
-                <div className="flex flex-col md:flex-row justify-between items-center py-10 gap-6">
+                <div className="flex flex-col md:flex-row justify-between items-center py-10 gap-6 border-t border-slate-200">
                     <div className="flex items-center gap-2 text-[12px] font-medium">
                         <Image src="https://flagcdn.com/w20/kw.png" width={18} height={12} alt="KW" className="rounded-[1px]" />
                         <span>Kuwait</span>
@@ -135,7 +146,7 @@ export default function Footer() {
             </div>
 
             {/* The Final Bottom Strip */}
-            <div className="bg-[#D9D9D9] py-4 text-center">
+            <div className="bg-[#D9D9D9] py-4 text-center mt-auto">
                 <p className="text-[11px] font-bold uppercase tracking-widest text-[#333333]">
                     Delivering Excellence Across the GCC
                 </p>

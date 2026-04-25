@@ -1,11 +1,9 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Mock Data: 4 Core Categories + 2 Extras to demonstrate the carousel scaling
+// Mock Data: 4 Core Categories + 2 Extras
 const categories = [
     {
         id: 'stationery',
@@ -40,58 +38,29 @@ const categories = [
 ];
 
 export default function CoreCategories() {
-    const scrollRef = useRef<HTMLDivElement>(null);
-
-    const scroll = (direction: "left" | "right") => {
-        if (scrollRef.current) {
-            const { scrollLeft, clientWidth } = scrollRef.current;
-            // Scroll by 2-3 items at a time
-            const scrollTo = direction === "left" ? scrollLeft - (clientWidth / 2) : scrollLeft + (clientWidth / 2);
-            scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
-        }
-    };
-
     return (
         <section className="py-16 bg-[#F8FAFC]">
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
-                {/* --- Header & Controls --- */}
-                <div className="flex justify-between items-center mb-10">
-                    <h2 className="font-serif text-2xl md:text-3xl text-slate-900 font-medium">
+                {/* --- Centered Header --- */}
+                <div className="text-center mb-12">
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                        <span className="w-8 h-[1px] bg-brand"></span>
+                        <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-slate-400">Our Departments</span>
+                        <span className="w-8 h-[1px] bg-brand"></span>
+                    </div>
+                    <h2 className="font-serif text-3xl md:text-4xl text-slate-900 font-medium">
                         Explore by Category
                     </h2>
-
-                    {/* Minimal Carousel Controls */}
-                    <div className="flex gap-2">
-                        <button
-                            onClick={() => scroll("left")}
-                            className="w-9 h-9 rounded-md bg-white border border-slate-200 text-slate-500 flex items-center justify-center hover:bg-brand hover:text-white hover:border-brand transition-all shadow-sm active:scale-95"
-                            aria-label="Scroll left"
-                        >
-                            <ChevronLeft className="w-4 h-4" />
-                        </button>
-                        <button
-                            onClick={() => scroll("right")}
-                            className="w-9 h-9 rounded-md bg-white border border-slate-200 text-slate-500 flex items-center justify-center hover:bg-brand hover:text-white hover:border-brand transition-all shadow-sm active:scale-95"
-                            aria-label="Scroll right"
-                        >
-                            <ChevronRight className="w-4 h-4" />
-                        </button>
-                    </div>
                 </div>
 
-                {/* --- The Category Carousel --- */}
-                <div
-                    ref={scrollRef}
-                    className="flex gap-6 md:gap-10 overflow-x-auto snap-x snap-mandatory scroll-smooth 
-                     [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
-                     pb-4"
-                >
+                {/* --- Wrapping Flex Grid --- */}
+                <div className="flex flex-wrap justify-center gap-6 md:gap-10">
                     {categories.map((category) => (
                         <Link
                             key={category.id}
                             href={`/products/category/${category.id}`}
-                            className="group flex flex-col items-center w-[140px] md:w-[180px] flex-shrink-0 snap-start outline-none"
+                            className="group flex flex-col items-center w-[110px] md:w-[140px] outline-none"
                         >
                             {/* Image Container: Premium Soft Square */}
                             <div className="w-full aspect-square bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden relative mb-4 group-hover:shadow-md group-hover:border-brand/30 transition-all duration-300">
@@ -100,7 +69,7 @@ export default function CoreCategories() {
                                     alt={category.title}
                                     fill
                                     className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                    sizes="(max-width: 768px) 140px, 180px"
+                                    sizes="(max-width: 768px) 110px, 140px"
                                 />
                                 {/* Subtle dark gradient to make it feel grounded */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

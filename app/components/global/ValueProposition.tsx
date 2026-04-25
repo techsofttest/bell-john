@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
@@ -13,23 +13,9 @@ const portfolio = [
 
 export default function ValueProposition() {
     const [activeItem, setActiveItem] = useState<number | null>(null);
-    const floatingImageRef = useRef<HTMLDivElement>(null);
-
-    const handleMouseMove = (e: React.MouseEvent) => {
-        if (floatingImageRef.current) {
-            // Small offset for a smooth follow effect
-            floatingImageRef.current.style.transform = `translate(${e.clientX + 15}px, ${e.clientY + 15}px)`;
-        }
-    };
 
     return (
-        <section
-            className="bg-[#020617] py-20 relative overflow-hidden text-white"
-            onMouseMove={handleMouseMove}
-        >
-            {/* Background radial glow for a "Studio" feel */}
-            {/* <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] bg-brand/10 rounded-full blur-[120px] pointer-events-none"></div> */}
-
+        <section className="bg-[#020617] py-20 relative overflow-hidden text-white">
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
                 <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
 
@@ -50,49 +36,45 @@ export default function ValueProposition() {
                     </div>
 
                     {/* Right Side: Services List - Aligned Vertically */}
-                    <div className="w-full lg:w-7/12 flex flex-col">
+                    <div className="w-full lg:w-7/12 flex flex-col relative">
                         {portfolio.map((item, index) => (
                             <div
                                 key={index}
                                 onMouseEnter={() => setActiveItem(index)}
                                 onMouseLeave={() => setActiveItem(null)}
-                                className={`group flex items-center py-6 border-white/5 transition-all duration-300 cursor-none
-                  ${index === 0 ? "border-t" : ""} 
-                  border-b hover:bg-white/[0.02] px-4
-                `}
+                                className={`group flex items-center py-8 border-white/5 transition-all duration-300 cursor-pointer relative
+                                    ${index === 0 ? "border-t" : ""} 
+                                    border-b hover:bg-white/[0.02] px-4
+                                `}
                             >
                                 {/* Fixed width number for perfect vertical alignment */}
-                                <span className="w-12 text-[10px] font-sans tracking-widest text-white/30 group-hover:text-white transition-colors">
+                                <span className="w-12 text-[10px] font-sans tracking-widest text-white/30 group-hover:text-white transition-colors relative z-20">
                                     {item.num}
                                 </span>
 
-                                <h3 className="flex-grow text-lg md:text-xl font-medium text-white/40 group-hover:text-white transition-all duration-300 flex items-center justify-between">
+                                <h3 className="flex-grow text-lg md:text-xl font-medium text-white/40 group-hover:text-white transition-all duration-300 flex items-center justify-between relative z-20">
                                     {item.title}
-                                    <ArrowUpRight className="w-4 h-4 text-white opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300" />
+                                    <ArrowUpRight className="w-5 h-5 text-white opacity-0 -translate-x-4 translate-y-4 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300" />
                                 </h3>
+
+                                {/* Floating Image relative to the list item */}
+                                <div 
+                                    className={`absolute top-1/2 left-[40%] -translate-y-1/2 w-48 h-32 rounded-xl overflow-hidden pointer-events-none z-10 shadow-2xl transition-all duration-500 ease-out border border-white/10 origin-center
+                                        ${activeItem === index ? "opacity-100 scale-100 rotate-2 translate-x-0" : "opacity-0 scale-90 -rotate-2 -translate-x-8"}
+                                    `}
+                                >
+                                    <Image
+                                        src={item.image}
+                                        alt={item.title}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-black/20"></div>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
-
-            {/* Very Small Floating Image (Studio Refined) */}
-            <div
-                ref={floatingImageRef}
-                className={`hidden lg:block fixed top-0 left-0 w-32 h-44 rounded-lg overflow-hidden pointer-events-none z-50 shadow-2xl transition-all duration-500 ease-out border border-white/10
-          ${activeItem !== null ? "opacity-100 scale-100 translate-y-0 rotate-3" : "opacity-0 scale-75 translate-y-4 rotate-0"}
-        `}
-            >
-                {portfolio.map((item, index) => (
-                    <Image
-                        key={index}
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className={`object-cover transition-opacity duration-500 ${activeItem === index ? "opacity-100" : "opacity-0"
-                            }`}
-                    />
-                ))}
             </div>
         </section>
     );
