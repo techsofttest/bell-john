@@ -40,7 +40,7 @@ const promos = [
         description: "Deploy reliable, high-performance desktop computers and networking essentials to keep your workforce connected and secure.",
         buttonText: "Shop Computers",
         link: "/products/category/digital-supplies",
-        image: "/products/Canon imageRUNNER ADVANCE DX.jfif",
+        image: "/products/Canon imageRUNNER ADVANCE DX.webp",
     }
 ];
 
