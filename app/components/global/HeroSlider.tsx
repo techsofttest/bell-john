@@ -81,7 +81,7 @@ export default function HeroSlider() {
                                     ${isActive ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0"}
                                 `}
                             >
-                                <h1 className="font-serif text-4xl md:text-5xl text-white mb-4 leading-tight font-medium tracking-tight">
+                                <h1 className="font-serif text-3xl md:text-5xl text-white mb-4 leading-tight font-medium tracking-tight">
                                     {slide.title}
                                 </h1>
                                 <p className="text-base md:text-lg text-slate-100 mb-8 leading-relaxed font-normal opacity-90 max-w-md">

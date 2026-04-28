@@ -1,15 +1,23 @@
 "use client";
 
 import { useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import ProductCard from "../products/ProductCard";
+import { ChevronLeft, ChevronRight, Sparkles, BarChart3, Tag } from "lucide-react"; // Imported different icons
+import ProductCard, { ProductTag } from "../products/ProductCard"; // Imported ProductTag interface
+
+// Pre-define tags for clarity/reuse in mock data
+const tags: Record<string, ProductTag> = {
+    new: { label: "New", icon: <Sparkles size={12} />, scheme: 'new' },
+    bestSeller: { label: "Best Selling", icon: <BarChart3 size={12} />, scheme: 'bestSeller' },
+    premium: { label: "Premium Solutions", icon: <Sparkles size={12} />, scheme: 'premium' },
+    bestPrice: { label: "Best Price", icon: <Tag size={12} />, scheme: 'price' }
+};
 
 const featuredProducts = [
-    { id: 1, title: "Target Printable Computer Labels - 100 Sheets", category: "Stationery", image: "/products/printer.jpg" },
-    { id: 2, title: "Leitz 180° Hardboard F/S Lever Arch Files", category: "Office Stationery", image: "/products/Arch Files.jpg" },
-    { id: 3, title: "HP V241ib FHD 23.8-inch Monitor", category: "Digital Supplies", image: "/products/HP V241ib FHD 23.8-inch Monitor.png" },
-    { id: 4, title: "3M Post-it Canary Yellow Sticky Notes", category: "Office Stationery", image: "/products/3M Post-it Canary Yellow Sticky Notes.avif" },
-    { id: 5, title: "Ergonomic Corporate Workspace Chair", category: "Office Furniture", image: "/banner-products/meeting-table.png" },
+    { id: 1, title: "Target Printable Computer Labels - 100 Sheets", category: "Stationery", image: "/products/printer.jpg", tag: tags.bestSeller },
+    { id: 2, title: "Leitz 180° Hardboard F/S Lever Arch Files", category: "Office Stationery", image: "/products/Arch Files.jpg", tag: tags.new },
+    { id: 3, title: "HP V241ib FHD 23.8-inch Monitor", category: "Digital Supplies", image: "/products/HP V241ib FHD 23.8-inch Monitor.png", tag: tags.bestPrice },
+    { id: 4, title: "3M Post-it Canary Yellow Sticky Notes", category: "Office Stationery", image: "/products/3M Post-it Canary Yellow Sticky Notes.avif" }, // Optional tag example
+    { id: 5, title: "Ergonomic Corporate Workspace Chair", category: "Office Furniture", image: "/banner-products/meeting-table.png", tag: tags.premium },
 ];
 
 export default function FeaturedProducts() {
@@ -32,12 +40,12 @@ export default function FeaturedProducts() {
                     <div className="space-y-2">
                         <div className="flex items-center gap-3">
                             <span className="w-10 h-[1px] bg-brand"></span>
-                            <span className="text-[14px] uppercase tracking-[0.3em] font-bold text-brand">Industry Standards</span>
+                            <span className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-bold text-brand">Industry Standards</span>
                         </div>
-                        <h2 className="font-serif text-3xl md:text-4xl text-slate-900 font-medium">Featured Solutions</h2>
+                        <h2 className="font-serif text-xl md:text-3xl text-slate-900 font-medium">Featured Solutions</h2>
                     </div>
 
-                    {/* Navigation - Matching HeroSlider Style */}
+                    {/* Navigation */}
                     <div className="flex gap-2">
                         <button
                             onClick={() => scroll("left")}
@@ -62,7 +70,7 @@ export default function FeaturedProducts() {
                      "
                 >
                     {featuredProducts.map((product) => (
-                        <div key={product.id} className="snap-start">
+                        <div key={product.id} className="snap-start py-4"> {/* Vertical padding for hover shadow */}
                             <ProductCard {...product} />
                         </div>
                     ))}

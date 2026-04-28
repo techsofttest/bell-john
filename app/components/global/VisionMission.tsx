@@ -30,7 +30,7 @@ export default function VisionMission() {
                                 <span className="text-xs uppercase tracking-[0.25em] font-bold text-slate-400 group-hover:text-brand transition-colors duration-500">Our Vision</span>
                             </div>
 
-                            <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl text-slate-900 leading-[1.2] font-medium tracking-tight">
+                            <h3 className="font-serif text-2xl md:text-4xl text-slate-900 leading-[1.2] font-medium tracking-tight">
                                 To be the GCC’s most trusted provider of office solutions.
                             </h3>
                         </div>
@@ -61,7 +61,7 @@ export default function VisionMission() {
                                 <span className="text-xs uppercase tracking-[0.25em] font-bold text-slate-400 group-hover:text-brand transition-colors duration-500">Our Mission</span>
                             </div>
 
-                            <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl text-slate-900 leading-[1.2] font-medium tracking-tight">
+                            <h3 className="font-serif text-2xl md:text-4xl text-slate-900 leading-[1.2] font-medium tracking-tight">
                                 To deliver high-quality products and dependable service.
                             </h3>
                         </div>

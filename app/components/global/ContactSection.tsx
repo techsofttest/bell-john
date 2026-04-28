@@ -38,7 +38,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                 <div className="py-12 border-b border-slate-200 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                     <div>
                         <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand mb-2">Contact Us</p>
-                        <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 leading-tight">
+                        <h2 className="text-xl md:text-3xl font-semibold text-slate-900 leading-tight">
                             We&apos;re here to help
                         </h2>
                     </div>

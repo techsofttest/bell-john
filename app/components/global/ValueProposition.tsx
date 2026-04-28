@@ -26,7 +26,7 @@ export default function ValueProposition() {
                             <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/50">Our Portfolio</span>
                         </div>
 
-                        <h2 className="font-serif text-4xl md:text-5xl leading-[1.1] mb-6 font-medium tracking-tight">
+                        <h2 className="font-serif text-2xl md:text-4xl leading-[1.1] mb-6 font-medium tracking-tight">
                             A Single Source for <br />Business Excellence.
                         </h2>
 
