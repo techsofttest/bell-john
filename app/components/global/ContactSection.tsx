@@ -14,10 +14,10 @@ const contactData: Record<string, {
             "Al Tujjar Tower, Tower B, Floor 7, Office # 6",
             "Abdulaziz Hamad Al Saqer St, Kuwait City",
         ],
-        phones: ["+965-224-59082", "+965-224-59083"],
+        phones: ["+965-224-59082", "+965-224-59083", "+965-224-59084"],
         email: "info@bellandjohn.online",
         hours: [
-            { days: "Sun – Thu", time: "8:00 AM – 5:00 PM" },
+            { days: "Sunday – Thursday", time: "8:00 AM – 5:00 PM" },
             { days: "Saturday", time: "9:00 AM – 1:00 PM" },
         ],
     },
