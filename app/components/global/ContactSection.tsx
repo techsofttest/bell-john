@@ -136,7 +136,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                                     type="text"
                                     required
                                     placeholder="John Doe"
-                                    className="w-full h-12 px-4 bg-white border border-slate-200/80 rounded-xl shadow-sm focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300"
+                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400"
                                 />
                             </div>
 
@@ -148,7 +148,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                                     type="email"
                                     required
                                     placeholder="john@company.com"
-                                    className="w-full h-12 px-4 bg-white border border-slate-200/80 rounded-xl shadow-sm focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300"
+                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400"
                                 />
                             </div>
 
@@ -159,7 +159,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                                 <input
                                     type="text"
                                     placeholder="Enterprise Ltd."
-                                    className="w-full h-12 px-4 bg-white border border-slate-200/80 rounded-xl shadow-sm focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300"
+                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400"
                                 />
                             </div>
 
@@ -170,7 +170,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                                 <input
                                     type="tel"
                                     placeholder="+965 ..."
-                                    className="w-full h-12 px-4 bg-white border border-slate-200/80 rounded-xl shadow-sm focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300"
+                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400"
                                 />
                             </div>
 
@@ -182,7 +182,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                                     required
                                     rows={5}
                                     placeholder="How can we assist your business today?"
-                                    className="w-full p-4 bg-white border border-slate-200/80 rounded-xl shadow-sm focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300 resize-none"
+                                    className="w-full p-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400 resize-none"
                                 />
                             </div>
 

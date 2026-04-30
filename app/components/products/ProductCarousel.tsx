@@ -68,14 +68,14 @@ export default function ProductCarousel({ title, categorySlug, products }: Produ
                 ))}
             </div>
 
-            {/* Bottom Right "View All" Button */}
-            <div className="mt-6 flex justify-end">
+            {/* Bottom Centered CTA */}
+            <div className="mt-10 flex justify-center">
                 <Link
                     href={`/products/category/${categorySlug}`}
-                    className="inline-flex items-center gap-2 text-[14px] font-bold text-slate-500 tracking-widest hover:text-brand transition-colors group px-4 py-2 rounded-md hover:bg-slate-50"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-md border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:text-brand hover:border-brand/30 hover:shadow-sm transition-all duration-300 group active:scale-95"
                 >
                     View All {title}
-                    <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
             </div>
 
