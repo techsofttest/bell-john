@@ -140,7 +140,7 @@ export default function Header() {
                         </div>
 
                         {/* Conditional Auth Button */}
-                        <Link href={isLoggedIn ? "/profile" : "/login"} className="flex items-center gap-1.5 hover:text-brand transition-colors ml-2">
+                        <Link href={isLoggedIn ? "/profile" : "/auth/login"} className="flex items-center gap-1.5 hover:text-brand transition-colors ml-2">
                             <User className="w-3.5 h-3.5" />
                             <span>{isLoggedIn ? "View Profile" : "Sign In"}</span>
                         </Link>
