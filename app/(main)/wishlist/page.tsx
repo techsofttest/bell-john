@@ -4,24 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronRight, Heart, ShoppingBag, Trash2 } from "lucide-react";
 import ProductCard from "../../components/products/ProductCard";
-
-// Mock data
-const INITIAL_WISHLIST = [
-    { id: 1, title: "Premium A4 Copy Paper - 500 Sheets", category: "Stationery", image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600", tag: { label: "Best Seller", scheme: "bestSeller" as const } },
-    { id: 2, title: "Pilot G2 Premium Gel Pens (Pack of 12)", category: "Writing Instruments", image: "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?q=80&w=600" },
-    { id: 3, title: "Leitz 180° Hardboard Lever Arch Files", category: "Filing & Folders", image: "https://images.unsplash.com/photo-1568227451240-b6f79ccba53b?q=80&w=600", tag: { label: "New", scheme: "new" as const } },
-    { id: 4, title: "Double A Paper A4 80GSM - 5 Reams", category: "Stationery", image: "https://images.unsplash.com/photo-1589982456636-cfb938f92d47?q=80&w=600" },
-    { id: 5, title: "Deli Mesh Desk Organizer (Black)", category: "Desk Accessories", image: "https://images.unsplash.com/photo-1520006403909-838d6b92c22e?q=80&w=600" },
-    { id: 6, title: "Premium A4 Copy Paper - 500 Sheets", category: "Stationery", image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600", tag: { label: "Best Seller", scheme: "bestSeller" as const } },
-    { id: 7, title: "Pilot G2 Premium Gel Pens (Pack of 12)", category: "Writing Instruments", image: "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?q=80&w=600" },
-];
+import { useWishlist } from "@/app/context/WishlistContext";
 
 export default function WishlistPage() {
-    const [wishlist, setWishlist] = useState(INITIAL_WISHLIST);
-
-    const removeFromWishlist = (id: string | number) => {
-        setWishlist(prev => prev.filter(item => item.id !== id));
-    };
+    const { wishlist, removeFromWishlist, clearWishlist } = useWishlist();
 
     return (
         <div className="bg-[#F4F5F7] min-h-screen pb-24 font-sans">
@@ -45,7 +31,7 @@ export default function WishlistPage() {
                         {/* Clear Wishlist Button (Optional addition for UX) */}
                         {wishlist.length > 0 && (
                             <button
-                                onClick={() => setWishlist([])}
+                                onClick={clearWishlist}
                                 className="flex items-center gap-2 px-3 py-1.5 text-slate-400 hover:text-red-600 transition-colors text-[10px] uppercase tracking-widest font-bold"
                             >
                                 <Trash2 size={14} /> Clear List
@@ -64,7 +50,7 @@ export default function WishlistPage() {
                                 key={item.id}
                                 {...item}
                                 isWishlistPage={true}
-                                onRemove={removeFromWishlist}
+                                onRemove={() => removeFromWishlist(item.id)}
                             />
                         ))}
                     </div>

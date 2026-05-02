@@ -15,28 +15,54 @@ import {
     Armchair,
     TrendingUp
 } from "lucide-react";
+import { useWishlist } from "@/app/context/WishlistContext";
+import { useCart } from "@/app/context/CartContext";
 
 // Categories with Icons for the Dropdown
 const categories = [
     {
         title: "Stationery",
+        slug: "stationery",
         icon: PenTool,
-        links: ["Paper & Notebooks", "Writing Instruments", "Filing & Folders", "Desk Accessories"],
+        links: [
+            { title: "Paper & Notebooks", slug: "paper-notebooks" },
+            { title: "Writing Instruments", slug: "writing-instruments" },
+            { title: "Filing & Folders", slug: "filing-folders" },
+            { title: "Desk Accessories", slug: "desk-accessories" }
+        ],
     },
     {
         title: "Digital Supplies",
+        slug: "digital-supplies",
         icon: Monitor,
-        links: ["Data Storage", "Computer Accessories", "Networking", "Software"],
+        links: [
+            { title: "Data Storage", slug: "data-storage" },
+            { title: "Computer Accessories", slug: "computer-accessories" },
+            { title: "Networking", slug: "networking" },
+            { title: "Software", slug: "software" }
+        ],
     },
     {
         title: "Office Machines",
+        slug: "office-machines",
         icon: Printer,
-        links: ["Printers & Scanners", "Shredders", "Laminators", "Binding Machines"],
+        links: [
+            { title: "Printers & Scanners", slug: "printers-scanners" },
+            { title: "Shredders", slug: "shredders" },
+            { title: "Laminators", slug: "laminators" },
+            { title: "Binding Machines", slug: "binding-machines" }
+        ],
     },
     {
         title: "Office Furniture",
+        slug: "office-furniture",
         icon: Armchair,
-        links: ["Ergonomic Chairs", "Desks & Workstations", "Storage Cabinets", "Meeting Tables"],
+        links: [
+            { title: "Ergonomic Chairs", slug: "ergonomic-chairs" },
+            { title: "Desks & Workstations", slug: "desks-workstations" },
+            { title: "Storage Cabinets", slug: "storage-cabinets" },
+            { title: "Meeting Tables", slug: "meeting-tables" }
+        ],
     },
 ];
 
@@ -48,6 +74,8 @@ const popularSearches = [
 ];
 
 export default function Header() {
+    const { wishlist } = useWishlist();
+    const { cartItems, openCart } = useCart();
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -145,25 +173,33 @@ export default function Header() {
                         {categories.map((category, index) => (
                             <div key={index} className="group h-full flex items-center relative">
                                 {/* Text Trigger with Down Arrow */}
-                                <button className="flex items-center gap-1.5 text-sm font-semibold text-slate-800 hover:text-brand transition-colors cursor-default relative py-2">
+                                <Link
+                                    href={`/products/category/${category.slug}`}
+                                    className="flex items-center gap-1.5 text-sm font-semibold text-slate-800 hover:text-brand transition-colors relative py-2"
+                                >
                                     {category.title}
                                     <ChevronDown className="w-3.5 h-3.5 opacity-50 group-hover:rotate-180 transition-transform duration-300" />
 
                                     {/* Animated Underline */}
                                     <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-brand transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-                                </button>
+                                </Link>
 
                                 {/* Elevated Dropdown Panel */}
                                 <div className="absolute top-20 left-1/2 -translate-x-1/2 w-72 bg-white border border-slate-100 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 p-6">
                                     <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-50">
-                                        <category.icon className="w-5 h-5 text-brand" strokeWidth={1.5} />
-                                        <h4 className="font-bold text-slate-900 tracking-tight">{category.title}</h4>
+                                        <category.icon className="w-5 h-5 text-brand" strokeWidth={1.5} stroke="currentColor" />
+                                        <Link href={`/products/category/${category.slug}`} className="font-bold text-slate-900 tracking-tight hover:text-brand transition-colors">
+                                            {category.title}
+                                        </Link>
                                     </div>
                                     <ul className="space-y-2">
                                         {category.links.map((link, idx) => (
                                             <li key={idx}>
-                                                <Link href="#" className="block py-1.5 text-sm text-slate-500 hover:text-brand hover:translate-x-1 transition-all duration-200">
-                                                    {link}
+                                                <Link
+                                                    href={`/products/category/${category.slug}/${link.slug}`}
+                                                    className="block py-1.5 text-sm text-slate-500 hover:text-brand hover:translate-x-1 transition-all duration-200"
+                                                >
+                                                    {link.title}
                                                 </Link>
                                             </li>
                                         ))}
@@ -217,26 +253,29 @@ export default function Header() {
 
                         {/* Premium Icons */}
                         <div className="flex items-center space-x-6">
-                            <button className="group relative text-slate-800 hover:text-accent transition-colors flex items-center justify-center">
+                            <Link href="/wishlist" className="group relative text-slate-800 hover:text-brand transition-colors flex items-center justify-center">
                                 <Heart className="w-[22px] h-[22px]" strokeWidth={1.5} />
+                                <span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center z-10 border-2 border-white">
+                                    {wishlist?.length || 0}
+                                </span>
                                 {/* Tooltip */}
                                 <span className="absolute top-full mt-2.5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-slate-800 text-white text-[10px] uppercase font-bold tracking-wider py-1.5 px-2.5 rounded shadow-lg pointer-events-none whitespace-nowrap z-50 translate-y-1 group-hover:translate-y-0">
                                     Favorites
                                     <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45 rounded-sm"></span>
                                 </span>
-                            </button>
+                            </Link>
 
-                            <button className="group relative text-slate-800 hover:text-brand transition-colors flex items-center justify-center">
+                            <Link href="/cart" className="group relative text-slate-800 hover:text-brand transition-colors flex items-center justify-center">
                                 <ShoppingCart className="w-[22px] h-[22px]" strokeWidth={1.5} />
-                                <span className="absolute -top-1.5 -right-2 bg-brand text-white text-[10px] font-bold w-4 h-4 rounded flex items-center justify-center shadow-sm z-10">
-                                    0
+                                <span className="absolute -top-1.5 -right-2 bg-brand text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center z-10 border-2 border-white">
+                                    {cartItems?.length || 0}
                                 </span>
                                 {/* Tooltip */}
                                 <span className="absolute top-full mt-2.5 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-slate-800 text-white text-[10px] uppercase font-bold tracking-wider py-1.5 px-2.5 rounded shadow-lg pointer-events-none whitespace-nowrap z-50 translate-y-1 group-hover:translate-y-0">
                                     Shopping Cart
                                     <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45 rounded-sm"></span>
                                 </span>
-                            </button>
+                            </Link>
                         </div>
 
                     </div>

@@ -1,5 +1,7 @@
+import { WishlistProvider } from "@/app/context/WishlistContext";
+import { CartProvider } from "@/app/context/CartContext";
+import CartSlideOver from "@/app/components/cart/CartSlideOver";
 import "./globals.css";
-// Import your fonts here
 
 export const metadata = {
   title: "Bell & John",
@@ -10,8 +12,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        {/* NO Header or Footer here anymore! */}
-        {children}
+        <CartProvider>
+          <WishlistProvider>
+            {children}
+            <CartSlideOver />
+          </WishlistProvider>
+        </CartProvider>
       </body>
     </html>
   );
