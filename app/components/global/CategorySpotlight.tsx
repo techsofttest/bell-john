@@ -25,7 +25,7 @@ const spotlightProducts: ProductCardProps[] = [
         id: 103,
         title: "Epson EcoTank L15150 A3 Wi-Fi Duplex",
         category: "Office Machines",
-        image: "/products/Epson EcoTank L15150 A3 Wi-Fi Duplex.jpg"
+        image: "/products/Epson EcoTank L15150 A3 Wi-Fi Duplex.jpg",
         // Optional tag: standard scheme used as default if tag object exists without scheme
     },
     {
@@ -33,7 +33,7 @@ const spotlightProducts: ProductCardProps[] = [
         title: "GBC Fusion 5000L A3 Laminator",
         category: "Office Machines",
         image: "/products/GBC Fusion 5000L A3 Laminator.jpg",
-        tag: { label: "Speed Lam", icon: <Briefcase size={12} />, scheme: 'price' }
+        tag: { label: "Speed Lam", icon: <Briefcase size={12} />, scheme: 'standard' }
     },
     {
         id: 105,
@@ -46,7 +46,21 @@ const spotlightProducts: ProductCardProps[] = [
         id: 106,
         title: "Brother P-Touch Professional Label Maker",
         category: "Office Machines",
-        image: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?q=80&w=600"
+        image: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?q=80&w=600",
+    },
+    {
+        id: 107,
+        title: "Paperflow Mobile Literature Display",
+        category: "Office Furniture",
+        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600",
+        tag: { label: "Limited Stock", icon: <Sparkles size={12} />, scheme: 'standard' }
+    },
+    {
+        id: 108,
+        title: "Durable Sherpa Desk Reference System",
+        category: "Office Accessories",
+        image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=600",
+        tag: { label: "New Arrival", icon: <Sparkles size={12} />, scheme: 'new' }
     },
 ];
 
@@ -98,10 +112,10 @@ export default function CategorySpotlight() {
                 <div
                     ref={scrollRef}
                     className="flex gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth 
-           [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-8 pt-4"
+           [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-8 pt-4 px-1"
                 >
                     {spotlightProducts.map((product) => (
-                        <div key={product.id} className="snap-start">
+                        <div key={product.id} className="snap-start shrink-0 w-[280px] md:w-[320px] lg:w-[calc(20%-25.6px)]">
                             <ProductCard {...product} />
                         </div>
                     ))}

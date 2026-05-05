@@ -1,111 +1,78 @@
 "use client";
 
 import React from "react";
-import { Phone, ArrowRight } from "lucide-react";
 
 export default function AboutGlobal() {
     return (
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-10 pt-10">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-6 border-b border-slate-200 pb-4 gap-4">
-                <h2 className="font-serif text-2xl md:text-3xl text-slate-900 font-medium">
-                    Global Reach
-                </h2>
-                <p className="text-sm text-slate-500 max-w-md md:text-right font-light">
-                    Our strategic location in Dubai gives us an operational advantage to operate across GCC, Middle East, Africa, CIS, and North America.
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-24">
+            <div className="flex flex-col md:flex-row justify-between items-baseline mb-12 border-b border-slate-200 pb-8 gap-4">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-[1px] bg-brand"></div>
+                    <h2 className="font-serif text-3xl md:text-4xl text-slate-900 font-medium tracking-tight">
+                        Why Clients Choose Us
+                    </h2>
+                </div>
+                <p className="text-slate-500 text-sm md:text-base font-light max-w-lg md:text-right">
+                    Our clients — from semi-government entities to corporate headquarters — continue to choose us because we simplify procurement.
                 </p>
             </div>
 
-            {/* Office Locations Grid - Amazon Card Style */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-
-                {/* Dubai Head Office */}
-                <div className="group cursor-pointer flex flex-col h-full bg-white p-6 rounded-xl border border-slate-100 hover:shadow-lg transition-all shadow-sm">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand bg-brand/5 border border-brand/10 px-2 py-1 rounded-sm mb-4 w-max">
-                        Head Office
-                    </span>
-                    <h3 className="font-serif text-2xl text-slate-900 font-medium mb-2 group-hover:text-brand transition-colors">Dubai, UAE</h3>
-                    <p className="text-sm font-semibold text-slate-700 mb-2">Bell & John General Trading Co. LLC</p>
-                    <p className="text-xs text-slate-500 mb-6 font-light leading-relaxed flex-grow">
-                        Office No. 25A, Zommorodah Building<br />
-                        Karama, Dubai, United Arab Emirates
+            <div className="grid grid-cols-1 lg:grid-cols-12 border border-slate-200 rounded-3xl overflow-hidden mb-20 bg-white shadow-sm">
+                <div className="lg:col-span-8 p-10 md:p-16 lg:border-r border-slate-200">
+                    <p className="text-slate-800 text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-2xl">
+                        Through our strong wholesale, retail, and export network, we ensure consistency you can rely on.
                     </p>
-
-                    <div className="mb-6 pt-4 border-t border-slate-100">
-                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mb-2">Sister Divisions</p>
-                        <p className="text-xs text-slate-600 mb-1">• Bell & John Shipping Co. LLC - Dubai</p>
-                        <p className="text-xs text-slate-600">• Bell & John Shipping Co. LLC - Abu Dhabi</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-slate-100 rounded-2xl overflow-hidden shadow-inner">
+                        {[
+                            "Product availability at all times",
+                            "Competitive pricing",
+                            "Timely and reliable delivery"
+                        ].map((benefit, i) => (
+                            <div key={i} className="flex flex-col p-8 bg-slate-50/50 border-r last:border-r-0 border-slate-100 group hover:bg-white transition-all duration-300">
+                                <span className="text-brand text-3xl mb-4 font-serif">0{i+1}</span>
+                                <span className="text-slate-900 font-medium text-sm md:text-base leading-snug tracking-tight">{benefit}</span>
+                            </div>
+                        ))}
                     </div>
-
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
-                        <div className="flex items-center gap-2 text-xs text-slate-600 font-medium">
-                            <Phone className="w-3.5 h-3.5 text-brand" />
-                            +(971) 4 396-5023
-                        </div>
-                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-brand transition-colors" />
+                    <div className="mt-14 pt-10 border-t border-slate-100">
+                        <p className="text-slate-500 text-base md:text-lg leading-relaxed font-light italic pl-10 border-l-2 border-brand/30">
+                            "Behind every order is a team committed to quality and deeply aware of the operational needs of our customers. It’s this balance of scale, efficiency, and personal attention that sets us apart."
+                        </p>
                     </div>
                 </div>
-
-                {/* Kuwait Office */}
-                <div className="group cursor-pointer flex flex-col h-full bg-white p-6 rounded-xl border border-slate-100 hover:shadow-lg transition-all shadow-sm">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-50 border border-slate-200 px-2 py-1 rounded-sm mb-4 w-max">
-                        Regional Office
-                    </span>
-                    <h3 className="font-serif text-2xl text-slate-900 font-medium mb-2 group-hover:text-brand transition-colors">Kuwait</h3>
-                    <p className="text-sm font-semibold text-slate-700 mb-2">Bell & John Trading Co. W.L.L</p>
-                    <p className="text-xs text-slate-500 mb-6 font-light leading-relaxed flex-grow">
-                        Office No. 210, Lulu Masseel Building<br />
-                        Mirqab, Kuwait
-                    </p>
-
-                    <div className="mb-6 pt-4 border-t border-slate-100">
-                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mb-2">Sister Divisions</p>
-                        <p className="text-xs text-slate-600 mb-1">• Bell & John Shipping Co. W.L.L</p>
-                    </div>
-
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
-                        <div className="flex items-center gap-2 text-xs text-slate-600 font-medium">
-                            <Phone className="w-3.5 h-3.5 text-brand" />
-                            +(965) 22459082
+                
+                <div className="lg:col-span-4 bg-slate-900 p-10 md:p-16 text-white flex flex-col justify-center relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-brand/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+                    <h3 className="font-serif text-3xl md:text-4xl mb-10 border-b border-white/10 pb-6 tracking-tight relative z-10">Regional Presence</h3>
+                    <div className="space-y-12 relative z-10">
+                        <div className="group">
+                            <p className="text-brand text-xs font-bold uppercase tracking-[0.2em] mb-4 opacity-80 group-hover:opacity-100 transition-opacity">UAE Base</p>
+                            <p className="text-slate-300 text-base font-light leading-relaxed">Direct exports and distribution across the GCC from our Dubai hub.</p>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-brand transition-colors" />
-                    </div>
-                </div>
-
-                {/* Canada Office */}
-                <div className="group cursor-pointer flex flex-col h-full bg-white p-6 rounded-xl border border-slate-100 hover:shadow-lg transition-all shadow-sm">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-50 border border-slate-200 px-2 py-1 rounded-sm mb-4 w-max">
-                        North America
-                    </span>
-                    <h3 className="font-serif text-2xl text-slate-900 font-medium mb-2 group-hover:text-brand transition-colors">Ontario, Canada</h3>
-                    <p className="text-sm font-semibold text-slate-700 mb-2">Bell & John Trading MNC INC</p>
-                    <p className="text-xs text-slate-500 mb-6 font-light leading-relaxed flex-grow">
-                        40 Albright Road, Brampton<br />
-                        L6X 5Q8, Ontario, Canada
-                    </p>
-
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
-                        <div className="flex items-center gap-2 text-xs text-slate-600 font-medium">
-                            <Phone className="w-3.5 h-3.5 text-brand" />
-                            +(1) 647-513-8154
+                        <div className="group border-t border-white/5 pt-10">
+                            <p className="text-brand text-xs font-bold uppercase tracking-[0.2em] mb-4 opacity-80 group-hover:opacity-100 transition-opacity">Kuwait Base</p>
+                            <p className="text-slate-300 text-base font-light leading-relaxed">Trusted partner for semi-government and industrial sectors since 2003.</p>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-brand transition-colors" />
                     </div>
-                </div>
-
-            </div>
-
-            {/* Export / Import Partners Tags - Kept at bottom to act as a closing footer for this section */}
-            <div className="bg-slate-50 rounded-2xl p-8 md:p-10 text-center border border-slate-100">
-                <h3 className="text-base font-serif text-slate-800 mb-6">Our Export & Import Partners</h3>
-                <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-                    {['UAE', 'Kuwait', 'Saudi Arabia', 'Qatar', 'Oman', 'Bahrain', 'Iraq', 'Jordan', 'Egypt', 'Tanzania', 'Kenya', 'Djibouti', 'Tunisia', 'Algeria', 'Morocco', 'Nigeria', 'Ghana'].map((country, idx) => (
-                        <span key={idx} className="px-3 py-1.5 bg-white border border-slate-200 rounded-md text-xs text-slate-600 font-medium shadow-sm hover:border-brand hover:text-brand transition-colors cursor-default">
-                            {country}
-                        </span>
-                    ))}
                 </div>
             </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="p-12 md:p-16 border border-slate-200 rounded-3xl group hover:bg-slate-50 transition-all duration-500 bg-white">
+                    <span className="inline-block py-1.5 px-5 border-2 border-brand text-brand text-[10px] font-bold uppercase tracking-[0.3em] mb-8 rounded-lg">Vision</span>
+                    <h3 className="font-serif text-3xl md:text-5xl text-slate-900 mb-8 tracking-tight leading-[1.1]">To be the GCC’s most trusted provider of office solutions.</h3>
+                    <p className="text-slate-500 text-lg md:text-xl font-light leading-relaxed max-w-md">
+                        Recognized for reliability, consistent quality, and long-term partnerships across the region.
+                    </p>
+                </div>
+                <div className="p-12 md:p-16 border border-slate-200 rounded-3xl group hover:bg-slate-50 transition-all duration-500 bg-white">
+                    <span className="inline-block py-1.5 px-5 border-2 border-brand text-brand text-[10px] font-bold uppercase tracking-[0.3em] mb-8 rounded-lg">Mission</span>
+                    <h3 className="font-serif text-3xl md:text-5xl text-slate-900 mb-8 tracking-tight leading-[1.1]">Delivering high-quality products and dependable service.</h3>
+                    <p className="text-slate-500 text-lg md:text-xl font-light leading-relaxed max-w-md">
+                        Helping our customers operate more efficiently every day through excellence in supply and logistics.
+                    </p>
+                </div>
+            </div>
         </div>
     );
 }

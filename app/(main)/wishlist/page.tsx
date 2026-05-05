@@ -13,7 +13,7 @@ export default function WishlistPage() {
         <div className="bg-[#F4F5F7] min-h-screen pb-24 font-sans">
 
             {/* ── THE HERO STRIP (Moglix Style) ── */}
-            <div className="bg-white border-b border-slate-200 py-4 shadow-sm">
+            <div className="bg-white border-b border-slate-200 pt-6 pb-4 lg:pt-8 lg:pb-6 shadow-sm">
                 <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
                     {/* Breadcrumbs */}
                     <nav className="flex items-center gap-2 text-[11px] font-semibold text-slate-500 mb-2">

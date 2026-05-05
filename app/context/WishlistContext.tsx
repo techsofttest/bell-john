@@ -8,7 +8,6 @@ interface WishlistItem {
     category: string;
     image: string;
     tag?: any;
-    price?: number;
     availability?: string;
 }
 

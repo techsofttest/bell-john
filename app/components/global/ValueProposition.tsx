@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 
 const portfolio = [
     { num: "01", title: "Stationery & Supplies", image: "/category/stationery.jpg" },
-    { num: "02", title: "Copier Consumables", image: "/products/Canon imageRUNNER ADVANCE DX.webp" },
+    { num: "02", title: "Printing And Copier Consumables", image: "/products/Canon imageRUNNER ADVANCE DX.webp" },
     { num: "03", title: "Educational Materials", image: "/category/Digital Supplies.jpg" },
     { num: "04", title: "Workspace Solutions", image: "/products/Epson EcoTank L15150 A3 Wi-Fi Duplex.jpg" }
 ];

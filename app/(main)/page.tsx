@@ -5,24 +5,24 @@ import PromoBanner from "../components/global/PromoBanner";
 import CategorySpotlight from "../components/global/CategorySpotlight";
 import VisionMission from "../components/global/VisionMission";
 import ValueProposition from "../components/global/ValueProposition";
-import ContactSection from "../components/global/ContactSection";
+// import ContactSection from "../components/global/ContactSection";
 import MarqueeStrip from "../components/global/MarqueeStrip";
 
 // Mock Offers for the Home Page Promo Banner
 const mockOffers = [
   {
     id: 1,
-    tagline: "Bulk Discount",
-    title: "20% Off Corporate Printer Paper.",
-    description: "Order 50+ reams of premium A4 paper this month and receive an automatic 20% discount applied at checkout.",
+    tagline: "Corporate Solutions",
+    title: "Premium A4 Printer Paper in Bulk.",
+    description: "Reliable supply for high-volume corporate needs. Standardize your office with our premium 80GSM paper range.",
     link: "/products/category/stationery",
     image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=1200",
   },
   {
     id: 2,
-    tagline: "Flash Sale",
+    tagline: "Furniture Services",
     title: "Free Installation on Office Desks.",
-    description: "Equip your new office space. Purchase any 3+ executive desks and our team will deliver and install them for free.",
+    description: "Complete your workspace setup. Our expert team provides end-to-end delivery and professional assembly for all executive furniture.",
     link: "/products/category/office-furniture",
     image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=1200",
   }
@@ -48,7 +48,7 @@ export default function Home() {
 
       <ValueProposition />
 
-      <ContactSection />
+      {/* <ContactSection /> */}
 
       <MarqueeStrip />
 

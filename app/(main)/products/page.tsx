@@ -16,13 +16,17 @@ const mockStationery = [
     { id: 3, title: "Pilot G2 Premium Gel Pens (Pack of 12)", category: "Stationery", image: "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?q=80&w=600" },
     { id: 4, title: "3M Post-it Canary Yellow Sticky Notes", category: "Stationery", image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600" },
     { id: 5, title: "Moleskine Classic Ruled Notebook Large", category: "Stationery", image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600", tag: { label: "Premium", icon: <Sparkles size={12} />, scheme: "premium" as const } },
+    { id: 101, title: "Staedtler Lumocolor Whiteboard Marker", category: "Stationery", image: "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?q=80&w=600" },
+    { id: 102, title: "Double A Copy Paper A4 80GSM", category: "Stationery", image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600", tag: { label: "Best Seller", scheme: "bestSeller" as const } },
 ];
 
 const mockDigital = [
-    { id: 6, title: "HP V241ib FHD 23.8-inch Monitor", category: "Digital Supplies", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=600", tag: { label: "Best Price", icon: <Tag size={12} />, scheme: "price" as const } },
+    { id: 6, title: "HP V241ib FHD 23.8-inch Monitor", category: "Digital Supplies", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=600", tag: { label: "Top Rated", icon: <Tag size={12} />, scheme: "standard" as const } },
     { id: 7, title: "Logitech MX Master 3S Wireless Mouse", category: "Digital Supplies", image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=600", tag: { label: "Top Rated", icon: <Sparkles size={12} />, scheme: "new" as const } },
     { id: 8, title: "SanDisk 1TB Extreme Portable SSD", category: "Digital Supplies", image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=6000" },
     { id: 9, title: "APC Back-UPS Battery Backup & Surge Protector", category: "Digital Supplies", image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?q=80&w=600" },
+    { id: 103, title: "Samsung 980 Pro 2TB NVMe SSD", category: "Digital Supplies", image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=600" },
+    { id: 104, title: "Dell UltraSharp 27 4K USB-C Hub Monitor", category: "Digital Supplies", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=600", tag: { label: "Professional", scheme: "premium" as const } },
 ];
 
 const mockFurniture = [
@@ -30,6 +34,8 @@ const mockFurniture = [
     { id: 11, title: "Steelcase Series 1 Office Chair", category: "Office Furniture", image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?q=80&w=600" },
     { id: 12, title: "Vari Electric Standing Desk 60x30", category: "Office Furniture", image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=600", tag: { label: "Best Seller", icon: <BarChart3 size={12} />, scheme: "bestSeller" as const } },
     { id: 13, title: "Maharam Design Studio Acoustic Panels", category: "Office Furniture", image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600" },
+    { id: 105, title: "Fully Jarvis Bamboo Standing Desk", category: "Office Furniture", image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=600", tag: { label: "Eco Friendly", scheme: "new" as const } },
+    { id: 106, title: "Humanscale Freedom Headrest Chair", category: "Office Furniture", image: "https://images.unsplash.com/photo-1505797149-43b0069ec26b?q=80&w=600", tag: { label: "Premium", scheme: "premium" as const } },
 ];
 
 const mockBreakroom = [
@@ -37,23 +43,25 @@ const mockBreakroom = [
     { id: 15, title: "Eco-Friendly Compostable Paper Cups (1000ct)", category: "Breakroom", image: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=600" },
     { id: 16, title: "Purell Advanced Hand Sanitizer Dispenser", category: "Breakroom", image: "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?q=80&w=600", tag: { label: "Safety", icon: <Sparkles size={12} />, scheme: "new" as const } },
     { id: 17, title: "Bounty Select-A-Size Paper Towels (12 Rolls)", category: "Breakroom", image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?q=80&w=600" },
+    { id: 107, title: "Keurig K-2500 Commercial Coffee Maker", category: "Breakroom", image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600", tag: { label: "Best Seller", scheme: "bestSeller" as const } },
+    { id: 108, title: "Clorox Disinfecting Wipes Bulk Pack", category: "Breakroom", image: "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?q=80&w=600" },
 ];
 
 
 const mockOffers = [
     {
         id: 1,
-        tagline: "Bulk Discount",
-        title: "20% Off Corporate Printer Paper.",
-        description: "Order 50+ reams of premium A4 paper this month and receive an automatic 20% discount applied at checkout.",
+        tagline: "Corporate Solutions",
+        title: "Premium A4 Printer Paper in Bulk.",
+        description: "Reliable supply for high-volume corporate needs. Standardize your office with our premium 80GSM paper range.",
         link: "/products/category/stationery",
         image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=1200",
     },
     {
         id: 2,
-        tagline: "Flash Sale",
+        tagline: "Furniture Services",
         title: "Free Installation on Office Desks.",
-        description: "Equip your new office space. Purchase any 3+ executive desks and our team will deliver and install them for free.",
+        description: "Complete your workspace setup. Our expert team provides end-to-end delivery and professional assembly for all executive furniture.",
         link: "/products/category/office-furniture",
         image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=1200",
     }
@@ -66,7 +74,7 @@ const mockOffers = [
 export default function AllProductsPage() {
     return (
         <div className="bg-white min-h-screen pb-12">
-            <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+            <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-8 lg:pt-10">
 
                 {/* 1. Page Title & Breadcrumbs */}
                 <div className="mb-6">

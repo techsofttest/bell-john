@@ -14,7 +14,7 @@ export default function LoginForm() {
     };
 
     return (
-        <form onSubmit={handleLogin} className="space-y-5">
+        <form onSubmit={handleLogin} className="space-y-4"> {/* Reduced from space-y-5 */}
             <div className="space-y-1.5">
                 <label htmlFor="email" className="text-sm font-bold text-slate-800">
                     Email address
@@ -26,7 +26,7 @@ export default function LoginForm() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     autoFocus
-                    className="w-full h-11 px-3 bg-white border border-slate-300 rounded-lg shadow-sm focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none text-sm text-slate-900 transition-all"
+                    className="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg shadow-sm focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none text-sm text-slate-900 transition-all"
                 />
             </div>
 
@@ -35,7 +35,7 @@ export default function LoginForm() {
                     <label htmlFor="password" className="text-sm font-bold text-slate-800">
                         Password
                     </label>
-                    <Link href="/auth/forgot-password" className="text-xs text-brand font-medium hover:underline">
+                    <Link href="/auth/forgot-password" className="text-[11px] text-brand font-medium hover:underline">
                         Forgot password?
                     </Link>
                 </div>
@@ -45,13 +45,13 @@ export default function LoginForm() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full h-11 px-3 bg-white border border-slate-300 rounded-lg shadow-sm focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none text-sm text-slate-900 transition-all"
+                    className="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg shadow-sm focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none text-sm text-slate-900 transition-all"
                 />
             </div>
 
             <button
                 type="submit"
-                className="w-full h-11 bg-brand text-white rounded-lg text-sm font-semibold shadow-sm hover:bg-brand/90 hover:shadow transition-all"
+                className="w-full h-10 mt-2 bg-brand text-white rounded-lg text-sm font-semibold shadow-sm hover:bg-brand/90 hover:shadow transition-all"
             >
                 Sign in
             </button>

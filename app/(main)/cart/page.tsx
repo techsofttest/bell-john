@@ -1,50 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useCart } from "@/app/context/CartContext";
 import Link from "next/link";
 import { ChevronRight, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import CartItem from "@/app/components/cart/CartItem";
 import CartSummary from "@/app/components/cart/CartSummary";
 
-const MOCK_BAG = [
-    {
-        id: 1,
-        title: "Mailing Envelopes - Brown / White, Pack of 500",
-        image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600",
-        qty: 1,
-        price: 45.00,
-        specs: [{ label: "Size", value: '3" X 4"' }, { label: "Color", value: "White" }]
-    },
-    {
-        id: 2,
-        title: "Atlas 2 Line Price Labeller, 10 Digit PL1000E",
-        image: "https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?q=80&w=600",
-        qty: 2,
-        price: 85.50,
-        specs: [{ label: "Unit", value: "Pack of 20" }]
-    }
-];
-
 export default function CartPage() {
-    const [items, setItems] = useState(MOCK_BAG);
+    const { cartItems, removeFromCart, updateQuantity } = useCart();
 
-    const removeItem = (id: number) => {
-        setItems(prev => prev.filter(item => item.id !== id));
-    };
-
-    const updateQuantity = (id: number, newQty: number) => {
-        setItems(prev => prev.map(item => 
-            item.id === id ? { ...item, qty: newQty } : item
-        ));
-    };
-
-    const totalPrice = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
     return (
         <div className="bg-[#F4F5F7] min-h-screen pb-24 font-sans">
             {/* Hero Strip */}
-            <div className="bg-white border-b border-slate-200 py-4 shadow-sm">
+            <div className="bg-white border-b border-slate-200 pt-6 pb-4 lg:pt-8 lg:pb-6 shadow-sm">
                 <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
                     <nav className="flex items-center gap-2 text-[11px] font-semibold text-slate-500 mb-2">
                         <Link href="/" className="hover:text-brand transition-colors">Home</Link>
@@ -52,18 +22,18 @@ export default function CartPage() {
                         <span className="text-slate-800">Request Bag</span>
                     </nav>
                     <h1 className="text-xl md:text-2xl text-slate-900 font-bold">
-                        Request Bag <span className="text-sm font-normal text-slate-500 ml-2">({items.length} Items)</span>
+                        Request Bag <span className="text-sm font-normal text-slate-500 ml-2">({cartItems.length} Items)</span>
                     </h1>
                 </div>
             </div>
 
             <div className="max-w-[1400px] mx-auto px-4 lg:px-8 pt-8">
-                {items.length > 0 ? (
+                {cartItems.length > 0 ? (
                     <div className="grid lg:grid-cols-12 gap-8">
                         {/* Left Side: Items List */}
                         <div className="lg:col-span-8">
                             <AnimatePresence mode="popLayout">
-                                {items.map(item => (
+                                {cartItems.map(item => (
                                     <motion.div
                                         key={item.id}
                                         layout
@@ -73,7 +43,7 @@ export default function CartPage() {
                                     >
                                         <CartItem 
                                             item={item} 
-                                            onRemove={removeItem} 
+                                            onRemove={removeFromCart} 
                                             onUpdateQty={updateQuantity}
                                         />
                                     </motion.div>
@@ -87,7 +57,7 @@ export default function CartPage() {
 
                         {/* Right Side: Summary */}
                         <div className="lg:col-span-4 sticky top-28 self-start">
-                            <CartSummary itemCount={items.length} total={totalPrice} />
+                            <CartSummary itemCount={cartItems.length} total={0} />
                         </div>
                     </div>
                 ) : (

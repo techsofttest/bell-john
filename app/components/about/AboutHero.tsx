@@ -1,57 +1,60 @@
 import React from 'react';
 import Link from 'next/link';
-import { ChevronRight, Truck, Laptop, Briefcase, Globe } from 'lucide-react';
+import Image from 'next/image';
+import { ChevronRight } from 'lucide-react';
 
 export default function AboutHero() {
     return (
-        <div className="w-full relative overflow-hidden mb-16 bg-slate-50 flex flex-col justify-center min-h-[40vh] max-h-[70vh]">
+        <div className="w-full bg-white pt-4 lg:pt-8 pb-16">
+            <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+                {/* Bento Grid Hero - Rounded */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-0 border border-slate-200 rounded-3xl overflow-hidden">
+                    {/* Main Title Card */}
+                    <div className="md:col-span-7 p-8 md:p-16 border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-center bg-white">
+                        {/* Breadcrumbs */}
+                        <nav className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
+                            <Link href="/" className="hover:text-brand transition-colors">Home</Link>
+                            <ChevronRight className="w-3 h-3 text-slate-300" />
+                            <span className="text-slate-900">About Us</span>
+                        </nav>
+                        
+                        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-slate-900 font-medium mb-6 tracking-tight leading-[0.9]">
+                            About <span className="text-brand">Us</span>
+                        </h1>
+                        <p className="text-brand text-xs md:text-sm font-bold uppercase tracking-[0.2em]">
+                            Over two decades of trust, built across the GCC.
+                        </p>
+                    </div>
 
-            {/* Background Graphic Elements - Tilted Rectangles & Glows */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {/* The main tilted background shape - adjusted for shorter height */}
-                <div className="absolute top-[-30%] left-[-10%] w-[120%] h-[160%] bg-[#020617] transform -skew-y-2 origin-top-left z-0"></div>
+                    {/* Secondary Content Card */}
+                    <div className="md:col-span-5 flex flex-col">
+                        <div className="p-8 md:p-12 border-b border-slate-200 bg-slate-50/50 flex-1 flex items-center">
+                            <p className="text-slate-700 text-base md:text-xl font-light leading-relaxed">
+                                Bell & John Group is a leading GCC-based provider of office solutions, with more than 20 years of experience supporting businesses.
+                            </p>
+                        </div>
+                        <div className="p-8 md:p-12 flex-1 flex items-center bg-white">
+                            <p className="text-slate-500 text-sm md:text-base font-light leading-relaxed">
+                                From our roots in Kuwait to our expanding regional presence, our reputation has been built on a simple principle: delivering the right quality.
+                            </p>
+                        </div>
+                    </div>
 
-                {/* Decorative glows */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand/20 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 z-0"></div>
-                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-brand/10 rounded-full blur-[80px] -translate-x-1/4 translate-y-1/4 z-0"></div>
-
-                {/* Faint Floating Graphics for B2B theme - Scaled down for 70vh */}
-                <div className="absolute top-12 left-[10%] text-white/5 transform -rotate-12 blur-[1px]">
-                    <Briefcase size={80} strokeWidth={1} />
+                    {/* Full Width Image Card */}
+                    <div className="md:col-span-12 relative h-[300px] md:h-[500px] border-t border-slate-200 overflow-hidden group">
+                        <Image 
+                            src="/about-page/Who We Are.jpg" 
+                            alt="Bell & John Heritage" 
+                            fill 
+                            className="object-cover group-hover:scale-105 transition-transform duration-1000 grayscale-[20%] group-hover:grayscale-0" 
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+                        <div className="absolute bottom-10 left-10 text-white">
+                            <p className="text-[10px] font-bold uppercase tracking-[0.3em] mb-3 opacity-80">Heritage & Vision</p>
+                            <h2 className="font-serif text-3xl md:text-4xl font-medium tracking-tight">Serving the GCC Since 2003</h2>
+                        </div>
+                    </div>
                 </div>
-                <div className="absolute top-24 right-[15%] text-white/5 transform rotate-12 blur-[1px]">
-                    <Truck size={100} strokeWidth={1} />
-                </div>
-                <div className="absolute bottom-12 left-[20%] text-white/5 transform rotate-6 blur-[1px]">
-                    <Laptop size={70} strokeWidth={1} />
-                </div>
-                <div className="absolute bottom-8 right-[25%] text-white/5 transform -rotate-6 blur-[1px]">
-                    <Globe size={110} strokeWidth={1} />
-                </div>
-            </div>
-
-            {/* Main Content Area */}
-            <div className="relative z-10 max-w-[1400px] w-full mx-auto px-6 lg:px-12 py-12 md:py-16 flex flex-col items-center text-center">
-
-                {/* Breadcrumbs */}
-                <nav className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
-                    <Link href="/" className="hover:text-brand transition-colors">Home</Link>
-                    <ChevronRight className="w-3 h-3 text-slate-600" />
-                    <span className="text-white">About Us</span>
-                </nav>
-
-                {/* <span className="inline-block py-1.5 px-4 rounded-full bg-white/10 text-brand border-brand/30 text-[10px] uppercase tracking-widest font-bold mb-5 border backdrop-blur-sm shadow-sm">
-                    We Are Bell & John
-                </span> */}
-
-                <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white font-medium mb-5 leading-tight max-w-4xl drop-shadow-lg">
-                    Connecting quality products with global businesses.
-                </h1>
-
-                <p className="text-slate-300 text-sm md:text-base font-light leading-relaxed max-w-3xl drop-shadow-sm">
-                    We solve the procurement challenges of small and medium businesses by connecting them directly with global manufacturers and delivering right to their doorstep.
-                </p>
-
             </div>
         </div>
     );

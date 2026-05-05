@@ -17,29 +17,12 @@ export default function CartSummary({ itemCount, total }: { itemCount: number; t
                 
                 <div className="space-y-4 mb-8">
                     <div className="flex justify-between text-sm">
-                        <span className="text-slate-500 font-medium">Subtotal</span>
-                        <span className="font-bold text-slate-900">
-                            <span className="text-[10px] md:text-xs font-bold text-slate-400 mr-1">AED</span>
-                            {total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                        <span className="text-slate-500 font-medium">VAT (5%)</span>
-                        <span className="font-bold text-slate-900">
-                            <span className="text-[10px] md:text-xs font-bold text-slate-400 mr-1">AED</span>
-                            {vat.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </span>
+                        <span className="text-slate-500 font-medium">Total Items</span>
+                        <span className="font-bold text-slate-900">{itemCount}</span>
                     </div>
                     <div className="w-full h-[1px] bg-slate-100 my-2"></div>
-                    <div className="flex justify-between text-base">
-                        <span className="text-slate-900 font-bold uppercase tracking-wider">Total Est.</span>
-                        <span className="font-black text-brand text-lg tracking-tight">
-                            <span className="text-[10px] md:text-xs font-bold text-slate-400 mr-1">AED</span>
-                            {finalTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </span>
-                    </div>
                     <div className="flex justify-between text-[10px]">
-                        <span className="text-slate-400 italic">* Final quote may vary based on quantity and location.</span>
+                        <span className="text-slate-400 italic">* Final quote will be sent to your email after processing.</span>
                     </div>
                 </div>
 

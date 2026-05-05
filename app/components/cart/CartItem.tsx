@@ -11,7 +11,6 @@ interface ItemProps {
 }
 
 export default function CartItem({ item, onRemove, onUpdateQty }: ItemProps) {
-    const subtotal = item.price * item.qty;
 
     return (
         <div className="bg-white border border-slate-200 rounded-2xl p-4 md:p-6 mb-4 transition-all hover:shadow-md">
@@ -27,24 +26,8 @@ export default function CartItem({ item, onRemove, onUpdateQty }: ItemProps) {
                         <h3 className="text-sm md:text-base font-semibold text-slate-800 line-clamp-2 max-w-md hover:text-brand transition-colors cursor-pointer">
                             {item.title}
                         </h3>
-                        {/* Unit Price (Desktop) */}
-                        <div className="text-right hidden md:block shrink-0">
-                            <span className="text-[10px] text-slate-400 font-bold uppercase block mb-1">Unit Price</span>
-                            <span className="text-sm font-bold text-slate-900">
-                                <span className="text-[10px] md:text-xs font-bold text-slate-400 mr-1">AED</span>
-                                {item.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                            </span>
-                        </div>
                     </div>
 
-                    {/* Unit Price (Mobile) */}
-                    <div className="md:hidden mb-2">
-                        <span className="text-[10px] text-slate-400 font-bold uppercase">Unit Price: </span>
-                        <span className="text-[11px] font-bold text-slate-900">
-                            <span className="text-[9px] font-bold text-slate-400 mr-1">AED</span>
-                            {item.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                        </span>
-                    </div>
 
                     {/* Selected Options (Size, Color, Pack) */}
                     {(item.size || item.color || item.packaging) && (
@@ -82,14 +65,6 @@ export default function CartItem({ item, onRemove, onUpdateQty }: ItemProps) {
                                 value={item.qty} 
                                 onChange={(newQty) => onUpdateQty(item.id, newQty)} 
                             />
-                            {/* Subtotal for this item */}
-                            <div className="flex flex-col">
-                                <span className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">Subtotal</span>
-                                <span className="text-base font-black text-slate-900 tracking-tight">
-                                    <span className="text-[10px] md:text-xs font-bold text-slate-400 mr-1">AED</span>
-                                    {subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                </span>
-                            </div>
                         </div>
  
                         <div className="flex items-center gap-4">

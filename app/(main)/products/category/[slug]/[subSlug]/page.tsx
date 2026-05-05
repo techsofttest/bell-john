@@ -26,7 +26,6 @@ const mockProducts = [
         subCategory: "premium-pens", 
         image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", 
         tag: { label: "Standard", scheme: "standard" as const }, 
-        price: 72.00, 
         availability: "In Stock",
         variants: {
             colors: ["Black", "Blue", "Red", "Green"],
@@ -40,15 +39,14 @@ const mockProducts = [
         subCategory: "premium-pens", 
         image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", 
         tag: { label: "Best Seller", scheme: "bestSeller" as const }, 
-        price: 85.00, 
         availability: "In Stock",
         variants: {
             sizes: ["Fine", "Medium", "Broad"],
             colors: ["Silver", "Gold", "Black"]
         }
     },
-    { id: 15, title: "Lamy Safari Fountain Pen - Charcoal", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 145.00, availability: "In Stock", variants: { sizes: ["Fine", "Medium"], colors: ["Charcoal", "Red", "Yellow"] } },
-    { id: 16, title: "Uni-ball Onyx Rollerball Pens (12pk)", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 38.50, availability: "In Stock" },
+    { id: 15, title: "Lamy Safari Fountain Pen - Charcoal", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock", variants: { sizes: ["Fine", "Medium"], colors: ["Charcoal", "Red", "Yellow"] } },
+    { id: 16, title: "Uni-ball Onyx Rollerball Pens (12pk)", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock" },
     { 
         id: 17, 
         title: "Sharpie Permanent Markers - Fine Point", 
@@ -56,17 +54,16 @@ const mockProducts = [
         subCategory: "markers", 
         image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600", 
         tag: { label: "Best Seller", scheme: "bestSeller" as const }, 
-        price: 45.00, 
         availability: "In Stock",
         variants: {
             packaging: ["Pack of 5", "Pack of 12", "Bulk 50"]
         }
     },
-    { id: 18, title: "Staedtler Triplus Fineliners (20 Colors)", category: "Writing Instruments", subCategory: "highlighters", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600", price: 92.00, availability: "Limited Stock", variants: { packaging: ["Wallet of 20", "Desk Set of 36"] } },
-    { id: 19, title: "Pentel EnerGel RTX Retractable Pens", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 58.00, availability: "In Stock", variants: { colors: ["Black", "Blue", "Violet"] } },
-    { id: 20, title: "Faber-Castell Grip 2011 Mechanical Pencil", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?q=80&w=600", price: 65.00, availability: "In Stock", variants: { sizes: ["0.5mm", "0.7mm"] } },
-    { id: 21, title: "Zebra Sarasa Clip 0.5mm Retractable", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?q=80&w=600", price: 42.50, availability: "In Stock" },
-    { id: 22, title: "Cross Classic Century Medalist Pen", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 285.00, availability: "In Stock" },
+    { id: 18, title: "Staedtler Triplus Fineliners (20 Colors)", category: "Writing Instruments", subCategory: "highlighters", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600", availability: "Limited Stock", variants: { packaging: ["Wallet of 20", "Desk Set of 36"] } },
+    { id: 19, title: "Pentel EnerGel RTX Retractable Pens", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock", variants: { colors: ["Black", "Blue", "Violet"] } },
+    { id: 20, title: "Faber-Castell Grip 2011 Mechanical Pencil", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?q=80&w=600", availability: "In Stock", variants: { sizes: ["0.5mm", "0.7mm"] } },
+    { id: 21, title: "Zebra Sarasa Clip 0.5mm Retractable", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?q=80&w=600", availability: "In Stock" },
+    { id: 22, title: "Cross Classic Century Medalist Pen", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock" },
 ];
 
 export default async function SubCategoryListingPage({

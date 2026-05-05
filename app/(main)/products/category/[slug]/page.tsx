@@ -38,7 +38,6 @@ const mockProducts = [
         subCategory: "a4-copy-paper", 
         image: "https://plus.unsplash.com/premium_photo-1661761048600-47c32729c628?q=80&w=600", 
         tag: { label: "Best Seller", scheme: "bestSeller" as const }, 
-        price: 18.50, 
         availability: "In Stock",
         variants: {
             packaging: ["Single Ream", "Box of 5 Reams", "Pallet (40 Boxes)"]
@@ -51,57 +50,56 @@ const mockProducts = [
         subCategory: "executive-notebooks", 
         image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", 
         tag: { label: "Premium", scheme: "premium" as const }, 
-        price: 125.00, 
         availability: "In Stock",
         variants: {
             sizes: ["Pocket", "Medium", "Large", "XL"],
             colors: ["Black", "Red", "Navy", "Green"]
         }
     },
-    { id: 6, title: "Rhodia DotPad No. 16 - Orange", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 42.00, availability: "In Stock", variants: { packaging: ["Single", "Pack of 5"] } },
-    { id: 7, title: "Double A Copy Paper A4 80GSM", category: "Paper & Notebooks", subCategory: "a4-copy-paper", image: "https://plus.unsplash.com/premium_photo-1661761048600-47c32729c628?q=80&w=600", price: 21.75, availability: "Limited Stock", variants: { packaging: ["Box of 5", "Pallet"] } },
-    { id: 8, title: "Leuchtturm1917 Hardcover Medium A5", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", tag: { label: "New", scheme: "new" as const }, price: 95.50, availability: "In Stock", variants: { colors: ["Sage", "Stone", "Pacific", "Berry"] } },
-    { id: 9, title: "Oxford Black n' Red A4 Wirebound", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 34.25, availability: "In Stock" },
-    { id: 10, title: "Navigator Universal A4 80g Paper", category: "Paper & Notebooks", subCategory: "a4-copy-paper", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 19.90, availability: "Out of Stock" },
-    { id: 11, title: "Post-it Super Sticky Notes (6 Pads)", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 48.00, availability: "In Stock", variants: { sizes: ["3x3 in", "4x4 in", "4x6 in"] } },
-    { id: 12, title: "Clairefontaine Triomphe Stationery", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", price: 55.00, availability: "In Stock" },
-    { id: 13, title: "Five Star Spiral Notebook 3-Subject", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 28.75, availability: "In Stock" },
+    { id: 6, title: "Rhodia DotPad No. 16 - Orange", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock", variants: { packaging: ["Single", "Pack of 5"] } },
+    { id: 7, title: "Double A Copy Paper A4 80GSM", category: "Paper & Notebooks", subCategory: "a4-copy-paper", image: "https://plus.unsplash.com/premium_photo-1661761048600-47c32729c628?q=80&w=600", availability: "Limited Stock", variants: { packaging: ["Box of 5", "Pallet"] } },
+    { id: 8, title: "Leuchtturm1917 Hardcover Medium A5", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", tag: { label: "New", scheme: "new" as const }, availability: "In Stock", variants: { colors: ["Sage", "Stone", "Pacific", "Berry"] } },
+    { id: 9, title: "Oxford Black n' Red A4 Wirebound", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock" },
+    { id: 10, title: "Navigator Universal A4 80g Paper", category: "Paper & Notebooks", subCategory: "a4-copy-paper", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "Out of Stock" },
+    { id: 11, title: "Post-it Super Sticky Notes (6 Pads)", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock", variants: { sizes: ["3x3 in", "4x4 in", "4x6 in"] } },
+    { id: 12, title: "Clairefontaine Triomphe Stationery", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", availability: "In Stock" },
+    { id: 13, title: "Five Star Spiral Notebook 3-Subject", category: "Paper & Notebooks", subCategory: "executive-notebooks", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock" },
 
     // --- Writing Instruments (10) ---
-    { id: 2, title: "Pilot G2 Premium Gel Pens (Pack of 12)", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", tag: { label: "Standard", scheme: "standard" as const }, price: 72.00, availability: "In Stock", variants: { colors: ["Black", "Blue", "Red"], packaging: ["Box of 12", "Bulk 72"] } },
-    { id: 14, title: "Parker Jotter Ballpoint Pen - Blue", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", tag: { label: "Classic", scheme: "premium" as const }, price: 85.00, availability: "In Stock", variants: { colors: ["Silver", "Gold", "Black"] } },
-    { id: 15, title: "Lamy Safari Fountain Pen - Charcoal", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 145.00, availability: "In Stock", variants: { sizes: ["Fine", "Medium", "Extra Fine"] } },
-    { id: 16, title: "Uni-ball Onyx Rollerball Pens (12pk)", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 38.50, availability: "In Stock" },
-    { id: 17, title: "Sharpie Permanent Markers - Fine Point", category: "Writing Instruments", subCategory: "markers", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600", tag: { label: "Popular", scheme: "bestSeller" as const }, price: 45.00, availability: "In Stock", variants: { packaging: ["Set of 12", "Set of 24"] } },
-    { id: 18, title: "Staedtler Triplus Fineliners (20 Colors)", category: "Writing Instruments", subCategory: "highlighters", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600", price: 92.00, availability: "Limited Stock" },
-    { id: 19, title: "Pentel EnerGel RTX Retractable Pens", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 58.00, availability: "In Stock" },
-    { id: 20, title: "Faber-Castell Grip 2011 Mechanical Pencil", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 65.00, availability: "In Stock", variants: { sizes: ["0.3mm", "0.5mm", "0.7mm"] } },
-    { id: 21, title: "Zebra Sarasa Clip 0.5mm Retractable", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 42.50, availability: "In Stock" },
-    { id: 22, title: "Cross Classic Century Medalist Pen", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", price: 285.00, availability: "In Stock" },
+    { id: 2, title: "Pilot G2 Premium Gel Pens (Pack of 12)", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", tag: { label: "Standard", scheme: "standard" as const }, availability: "In Stock", variants: { colors: ["Black", "Blue", "Red"], packaging: ["Box of 12", "Bulk 72"] } },
+    { id: 14, title: "Parker Jotter Ballpoint Pen - Blue", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", tag: { label: "Classic", scheme: "premium" as const }, availability: "In Stock", variants: { colors: ["Silver", "Gold", "Black"] } },
+    { id: 15, title: "Lamy Safari Fountain Pen - Charcoal", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock", variants: { sizes: ["Fine", "Medium", "Extra Fine"] } },
+    { id: 16, title: "Uni-ball Onyx Rollerball Pens (12pk)", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock" },
+    { id: 17, title: "Sharpie Permanent Markers - Fine Point", category: "Writing Instruments", subCategory: "markers", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600", tag: { label: "Popular", scheme: "bestSeller" as const }, availability: "In Stock", variants: { packaging: ["Set of 12", "Set of 24"] } },
+    { id: 18, title: "Staedtler Triplus Fineliners (20 Colors)", category: "Writing Instruments", subCategory: "highlighters", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600", availability: "Limited Stock" },
+    { id: 19, title: "Pentel EnerGel RTX Retractable Pens", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock" },
+    { id: 20, title: "Faber-Castell Grip 2011 Mechanical Pencil", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock", variants: { sizes: ["0.3mm", "0.5mm", "0.7mm"] } },
+    { id: 21, title: "Zebra Sarasa Clip 0.5mm Retractable", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock" },
+    { id: 22, title: "Cross Classic Century Medalist Pen", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock" },
  
     // --- Filing & Folders (10) ---
-    { id: 3, title: "Leitz 180° Hardboard Lever Arch Files", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", tag: { label: "43% OFF", scheme: "price" as const }, price: 14.25, availability: "In Stock", variants: { sizes: ["50mm", "75mm", "80mm"], colors: ["Black", "Blue", "Red", "Green"] } },
-    { id: 23, title: "Esselte Vivida Presentation Display Book", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 28.50, availability: "In Stock", variants: { sizes: ["20 Pockets", "40 Pockets", "60 Pockets"] } },
-    { id: 24, title: "Rexel Crystal Clear Expanding Wallet", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 12.00, availability: "In Stock" },
-    { id: 25, title: "Snopake Polyfile A4 Clear (5 Pack)", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 35.00, availability: "In Stock" },
-    { id: 26, title: "Elba Strong-Line Lever Arch File Blue", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 16.75, availability: "Limited Stock" },
-    { id: 27, title: "Smead Hanging Folders 1/5-Cut Tab", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 85.00, availability: "In Stock" },
-    { id: 28, title: "Pukka Pad Ring Binder A4 2-Ring", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 24.50, availability: "In Stock" },
-    { id: 29, title: "Bankers Box Earth Series Storage Box", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 115.00, availability: "In Stock", variants: { sizes: ["Standard", "Large", "Maxi"] } },
-    { id: 30, title: "Fellowes Bankers Box Transfer File", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 95.00, availability: "In Stock" },
-    { id: 31, title: "Office Depot L-Shaped Plastic Pockets", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 42.00, availability: "In Stock", variants: { packaging: ["Pack of 25", "Pack of 100"] } },
+    { id: 3, title: "Leitz 180° Hardboard Lever Arch Files", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", tag: { label: "Featured", scheme: "standard" as const }, availability: "In Stock", variants: { sizes: ["50mm", "75mm", "80mm"], colors: ["Black", "Blue", "Red", "Green"] } },
+    { id: 23, title: "Esselte Vivida Presentation Display Book", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock", variants: { sizes: ["20 Pockets", "40 Pockets", "60 Pockets"] } },
+    { id: 24, title: "Rexel Crystal Clear Expanding Wallet", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock" },
+    { id: 25, title: "Snopake Polyfile A4 Clear (5 Pack)", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock" },
+    { id: 26, title: "Elba Strong-Line Lever Arch File Blue", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "Limited Stock" },
+    { id: 27, title: "Smead Hanging Folders 1/5-Cut Tab", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock" },
+    { id: 28, title: "Pukka Pad Ring Binder A4 2-Ring", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock" },
+    { id: 29, title: "Bankers Box Earth Series Storage Box", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock", variants: { sizes: ["Standard", "Large", "Maxi"] } },
+    { id: 30, title: "Fellowes Bankers Box Transfer File", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock" },
+    { id: 31, title: "Office Depot L-Shaped Plastic Pockets", category: "Filing & Folders", subCategory: "filing-folders", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock", variants: { packaging: ["Pack of 25", "Pack of 100"] } },
  
     // --- Desk Accessories (10) ---
-    { id: 5, title: "Deli Mesh Desk Organizer (Black)", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", price: 58.50, availability: "In Stock" },
-    { id: 32, title: "Durable Varicolor 5-Drawer Set", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", tag: { label: "Premium", scheme: "premium" as const }, price: 425.00, availability: "In Stock" },
-    { id: 33, title: "Fellowes I-Spire Document Lift", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=800", price: 85.00, availability: "Limited Stock" },
-    { id: 34, title: "Leitz WOW Stapler - Metallic Blue", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", price: 68.00, availability: "In Stock", variants: { colors: ["Metallic Blue", "Metallic Red", "Metallic Green"] } },
-    { id: 35, title: "Rexel Joy Tape Dispenser - Pink", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", price: 32.50, availability: "In Stock" },
-    { id: 36, title: "Deli Executive Hole Puncher", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", price: 48.00, availability: "In Stock" },
-    { id: 37, title: "Post-it Notes Cube 76x76mm Pastel", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", price: 24.00, availability: "In Stock" },
-    { id: 38, title: "Maped Sensoft Scissor 16cm Blue", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", price: 18.50, availability: "In Stock" },
-    { id: 39, title: "Rapid S51 Metal Stapler Chrome", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", price: 55.00, availability: "In Stock" },
-    { id: 40, title: "Helix Oxford Maths Set (Complete)", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", price: 45.00, availability: "In Stock" },
+    { id: 5, title: "Deli Mesh Desk Organizer (Black)", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", availability: "In Stock" },
+    { id: 32, title: "Durable Varicolor 5-Drawer Set", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", tag: { label: "Premium", scheme: "premium" as const }, availability: "In Stock" },
+    { id: 33, title: "Fellowes I-Spire Document Lift", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=800", availability: "Limited Stock" },
+    { id: 34, title: "Leitz WOW Stapler - Metallic Blue", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", availability: "In Stock", variants: { colors: ["Metallic Blue", "Metallic Red", "Metallic Green"] } },
+    { id: 35, title: "Rexel Joy Tape Dispenser - Pink", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", availability: "In Stock" },
+    { id: 36, title: "Deli Executive Hole Puncher", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", availability: "In Stock" },
+    { id: 37, title: "Post-it Notes Cube 76x76mm Pastel", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600", availability: "In Stock" },
+    { id: 38, title: "Maped Sensoft Scissor 16cm Blue", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", availability: "In Stock" },
+    { id: 39, title: "Rapid S51 Metal Stapler Chrome", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", availability: "In Stock" },
+    { id: 40, title: "Helix Oxford Maths Set (Complete)", category: "Desk Accessories", subCategory: "desk-accessories", image: "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?q=80&w=600", availability: "In Stock" },
 ];
 
 export default async function CategoryListingPage({
@@ -172,7 +170,7 @@ export default async function CategoryListingPage({
         <div className="bg-[#F4F5F7] min-h-screen pb-24 font-sans">
 
             {/* Breadcrumbs & Header Strip */}
-            <div className="bg-white border-b border-slate-200 py-4 shadow-sm">
+            <div className="bg-white border-b border-slate-200 pt-6 pb-4 lg:pt-8 lg:pb-6 shadow-sm">
                 <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
                     <nav className="flex items-center gap-2 text-[11px] font-semibold text-slate-500 mb-2">
                         <Link href="/" className="hover:text-brand transition-colors">Home</Link>

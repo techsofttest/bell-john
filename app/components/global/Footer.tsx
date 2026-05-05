@@ -52,6 +52,7 @@ export default function Footer() {
                                 <li>Email: <a href="mailto:info@bellandjohn.online" className="hover:text-brand hover:underline transition-colors">info@bellandjohn.online</a></li>
                                 <li>Phone: <a href="tel:+96522459082" className="hover:text-brand hover:underline transition-colors">+965-224-59082</a></li>
                                 <li>Phone: <a href="tel:+96522459083" className="hover:text-brand hover:underline transition-colors">+965-224-59083</a></li>
+                                <li>Phone: <a href="tel:+965-224-59084" className="hover:text-brand hover:underline transition-colors">+965-224-59084</a></li>
                             </ul>
                         </div>
                     </div>

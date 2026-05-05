@@ -62,7 +62,7 @@ export default function ProductCarousel({ title, categorySlug, products }: Produ
                 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-4"
             >
                 {products.map((product) => (
-                    <div key={product.id} className="snap-start">
+                    <div key={product.id} className="snap-start shrink-0 w-[280px] md:w-[300px] lg:w-[calc(20%-19.2px)]">
                         <ProductCard {...product} />
                     </div>
                 ))}

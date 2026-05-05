@@ -12,7 +12,7 @@ import QuickQuoteModal from "./QuickQuoteModal";
 export interface ProductTag {
     label: string;
     icon?: ReactNode;
-    scheme?: 'new' | 'bestSeller' | 'premium' | 'price' | 'standard' | 'outOfStock';
+    scheme?: 'new' | 'bestSeller' | 'premium' | 'standard' | 'outOfStock';
 }
 
 export interface ProductVariants {
@@ -26,7 +26,6 @@ export interface ProductCardProps {
     title: string;
     category: string;
     image: string;
-    price?: number;
     availability?: 'In Stock' | 'Limited Stock' | 'Out of Stock' | string;
     tag?: ProductTag;
     variants?: ProductVariants;
@@ -38,13 +37,12 @@ const tagColorSchemes: Record<NonNullable<ProductTag['scheme']>, string> = {
     'new': 'bg-emerald-50 text-emerald-900 border-emerald-100',
     'bestSeller': 'bg-amber-50 text-amber-900 border-amber-100',
     'premium': 'bg-purple-50 text-purple-950 border-purple-100',
-    'price': 'bg-red-50 text-red-900 border-red-100',
     'standard': 'bg-slate-100 text-slate-800 border-slate-200',
     'outOfStock': 'bg-slate-100 text-slate-500 border-slate-200 opacity-80',
 };
 
 export default function ProductCard({ 
-    id, title, category, image, price, availability, tag, variants, isWishlistPage, onRemove 
+    id, title, category, image, availability, tag, variants, isWishlistPage, onRemove 
 }: ProductCardProps) {
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
     const activeInWishlist = isInWishlist(id);
@@ -93,7 +91,7 @@ export default function ProductCard({
                         if (activeInWishlist) {
                             removeFromWishlist(id);
                         } else {
-                            addToWishlist({ id, title, category, image, tag, price, availability });
+                            addToWishlist({ id, title, category, image, tag, availability });
                         }
                     }
                 }}
@@ -144,14 +142,6 @@ export default function ProductCard({
                         {title}
                     </h3>
 
-                    {/* PRICING AREA */}
-                    <div className="flex items-baseline gap-1 mb-4">
-                        <span className="text-[10px] md:text-xs font-bold text-slate-400">AED</span>
-                        <span className="text-sm md:text-lg font-bold text-slate-900 tracking-tight">
-                            {(price || (Math.random() * 200 + 10)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </span>
-                        <span className="text-[8px] md:text-[10px] text-slate-400 font-bold ml-1 uppercase tracking-tighter">per pack</span>
-                    </div>
                 </Link>
 
                 <div className="mt-auto">
