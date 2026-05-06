@@ -72,7 +72,7 @@ export default function FeaturedProducts() {
                      "
                 >
                     {featuredProducts.map((product) => (
-                        <div key={product.id} className="snap-start py-4 shrink-0 w-[280px] md:w-[320px] lg:w-[calc(20%-25.6px)]"> {/* Vertical padding for hover shadow */}
+                        <div key={product.id} className="snap-start py-4 shrink-0 w-[60vw] md:w-[320px] lg:w-[calc(20%-25.6px)]"> {/* Vertical padding for hover shadow */}
                             <ProductCard {...product} />
                         </div>
                     ))}

@@ -12,7 +12,7 @@ export default function AboutBenefits() {
                     <div className="w-12 h-[1px] bg-brand"></div>
                     <h2 className="font-serif text-3xl md:text-4xl text-slate-900 font-medium tracking-tight">What We Offer</h2>
                 </div>
-                <p className="text-slate-500 text-sm md:text-base font-light max-w-lg">
+                <p className="text-slate-800 text-sm md:text-base font-normal max-w-lg">
                     We provide a comprehensive range of everyday business essentials, serving as a single, dependable source for our clients.
                 </p>
             </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Check, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import Button from "../ui/Button";
@@ -35,11 +35,15 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
     const [packaging, setPackaging] = useState("");
     
     const [mounted, setMounted] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
+    const [isAdded, setIsAdded] = useState(false);
 
     useEffect(() => {
         setMounted(true);
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+            setIsAdded(false);
+            setIsAdding(false);
             // Set defaults when opening
             if (product.variants?.sizes?.length) setSize(product.variants.sizes[0]);
             if (product.variants?.colors?.length) setColor(product.variants.colors[0]);
@@ -53,16 +57,29 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
     }, [isOpen, product.variants]);
 
     const handleAdd = () => {
-        addToCart({
-            id: product.id,
-            title: product.title,
-            image: product.image,
-            qty,
-            size: size || undefined,
-            color: color || undefined,
-            packaging: packaging || undefined
-        } as any); // Type cast to any for now to handle packaging in context if needed
-        onClose();
+        setIsAdding(true);
+        
+        // Simulate a small delay for the animation
+        setTimeout(() => {
+            addToCart({
+                id: product.id,
+                title: product.title,
+                image: product.image,
+                qty,
+                size: size || undefined,
+                color: color || undefined,
+                packaging: packaging || undefined
+            } as any); // Type cast to any for now to handle packaging in context if needed
+            
+            setIsAdding(false);
+            setIsAdded(true);
+
+            // Wait before closing the modal
+            setTimeout(() => {
+                setIsAdded(false);
+                onClose();
+            }, 1200);
+        }, 400);
     };
 
     if (!mounted) return null;
@@ -176,10 +193,59 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
 
                             <Button 
                                 onClick={handleAdd} 
+                                disabled={isAdding || isAdded}
                                 variant="primary" 
                                 className="w-full mt-10 h-14 bg-brand hover:bg-brand/90 text-white text-xs uppercase font-bold tracking-[0.2em] rounded-2xl shadow-xl shadow-brand/20 transition-all active:scale-[0.98] border-none"
                             >
-                                Add to Request Bag
+                                <AnimatePresence mode="wait">
+                                    {isAdding ? (
+                                        <motion.div
+                                            key="loading"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="flex items-center justify-center gap-2"
+                                        >
+                                            <Loader2 className="w-4 h-4 animate-spin" />
+                                            Adding...
+                                        </motion.div>
+                                    ) : isAdded ? (
+                                        <motion.div
+                                            key="added"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="flex items-center justify-center gap-2"
+                                        >
+                                            <motion.div
+                                                initial={{ scale: 0, rotate: -45 }}
+                                                animate={{ scale: 1, rotate: 0 }}
+                                                transition={{ 
+                                                    type: "spring", 
+                                                    stiffness: 400, 
+                                                    damping: 15,
+                                                    delay: 0.1 
+                                                }}
+                                            >
+                                                <Check className="w-5 h-5" />
+                                            </motion.div>
+                                            Added to Bag
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div
+                                            key="default"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="flex items-center justify-center"
+                                        >
+                                            Add to Request Bag
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </Button>
                         </div>
                     </motion.div>

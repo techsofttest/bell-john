@@ -42,7 +42,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                             We&apos;re here to help
                         </h2>
                     </div>
-                    <p className="text-sm text-slate-500 max-w-sm leading-relaxed">
+                    <p className="text-sm text-slate-750 max-w-sm leading-relaxed font-normal">
                         Reach out for product inquiries, bulk orders, or office procurement support across the GCC.
                     </p>
                 </div>
@@ -59,9 +59,9 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                                 <MapPin size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
                             </div>
                             <div>
-                                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 mb-2">Visit Us</p>
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Visit Us</p>
                                 {info.address.map((line, i) => (
-                                    <p key={i} className="text-sm text-slate-700 leading-relaxed">{line}</p>
+                                    <p key={i} className="text-sm text-slate-800 leading-relaxed font-normal">{line}</p>
                                 ))}
                             </div>
                         </div>
@@ -72,9 +72,9 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                                 <Phone size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
                             </div>
                             <div>
-                                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 mb-2">Call Us</p>
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Call Us</p>
                                 {info.phones.map((phone, i) => (
-                                    <a key={i} href={`tel:${phone}`} className="block text-sm text-slate-700 hover:text-brand font-medium transition-colors">
+                                    <a key={i} href={`tel:${phone}`} className="block text-sm text-slate-800 hover:text-brand font-semibold transition-colors">
                                         {phone}
                                     </a>
                                 ))}
@@ -87,8 +87,8 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                                 <Mail size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
                             </div>
                             <div>
-                                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 mb-2">Email</p>
-                                <a href={`mailto:${info.email}`} className="text-sm text-brand font-medium hover:underline break-all transition-colors">
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Email</p>
+                                <a href={`mailto:${info.email}`} className="text-sm text-brand font-semibold hover:underline break-all transition-colors">
                                     {info.email}
                                 </a>
                             </div>
@@ -100,12 +100,12 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                                 <Clock size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
                             </div>
                             <div className="flex-1">
-                                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 mb-2">Working Hours</p>
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Working Hours</p>
                                 <div className="space-y-2">
                                     {info.hours.map((h, i) => (
                                         <div key={i} className="flex items-center justify-between gap-6 text-sm">
-                                            <span className="text-slate-500">{h.days}</span>
-                                            <span className="text-slate-800 font-medium">{h.time}</span>
+                                            <span className="text-slate-600 font-normal">{h.days}</span>
+                                            <span className="text-slate-900 font-semibold">{h.time}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -114,7 +114,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
 
                         {/* Divider + Note */}
                         <div className="pt-6 mt-2 border-t border-slate-200/60">
-                            <p className="text-[13px] text-slate-500 leading-relaxed">
+                            <p className="text-[13px] text-slate-700 leading-relaxed font-normal">
                                 Prefer to call? Our team is available during working hours and typically responds to emails within one business day.
                             </p>
                         </div>
@@ -123,14 +123,14 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                     {/* Right: Form Panel */}
                     <div className="lg:col-span-3 py-12 lg:pl-12">
                         <div className="mb-8">
-                            <h3 className="text-xl font-bold text-slate-900">Send us a message</h3>
-                            <p className="text-sm text-slate-500 mt-1">We'll get back to you as soon as possible.</p>
+                            <h3 className="text-xl font-bold text-slate-950">Send us a message</h3>
+                            <p className="text-sm text-slate-700 mt-1 font-normal">We'll get back to you as soon as possible.</p>
                         </div>
 
                         <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
-                                    Full Name <span className="text-brand">*</span>
+                                <label className="text-[11px] font-semibold text-slate-700 uppercase tracking-widest flex items-center gap-1">
+                                    Full Name <span className="text-brand font-semibold">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -141,8 +141,8 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
-                                    Email Address <span className="text-brand">*</span>
+                                <label className="text-[11px] font-semibold text-slate-700 uppercase tracking-widest flex items-center gap-1">
+                                    Email Address <span className="text-brand font-semibold">*</span>
                                 </label>
                                 <input
                                     type="email"
@@ -153,7 +153,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                                <label className="text-[11px] font-semibold text-slate-700 uppercase tracking-widest flex items-center gap-1">
                                     Company Name
                                 </label>
                                 <input
@@ -164,7 +164,7 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                                <label className="text-[11px] font-semibold text-slate-700 uppercase tracking-widest flex items-center gap-1">
                                     Phone Number
                                 </label>
                                 <input
@@ -175,8 +175,8 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                             </div>
 
                             <div className="space-y-2 md:col-span-2">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
-                                    Your Message <span className="text-brand">*</span>
+                                <label className="text-[11px] font-semibold text-slate-700 uppercase tracking-widest flex items-center gap-1">
+                                    Your Message <span className="text-brand font-semibold">*</span>
                                 </label>
                                 <textarea
                                     required
@@ -187,8 +187,8 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                             </div>
 
                             <div className="md:col-span-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-2">
-                                <p className="text-[13px] text-slate-500">
-                                    Fields marked <span className="text-brand font-bold">*</span> are required.
+                                <p className="text-[13px] text-slate-700 font-normal">
+                                    Fields marked <span className="text-brand font-semibold">*</span> are required.
                                 </p>
                                 <Button variant="secondary" className="gap-2 px-8 h-12 rounded-xl shadow-sm hover:shadow-md transition-all font-medium flex items-center justify-center">
                                     Send Message <Send size={16} />

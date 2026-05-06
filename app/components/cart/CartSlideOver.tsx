@@ -19,7 +19,7 @@ export default function CartSlideOver() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={closeCart}
-                        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50"
+                        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[9998]"
                     />
 
                     {/* Left Slide-Over Panel */}
@@ -28,7 +28,7 @@ export default function CartSlideOver() {
                         animate={{ x: 0 }}
                         exit={{ x: "-100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed top-0 left-0 h-full w-[90%] max-w-[400px] bg-white z-50 flex flex-col shadow-2xl border-r border-slate-200"
+                        className="fixed top-0 left-0 h-full w-[90%] max-w-[400px] bg-white z-[9999] flex flex-col shadow-2xl border-r border-slate-200"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between p-6 border-b border-slate-100">
@@ -53,7 +53,7 @@ export default function CartSlideOver() {
                                         </div>
                                         <div className="flex-1">
                                             <h4 className="text-xs font-bold text-slate-800 line-clamp-2 leading-tight">{item.title}</h4>
-                                            <div className="text-[10px] text-slate-500 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 font-medium uppercase tracking-wider">
+                                            <div className="text-[10px] text-slate-600 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 font-semibold uppercase tracking-wider">
                                                 {item.size && <span>Size: {item.size}</span>}
                                                 {item.color && <span>Color: {item.color}</span>}
                                                 {item.packaging && <span>Pack: {item.packaging}</span>}

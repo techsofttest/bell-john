@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Tag, ArrowRight, ShieldCheck } from "lucide-react";
 import Button from "../ui/Button";
 
@@ -17,26 +18,28 @@ export default function CartSummary({ itemCount, total }: { itemCount: number; t
                 
                 <div className="space-y-4 mb-8">
                     <div className="flex justify-between text-sm">
-                        <span className="text-slate-500 font-medium">Total Items</span>
+                        <span className="text-slate-600 font-medium">Total Items</span>
                         <span className="font-bold text-slate-900">{itemCount}</span>
                     </div>
                     <div className="w-full h-[1px] bg-slate-100 my-2"></div>
                     <div className="flex justify-between text-[10px]">
-                        <span className="text-slate-400 italic">* Final quote will be sent to your email after processing.</span>
+                        <span className="text-slate-500 italic font-medium">* Final quote will be sent to your email after processing.</span>
                     </div>
                 </div>
 
-                <Button 
-                    variant="primary" 
-                    className="w-full h-14 bg-brand hover:bg-brand/90 text-white rounded-xl shadow-lg shadow-brand/20 flex items-center justify-center gap-3 group border-none"
-                >
-                    <span className="text-xs uppercase font-bold tracking-[0.2em]">Proceed to ask a quote</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Button>
+                <Link href="/checkout" className="block w-full">
+                    <Button 
+                        variant="primary" 
+                        className="w-full h-14 bg-brand hover:bg-brand/90 text-white rounded-xl shadow-lg shadow-brand/20 flex items-center justify-center gap-3 group border-none"
+                    >
+                        <span className="text-xs uppercase font-bold tracking-[0.2em]">Proceed to ask a quote</span>
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                </Link>
 
                 <div className="mt-6 flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
                     <ShieldCheck className="w-5 h-5 text-brand shrink-0" />
-                    <p className="text-[10px] text-slate-500 leading-relaxed font-medium uppercase tracking-tight">
+                    <p className="text-[10px] text-slate-600 leading-relaxed font-semibold uppercase tracking-tight">
                         Safe and Secure procurement. Status updates will be sent to your registered email.
                     </p>
                 </div>

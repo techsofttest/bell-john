@@ -12,10 +12,10 @@ export default function AboutHero() {
                     {/* Main Title Card */}
                     <div className="md:col-span-7 p-8 md:p-16 border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-center bg-white">
                         {/* Breadcrumbs */}
-                        <nav className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
+                        <nav className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-500 mb-6">
                             <Link href="/" className="hover:text-brand transition-colors">Home</Link>
-                            <ChevronRight className="w-3 h-3 text-slate-300" />
-                            <span className="text-slate-900">About Us</span>
+                            <ChevronRight className="w-3 h-3 text-slate-400" />
+                            <span className="text-slate-950">About Us</span>
                         </nav>
                         
                         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-slate-900 font-medium mb-6 tracking-tight leading-[0.9]">
@@ -34,7 +34,7 @@ export default function AboutHero() {
                             </p>
                         </div>
                         <div className="p-8 md:p-12 flex-1 flex items-center bg-white">
-                            <p className="text-slate-500 text-sm md:text-base font-light leading-relaxed">
+                            <p className="text-slate-700 text-sm md:text-base font-normal leading-relaxed">
                                 From our roots in Kuwait to our expanding regional presence, our reputation has been built on a simple principle: delivering the right quality.
                             </p>
                         </div>
@@ -48,10 +48,10 @@ export default function AboutHero() {
                             fill 
                             className="object-cover group-hover:scale-105 transition-transform duration-1000 grayscale-[20%] group-hover:grayscale-0" 
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
                         <div className="absolute bottom-10 left-10 text-white">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.3em] mb-3 opacity-80">Heritage & Vision</p>
-                            <h2 className="font-serif text-3xl md:text-4xl font-medium tracking-tight">Serving the GCC Since 2003</h2>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.3em] mb-3 text-brand">Heritage & Vision</p>
+                            <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight">Serving the GCC Since 2003</h2>
                         </div>
                     </div>
                 </div>

@@ -33,17 +33,17 @@ export default function CartItem({ item, onRemove, onUpdateQty }: ItemProps) {
                     {(item.size || item.color || item.packaging) && (
                         <div className="flex flex-wrap gap-x-4 gap-y-1 mb-2">
                             {item.size && (
-                                <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
+                                <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
                                     Size: <span className="text-slate-900">{item.size}</span>
                                 </span>
                             )}
                             {item.color && (
-                                <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
+                                <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
                                     Color: <span className="text-slate-900">{item.color}</span>
                                 </span>
                             )}
                             {item.packaging && (
-                                <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
+                                <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
                                     Pack: <span className="text-slate-900">{item.packaging}</span>
                                 </span>
                             )}
@@ -53,7 +53,7 @@ export default function CartItem({ item, onRemove, onUpdateQty }: ItemProps) {
                     {/* B2B Specs */}
                     <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1 mb-4">
                         {item.specs?.map((spec: any, i: number) => (
-                            <span key={i} className="text-[11px] text-slate-500 font-medium uppercase tracking-wider">
+                            <span key={i} className="text-[11px] text-slate-600 font-medium uppercase tracking-wider">
                                 {spec.label}: <span className="text-slate-800">{spec.value}</span>
                             </span>
                         ))}
@@ -70,7 +70,7 @@ export default function CartItem({ item, onRemove, onUpdateQty }: ItemProps) {
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={() => onRemove(item.id)}
-                                className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 hover:text-red-600 uppercase tracking-widest transition-colors"
+                                className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 hover:text-red-600 uppercase tracking-widest transition-colors"
                             >
                                 <Trash2 size={14} /> Remove
                             </button>

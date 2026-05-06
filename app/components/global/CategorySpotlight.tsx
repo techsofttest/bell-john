@@ -115,7 +115,7 @@ export default function CategorySpotlight() {
            [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-8 pt-4 px-1"
                 >
                     {spotlightProducts.map((product) => (
-                        <div key={product.id} className="snap-start shrink-0 w-[280px] md:w-[320px] lg:w-[calc(20%-25.6px)]">
+                        <div key={product.id} className="snap-start shrink-0 w-[60vw] md:w-[320px] lg:w-[calc(20%-25.6px)]">
                             <ProductCard {...product} />
                         </div>
                     ))}

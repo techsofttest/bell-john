@@ -34,9 +34,9 @@ export default function ContactHero() {
             <div className="relative z-10 max-w-[1400px] w-full mx-auto px-6 lg:px-12 py-12 md:py-16 flex flex-col items-center text-center">
 
                 {/* Breadcrumbs */}
-                <nav className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
+                <nav className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-300 mb-6">
                     <Link href="/" className="hover:text-brand transition-colors">Home</Link>
-                    <ChevronRight className="w-3 h-3 text-slate-600" />
+                    <ChevronRight className="w-3 h-3 text-slate-400" />
                     <span className="text-white">Contact Us</span>
                 </nav>
 

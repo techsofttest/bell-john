@@ -9,7 +9,7 @@ export default function AboutContent() {
             {/* Header Section */}
             <div className="border-l-4 border-brand pl-6 mb-12">
                 <h2 className="font-serif text-3xl md:text-4xl text-slate-900 font-medium tracking-tight">Our Journey</h2>
-                <p className="text-slate-500 text-sm mt-2 font-light">The evolution of Bell & John across the region.</p>
+                <p className="text-slate-700 text-sm mt-2 font-normal">The evolution of Bell & John across the region.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 border border-slate-200 rounded-3xl overflow-hidden">
@@ -33,7 +33,7 @@ export default function AboutContent() {
                         <h3 className="font-serif text-3xl text-slate-900 font-medium mb-6 group-hover:text-brand transition-colors tracking-tight">
                             Kuwait · Bell & John Trading Co. W.L.L.
                         </h3>
-                        <p className="text-slate-600 text-base md:text-lg leading-relaxed font-light">
+                        <p className="text-slate-800 text-base md:text-lg leading-relaxed font-normal">
                             Our Kuwait operations have earned the long-standing trust of semi-government organizations, oil companies, educational institutions, and the healthcare sector. Here, reliability is not just a promise — it is a proven track record built over two decades.
                         </p>
                     </div>
@@ -59,7 +59,7 @@ export default function AboutContent() {
                         <h3 className="font-serif text-3xl text-slate-900 font-medium mb-6 group-hover:text-brand transition-colors tracking-tight">
                             UAE · Bell & John General Trading Co. L.L.C.
                         </h3>
-                        <p className="text-slate-600 text-base md:text-lg leading-relaxed font-light">
+                        <p className="text-slate-800 text-base md:text-lg leading-relaxed font-normal">
                             Established to expand our regional footprint, our UAE entity drives exports and distribution across the GCC. With competitive sourcing, efficient logistics, and dependable delivery, we ensure our clients receive exactly what they need, when they need it.
                         </p>
                     </div>
