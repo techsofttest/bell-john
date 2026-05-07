@@ -5,14 +5,14 @@ import { Product } from "@/app/data/products";
 import { useCart } from "@/app/context/CartContext";
 import { useWishlist } from "@/app/context/WishlistContext";
 import { CheckCircle2, AlertTriangle } from "lucide-react";
-import QuantitySelector from "../cart/QuantitySelector";
+import QuantitySelector from "../../cart/QuantitySelector";
 
 // Import broken-down subcomponents
-import ProductBreadcrumbs from "./product-detailed-page/ProductBreadcrumbs";
-import ProductGallery from "./product-detailed-page/ProductGallery";
-import ProductVariantsSelector from "./product-detailed-page/ProductVariantsSelector";
-import ProductActions from "./product-detailed-page/ProductActions";
-import ProductSpecsAndOverview from "./product-detailed-page/ProductSpecsAndOverview";
+import ProductBreadcrumbs from "./ProductBreadcrumbs";
+import ProductGallery from "./ProductGallery";
+import ProductVariantsSelector from "./ProductVariantsSelector";
+import ProductActions from "./ProductActions";
+import ProductSpecsAndOverview from "./ProductSpecsAndOverview";
 
 interface ProductDetailsClientProps {
     product: Product;

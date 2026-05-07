@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getProductById, getRelatedProducts } from "@/app/data/products";
-import ProductDetailsClient from "@/app/components/products/ProductDetailsClient";
+import ProductDetailsClient from "@/app/components/products/product-detailed-page/ProductDetailsClient";
 import ProductCarousel from "@/app/components/products/ProductCarousel";
 
 export default async function ProductDetailsPage({

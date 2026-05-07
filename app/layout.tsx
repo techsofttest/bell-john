@@ -1,6 +1,7 @@
 import { WishlistProvider } from "@/app/context/WishlistContext";
 import { CartProvider } from "@/app/context/CartContext";
 import CartSlideOver from "@/app/components/cart/CartSlideOver";
+import RegionSelectorModal from "@/app/components/global/RegionSelectorModal";
 import "./globals.css";
 
 export const metadata = {
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <WishlistProvider>
             {children}
             <CartSlideOver />
+            <RegionSelectorModal />
           </WishlistProvider>
         </CartProvider>
       </body>

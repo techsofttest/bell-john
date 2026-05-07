@@ -41,9 +41,9 @@ export default function CartPage() {
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: -50, transition: { duration: 0.2 } }}
                                     >
-                                        <CartItem 
-                                            item={item} 
-                                            onRemove={removeFromCart} 
+                                        <CartItem
+                                            item={item}
+                                            onRemove={removeFromCart}
                                             onUpdateQty={updateQuantity}
                                         />
                                     </motion.div>
