@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Product } from "@/app/data/products";
 import { useCart } from "@/app/context/CartContext";
 import { useWishlist } from "@/app/context/WishlistContext";
-import { CheckCircle2, AlertTriangle } from "lucide-react";
 import QuantitySelector from "../../cart/QuantitySelector";
 
 // Import broken-down subcomponents
@@ -31,7 +30,6 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
     const isWishlisted = isInWishlist(product.id);
-    const isOutOfStock = product.availability?.toLowerCase() === 'out of stock';
     const hasVariants = !!(product.variants?.sizes?.length || product.variants?.colors?.length || product.variants?.packaging?.length);
 
     // State for interactive features
@@ -86,9 +84,7 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
         ? [product.image, ...product.images.filter(img => img !== product.image)]
         : [product.image];
 
-    const displayTag = isOutOfStock 
-        ? { label: "Out of Stock", scheme: 'outOfStock' as const } 
-        : product.tag;
+    const displayTag = product.tag;
 
     const schemeClasses = displayTag ? tagColorSchemes[displayTag.scheme || 'standard'] : '';
 
@@ -156,20 +152,7 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                                         {product.title}
                                     </h1>
 
-                                    {/* Stock status pill */}
-                                    <div className="pt-1 flex items-center">
-                                        {isOutOfStock ? (
-                                            <span className="bg-red-50 text-red-800 border border-red-200 px-3 py-1.5 rounded-lg font-bold text-xs inline-flex items-center gap-1.5 shadow-sm">
-                                                <AlertTriangle className="w-4 h-4 text-red-600" />
-                                                Currently Unavailable (Out of Stock)
-                                            </span>
-                                        ) : (
-                                            <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-lg font-bold text-xs inline-flex items-center gap-1.5 shadow-sm">
-                                                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                                                Active Stock (Available for Corporate Dispatch)
-                                            </span>
-                                        )}
-                                    </div>
+
                                 </div>
 
                                 {/* Option selections */}
@@ -198,7 +181,6 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                                 {/* Action CTA triggers */}
                                 <div className="border-t border-slate-200 pt-5">
                                     <ProductActions 
-                                        isOutOfStock={isOutOfStock}
                                         isAdding={isAdding}
                                         isAdded={isAdded}
                                         isWishlisted={isWishlisted}

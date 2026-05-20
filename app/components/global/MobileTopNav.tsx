@@ -4,12 +4,15 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, ChevronDown } from "lucide-react";
+import { useRegion } from "@/app/context/RegionContext";
+import { STORAGE_URL } from "@/app/data/products";
 
 interface MobileTopNavProps {
     onOpenSideMenu: () => void;
 }
 
 export default function MobileTopNav({ onOpenSideMenu }: MobileTopNavProps) {
+    const { selectedCountry, countries, selectCountry, logoUrl } = useRegion();
     const [isRegionOpen, setIsRegionOpen] = useState(false);
     const regionRef = useRef<HTMLDivElement>(null);
 
@@ -29,7 +32,7 @@ export default function MobileTopNav({ onOpenSideMenu }: MobileTopNavProps) {
             <Link href="/" className="flex-shrink-0">
                 <div className="relative w-32 h-10">
                     <Image
-                        src="/logo/logo.png"
+                        src={logoUrl}
                         alt="Bell & John Logo"
                         fill
                         className="object-contain object-left"
@@ -40,35 +43,52 @@ export default function MobileTopNav({ onOpenSideMenu }: MobileTopNavProps) {
 
             <div className="flex items-center gap-2">
                 {/* Region Dropdown */}
-                <div className="relative cursor-pointer" ref={regionRef}>
-                    <button 
-                        onClick={() => setIsRegionOpen(!isRegionOpen)}
-                        className="flex items-center gap-2 hover:bg-slate-50 px-3 py-2 rounded-lg transition-all focus:outline-none"
-                    >
-                        <Image src="https://flagcdn.com/w20/kw.png" width={22} height={15} alt="Kuwait Flag" className="rounded-sm shadow-sm" />
-                        <span className="text-xs font-bold text-slate-700">KWD</span>
-                        <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isRegionOpen ? "rotate-180" : ""}`} />
-                    </button>
-                    
-                    {isRegionOpen && (
-                        <div className="absolute top-[calc(100%+4px)] right-0 w-44 bg-white border border-slate-100 shadow-2xl rounded-xl p-1 z-[160] animate-fade-in">
-                            <button 
-                                onClick={() => setIsRegionOpen(false)}
-                                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-slate-700 transition-colors text-left font-semibold text-xs rounded-lg"
-                            >
-                                <Image src="https://flagcdn.com/w20/kw.png" width={20} height={14} alt="Kuwait Flag" />
-                                Kuwait (KWD)
-                            </button>
-                            <button 
-                                onClick={() => setIsRegionOpen(false)}
-                                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-slate-700 transition-colors text-left font-semibold text-xs rounded-lg"
-                            >
-                                <Image src="https://flagcdn.com/w20/ae.png" width={20} height={14} alt="UAE Flag" />
-                                UAE (AED)
-                            </button>
-                        </div>
-                    )}
-                </div>
+                {selectedCountry && countries.length > 0 && (
+                    <div className="relative cursor-pointer" ref={regionRef}>
+                        <button 
+                            onClick={() => setIsRegionOpen(!isRegionOpen)}
+                            className="flex items-center gap-2 hover:bg-slate-50 px-3 py-2 rounded-lg transition-all focus:outline-none"
+                        >
+                            <Image src={`${STORAGE_URL}/countries/${selectedCountry.name.toLowerCase()}.png`} width={22} height={15} alt={`${selectedCountry.name} Flag`} className="rounded-sm shadow-sm" />
+                            <span className="text-xs font-bold text-slate-700">
+                                {{
+                                    kw: "KWD",
+                                    ae: "AED",
+                                    sa: "SAR",
+                                    qa: "QAR",
+                                    bh: "BHD",
+                                    om: "OMR"
+                                }[selectedCountry.code.toLowerCase()] || selectedCountry.code.toUpperCase()}
+                            </span>
+                            <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isRegionOpen ? "rotate-180" : ""}`} />
+                        </button>
+                        
+                        {isRegionOpen && (
+                            <div className="absolute top-[calc(100%+4px)] right-0 w-44 bg-white border border-slate-100 shadow-2xl rounded-xl p-1 z-[160] animate-fade-in">
+                                {countries.map((c) => (
+                                    <button 
+                                        key={c.id}
+                                        onClick={() => {
+                                            selectCountry(c.code);
+                                            setIsRegionOpen(false);
+                                        }}
+                                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-slate-700 transition-colors text-left font-semibold text-xs rounded-lg"
+                                    >
+                                        <Image src={`${STORAGE_URL}/countries/${c.name.toLowerCase()}.png`} width={20} height={14} alt={`${c.name} Flag`} />
+                                        {c.name} ({{
+                                            kw: "KWD",
+                                            ae: "AED",
+                                            sa: "SAR",
+                                            qa: "QAR",
+                                            bh: "BHD",
+                                            om: "OMR"
+                                        }[c.code.toLowerCase()] || c.code.toUpperCase()})
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* Hamburger */}
                 <button

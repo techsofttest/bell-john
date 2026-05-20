@@ -1,34 +1,23 @@
-import Link from "next/link";
 import { ReactNode } from "react";
+import Header from "@/app/components/global/Header";
+import Footer from "@/app/components/global/Footer";
+import { getCategories } from "@/app/data/products";
 
-export default function AuthLayout({ children }: { children: ReactNode }) {
+export default async function AuthLayout({ children }: { children: ReactNode }) {
+    const categories = await getCategories();
+
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col pt-10 pb-8 px-4 font-sans">
-
-            {/* Header / Logo */}
-            <div className="flex justify-center mb-6">
-                <Link href="/" className="font-serif text-3xl md:text-4xl font-bold text-slate-900 tracking-tight hover:opacity-90 transition-opacity">
-                    Bell & John<span className="text-brand">.</span>
-                </Link>
-            </div>
-
-            {/* Dynamic Content (The Auth Cards) */}
-            <main className="flex-1 flex flex-col items-center">
+        <div className="flex flex-col min-h-screen bg-slate-50">
+            {/* Main Application Header */}
+            <Header categories={categories} />
+            
+            {/* Centered Auth Card Container with spacing to clear fixed Header */}
+            <main className="flex-grow pt-[100px] lg:pt-[180px] pb-16 flex items-center justify-center px-4 font-sans">
                 {children}
             </main>
-
-            {/* Minimalist Legal Footer (Matching Amazon's approach) */}
-            <footer className="mt-12 flex flex-col items-center justify-center border-t border-slate-200/80 pt-8 shadow-[0_-20px_20px_-20px_rgba(0,0,0,0.02)]">
-                <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-medium text-brand mb-4">
-                    <Link href="/conditions" className="hover:text-slate-800 hover:underline transition-all">Conditions of Use</Link>
-                    <Link href="/privacy" className="hover:text-slate-800 hover:underline transition-all">Privacy Notice</Link>
-                    <Link href="/help" className="hover:text-slate-800 hover:underline transition-all">Help</Link>
-                </div>
-                <p className="text-[11px] text-slate-500">
-                    © {new Date().getFullYear()}, Bell & John Trading Co. W.L.L or its affiliates
-                </p>
-            </footer>
-
+            
+            {/* Main Application Footer */}
+            <Footer categories={categories} />
         </div>
     );
 }

@@ -3,31 +3,20 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { X, Check, Globe } from "lucide-react";
+import { useRegion } from "@/app/context/RegionContext";
+import { STORAGE_URL } from "@/app/data/products";
 
 export default function RegionSelectorModal() {
-    const [mounted, setMounted] = useState(false);
+    const { countries, selectedCountry, selectCountry, isLoading, logoUrl } = useRegion();
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
 
     useEffect(() => {
-        setMounted(true);
-        const savedRegion = localStorage.getItem("bj_selected_region");
-        if (!savedRegion) {
+        if (!isLoading && !selectedCountry && countries.length > 0) {
             setIsOpen(true);
-        } else {
-            setSelectedRegion(savedRegion);
         }
-    }, []);
+    }, [isLoading, selectedCountry, countries]);
 
-    const handleSelectRegion = (region: string) => {
-        setSelectedRegion(region);
-        localStorage.setItem("bj_selected_region", region);
-        setTimeout(() => {
-            setIsOpen(false);
-        }, 400);
-    };
-
-    if (!mounted || !isOpen) return null;
+    if (isLoading || !isOpen || countries.length === 0) return null;
 
     return (
         <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-md z-[999] flex items-center justify-center p-4 font-sans select-none animate-fade-in">
@@ -42,12 +31,14 @@ export default function RegionSelectorModal() {
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand/20 via-accent/30 to-brand/20"></div>
 
                 {/* Close Button */}
-                <button 
-                    onClick={() => setIsOpen(false)}
-                    className="absolute right-5 top-5 p-2 rounded-full hover:bg-slate-100/80 text-slate-400 hover:text-slate-800 transition-all duration-300 active:scale-90"
-                >
-                    <X className="w-5 h-5" />
-                </button>
+                {selectedCountry && (
+                    <button 
+                        onClick={() => setIsOpen(false)}
+                        className="absolute right-5 top-5 p-2 rounded-full hover:bg-slate-100/80 text-slate-400 hover:text-slate-800 transition-all duration-300 active:scale-90"
+                    >
+                        <X className="w-5 h-5" />
+                    </button>
+                )}
 
                 {/* Brand Logo Header with custom glowing illustration wrapper */}
                 <div className="flex flex-col items-center text-center mt-2">
@@ -61,7 +52,7 @@ export default function RegionSelectorModal() {
 
                     <div className="relative w-32 h-8 mb-3">
                         <Image
-                            src="/logo/logo.png"
+                            src={logoUrl}
                             alt="Bell & John Logo"
                             fill
                             className="object-contain"
@@ -79,77 +70,52 @@ export default function RegionSelectorModal() {
 
                 {/* Region Options Grid */}
                 <div className="grid grid-cols-2 gap-4">
-                    {/* Kuwait Card */}
-                    <button
-                        onClick={() => handleSelectRegion("kuwait")}
-                        className={`group border-2 p-5 rounded-2xl flex flex-col items-center justify-center gap-4 transition-all duration-300 relative text-center focus:outline-none h-[155px] hover:scale-[1.03] hover:-translate-y-0.5
-                            ${selectedRegion === "kuwait" 
-                                ? "border-brand bg-brand/[0.02] shadow-lg shadow-brand/5" 
-                                : "border-slate-100 hover:border-slate-300 hover:bg-slate-50/20"
-                            }`}
-                    >
-                        {/* Flag with custom shadowed capsule */}
-                        <div className="relative w-14 h-9 rounded-lg overflow-hidden shadow-md border border-slate-150 transition-transform duration-300 group-hover:scale-105 shrink-0">
-                            <Image 
-                                src="https://flagcdn.com/w80/kw.png" 
-                                alt="Kuwait Flag" 
-                                fill 
-                                className="object-cover"
-                            />
-                        </div>
-                        <div>
-                            <p className="text-xs font-bold text-slate-900 group-hover:text-brand transition-colors">
-                                Kuwait
-                            </p>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
-                                KWD Currency
-                            </p>
-                        </div>
+                    {countries.map((country) => {
+                        const isSelected = selectedCountry?.code.toLowerCase() === country.code.toLowerCase();
+                        // Flag URL from backend storage
+                        const flagUrl = `${STORAGE_URL}/countries/${country.name.toLowerCase()}.png`;
 
-                        {selectedRegion === "kuwait" ? (
-                            <div className="absolute top-3 right-3 w-5 h-5 bg-brand text-white rounded-full flex items-center justify-center border-2 border-white shadow-lg shadow-brand/20 z-10 animate-bounce-once">
-                                <Check className="w-2.5 h-2.5" strokeWidth={3} />
-                            </div>
-                        ) : (
-                            <div className="absolute top-3 right-3 w-4 h-4 rounded-full border border-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        )}
-                    </button>
+                        return (
+                            <button
+                                key={country.id}
+                                onClick={() => {
+                                    selectCountry(country.code);
+                                    setIsOpen(false);
+                                }}
+                                className={`group border-2 p-5 rounded-2xl flex flex-col items-center justify-center gap-4 transition-all duration-300 relative text-center h-[155px] hover:scale-[1.03] hover:-translate-y-0.5 focus:outline-none
+                                    ${isSelected 
+                                        ? "border-brand bg-brand/[0.02] shadow-lg shadow-brand/5" 
+                                        : "border-slate-100 hover:border-slate-300 hover:bg-slate-50/20"
+                                    }`}
+                            >
+                                {/* Flag with custom shadowed capsule */}
+                                <div className="relative w-14 h-9 rounded-lg overflow-hidden shadow-md border border-slate-150 transition-transform duration-300 group-hover:scale-105 shrink-0">
+                                    <Image 
+                                        src={flagUrl} 
+                                        alt={`${country.name} Flag`} 
+                                        fill 
+                                        className="object-cover"
+                                    />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-bold text-slate-900 group-hover:text-brand transition-colors">
+                                        {country.name}
+                                    </p>
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
+                                        {country.code.toUpperCase()} Market
+                                    </p>
+                                </div>
 
-                    {/* UAE Card */}
-                    <button
-                        onClick={() => handleSelectRegion("uae")}
-                        className={`group border-2 p-5 rounded-2xl flex flex-col items-center justify-center gap-4 transition-all duration-300 relative text-center focus:outline-none h-[155px] hover:scale-[1.03] hover:-translate-y-0.5
-                            ${selectedRegion === "uae" 
-                                ? "border-brand bg-brand/[0.02] shadow-lg shadow-brand/5" 
-                                : "border-slate-100 hover:border-slate-300 hover:bg-slate-50/20"
-                            }`}
-                    >
-                        {/* Flag with custom shadowed capsule */}
-                        <div className="relative w-14 h-9 rounded-lg overflow-hidden shadow-md border border-slate-150 transition-transform duration-300 group-hover:scale-105 shrink-0">
-                            <Image 
-                                src="https://flagcdn.com/w80/ae.png" 
-                                alt="UAE Flag" 
-                                fill 
-                                className="object-cover"
-                            />
-                        </div>
-                        <div>
-                            <p className="text-xs font-bold text-slate-900 group-hover:text-brand transition-colors">
-                                United Arab Emirates
-                            </p>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
-                                AED Currency
-                            </p>
-                        </div>
-
-                        {selectedRegion === "uae" ? (
-                            <div className="absolute top-3 right-3 w-5 h-5 bg-brand text-white rounded-full flex items-center justify-center border-2 border-white shadow-lg shadow-brand/20 z-10 animate-bounce-once">
-                                <Check className="w-2.5 h-2.5" strokeWidth={3} />
-                            </div>
-                        ) : (
-                            <div className="absolute top-3 right-3 w-4 h-4 rounded-full border border-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        )}
-                    </button>
+                                {isSelected ? (
+                                    <div className="absolute top-3 right-3 w-5 h-5 bg-brand text-white rounded-full flex items-center justify-center border-2 border-white shadow-lg shadow-brand/20 z-10 animate-bounce-once">
+                                        <Check className="w-2.5 h-2.5" strokeWidth={3} />
+                                    </div>
+                                ) : (
+                                    <div className="absolute top-3 right-3 w-4 h-4 rounded-full border border-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                )}
+                            </button>
+                        );
+                    })}
                 </div>
 
                 {/* Subtitle Footer info bar */}

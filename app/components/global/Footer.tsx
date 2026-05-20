@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRegion } from "@/app/context/RegionContext";
+import { STORAGE_URL } from "@/app/data/products";
 
 // Inline SVGs — lucide-react no longer exports brand/social icons
 const IconInstagram = ({ size = 20 }: { size?: number }) => (
@@ -29,8 +31,9 @@ const IconX = ({ size = 20 }: { size?: number }) => (
     </svg>
 );
 
-export default function Footer() {
+export default function Footer({ categories = [] }: { categories?: any[] }) {
     const currentYear = new Date().getFullYear();
+    const { selectedCountry, logoUrl } = useRegion();
 
     return (
         <footer className="bg-[#F8FAFC] pt-20 text-[#333333]">
@@ -43,7 +46,7 @@ export default function Footer() {
                     <div className="lg:col-span-1 self-start space-y-6">
                         <Link href="/">
                             <div className="relative w-44 h-14  mb-4">
-                                <Image src="/logo/logo.png" alt="Bell & John" fill sizes="176px" className="object-contain object-left" />
+                                <Image src={logoUrl} alt="Bell & John" fill sizes="176px" className="object-contain object-left" />
                             </div>
                         </Link>
                         <div className="space-y-2">
@@ -73,12 +76,13 @@ export default function Footer() {
                     <div className="space-y-4">
                         <h4 className="text-[13px] font-bold tracking-tight">Main Categories</h4>
                         <ul className="space-y-2 text-[13px] text-[#666666]">
-                            <li><Link href="/products/category/stationery" className="hover:underline">Stationery</Link></li>
-                            <li><Link href="/products/category/digital-supplies" className="hover:underline">Digital Supplies</Link></li>
-                            <li><Link href="/products/category/office-machines" className="hover:underline">Office Machines</Link></li>
-                            <li><Link href="/products/category/office-furniture" className="hover:underline">Office Furniture</Link></li>
-                            <li><Link href="/products/category/packing-materials" className="hover:underline">Packing Materials</Link></li>
-                            <li><Link href="/products/category/breakroom" className="hover:underline">Breakroom</Link></li>
+                            {categories.slice(0, 6).map((cat, idx) => (
+                                <li key={idx}>
+                                    <Link href={`/products/category/${cat.slug || cat.id}`} className="hover:underline">
+                                        {cat.name || cat.title}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
@@ -128,10 +132,12 @@ export default function Footer() {
 
                 {/* Bottom Bar: Region & Copyright */}
                 <div className="flex flex-col md:flex-row justify-between items-center py-10 gap-6 border-t border-slate-200">
-                    <div className="flex items-center gap-2 text-[12px] font-medium">
-                        <Image src="https://flagcdn.com/w20/kw.png" width={18} height={12} alt="KW" className="rounded-[1px]" style={{ width: "auto", height: "auto" }} />
-                        <span>Kuwait</span>
-                    </div>
+                    {selectedCountry && (
+                        <div className="flex items-center gap-2 text-[12px] font-medium">
+                            <Image src={`${STORAGE_URL}/countries/${selectedCountry.name.toLowerCase()}.png`} width={18} height={12} alt={selectedCountry.code.toUpperCase()} className="rounded-[1px]" style={{ width: "auto", height: "auto" }} />
+                            <span>{selectedCountry.name}</span>
+                        </div>
+                    )}
 
                     <p className="text-[12px] text-[#666666]">
                         © {currentYear} Bell & John General Trading, Inc.

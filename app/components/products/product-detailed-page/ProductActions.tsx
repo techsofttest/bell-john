@@ -5,7 +5,6 @@ import { Heart, Check, Loader2 } from "lucide-react";
 import Button from "../../ui/Button";
 
 interface ProductActionsProps {
-    isOutOfStock: boolean;
     isAdding: boolean;
     isAdded: boolean;
     isWishlisted: boolean;
@@ -14,7 +13,6 @@ interface ProductActionsProps {
 }
 
 export default function ProductActions({
-    isOutOfStock,
     isAdding,
     isAdded,
     isWishlisted,
@@ -25,11 +23,9 @@ export default function ProductActions({
         <div className="flex flex-col sm:flex-row gap-4 items-center">
             <Button 
                 onClick={onAskQuote} 
-                disabled={isAdding || isAdded || isOutOfStock}
+                disabled={isAdding || isAdded}
                 variant="primary" 
-                className={`w-full sm:flex-1 h-14 bg-brand hover:bg-brand/90 text-white text-xs uppercase font-semibold tracking-[0.2em] rounded-2xl shadow-xl shadow-brand/20 transition-all active:scale-[0.98] border-none flex items-center justify-center ${
-                    isOutOfStock ? "bg-slate-300 hover:bg-slate-300 shadow-none cursor-not-allowed" : ""
-                }`}
+                className="w-full sm:flex-1 h-14 bg-brand hover:bg-brand/90 text-white text-xs uppercase font-semibold tracking-[0.2em] rounded-2xl shadow-xl shadow-brand/20 transition-all active:scale-[0.98] border-none flex items-center justify-center"
             >
                 <AnimatePresence mode="wait">
                     {isAdding ? (
@@ -71,7 +67,7 @@ export default function ProductActions({
                             transition={{ duration: 0.2 }}
                             className="flex items-center justify-center"
                         >
-                            {isOutOfStock ? "Out of Stock" : "Ask a Quote"}
+                            Ask a Quote
                         </motion.div>
                     )}
                 </AnimatePresence>

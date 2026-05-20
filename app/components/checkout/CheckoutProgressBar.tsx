@@ -23,7 +23,7 @@ export default function CheckoutProgressBar({ activeStep, steps, setActiveStep }
                 <div className="absolute top-[16px] left-8 right-8 h-[3px] bg-slate-100 rounded-full z-0 overflow-hidden">
                     <div 
                         className="h-full bg-brand rounded-full transition-all duration-300"
-                        style={{ width: `${((activeStep - 1) / 3) * 100}%` }}
+                        style={{ width: `${((activeStep - 1) / Math.max(1, steps.length - 1)) * 100}%` }}
                     />
                 </div>
 

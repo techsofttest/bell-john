@@ -7,14 +7,13 @@ import { useState } from "react";
 import Image from "next/image";
 
 interface Category {
-    title: string;
+    id?: number;
+    title?: string;
+    name?: string;
     slug: string;
     image: string;
-    subCategories: {
-        title: string;
-        slug: string;
-        items: { title: string; slug: string }[];
-    }[];
+    subCategories?: any[];
+    children?: any[];
 }
 
 interface MobileSideMenuProps {
@@ -69,10 +68,10 @@ export default function MobileSideMenu({ isOpen, onClose, categories }: MobileSi
                                         >
                                             <div className="flex items-center gap-4">
                                                 <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-sm">
-                                                    <Image src={cat.image} alt={cat.title} fill className="object-cover" />
+                                                    <Image src={cat.image ? (cat.image.startsWith('http') ? cat.image : `http://bellnjohn.test:90/storage/${cat.image}`) : 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600'} alt={cat.name || cat.title || 'Category'} fill className="object-cover" />
                                                 </div>
                                                 <span className={`font-bold transition-colors ${expandedCat === idx ? "text-brand" : "text-slate-700"}`}>
-                                                    {cat.title}
+                                                    {cat.name || cat.title}
                                                 </span>
                                             </div>
                                             <ChevronRight className={`w-5 h-5 text-slate-300 transition-transform duration-300 ${expandedCat === idx ? "rotate-90 text-brand" : ""}`} />
@@ -88,25 +87,25 @@ export default function MobileSideMenu({ isOpen, onClose, categories }: MobileSi
                                                     className="overflow-hidden"
                                                 >
                                                     <div className="pl-16 pr-2 py-4 space-y-6">
-                                                        {cat.subCategories.map((sub, sIdx) => (
+                                                        {(cat.children || cat.subCategories || []).map((sub: any, sIdx: number) => (
                                                             <div key={sIdx}>
                                                                 <Link 
-                                                                    href={`/products/category/${cat.slug}/${sub.slug}`}
+                                                                    href={`/products/category/${cat.slug || cat.id}/${sub.slug || sub.id}`}
                                                                     onClick={onClose}
                                                                     className="text-[11px] font-bold uppercase tracking-widest text-slate-400 block mb-3 hover:text-brand transition-colors"
                                                                 >
-                                                                    {sub.title}
+                                                                    {sub.name || sub.title}
                                                                 </Link>
                                                                 <ul className="space-y-3">
-                                                                    {sub.items.map((item, iIdx) => (
+                                                                    {(sub.children || sub.items || []).map((item: any, iIdx: number) => (
                                                                         <li key={iIdx}>
                                                                             <Link 
-                                                                                href={`/products/category/${cat.slug}/${sub.slug}/${item.slug}`}
+                                                                                href={`/products/category/${cat.slug || cat.id}/${sub.slug || sub.id}/${item.slug || item.id}`}
                                                                                 onClick={onClose}
                                                                                 className="text-sm text-slate-600 hover:text-brand flex items-center gap-2"
                                                                             >
                                                                                 <Package className="w-3.5 h-3.5 text-slate-200" />
-                                                                                {item.title}
+                                                                                {item.name || item.title}
                                                                             </Link>
                                                                         </li>
                                                                     ))}

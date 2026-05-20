@@ -49,16 +49,12 @@ export default function ProductCard({
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // DETERMINE THE FINAL TAG TO DISPLAY
-    // If out of stock, we show that as the primary tag
-    const isOutOfStock = availability?.toLowerCase() === 'out of stock';
-    const displayTag = isOutOfStock 
-        ? { label: "Out of Stock", scheme: 'outOfStock' as const } 
-        : tag;
+    const displayTag = tag;
 
     const schemeClasses = tagColorSchemes[displayTag?.scheme || 'standard'];
 
     return (
-        <div className={`group relative flex flex-col bg-white border border-slate-100 rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-slate-200/60 w-full ${isOutOfStock ? 'opacity-90' : ''}`}>
+        <div className="group relative flex flex-col bg-white border border-slate-100 rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-slate-200/60 w-full">
             {/* 1. Image Area */}
             <Link href={`/products/${id}`} className="relative h-[160px] md:h-[220px] w-full bg-slate-50 overflow-hidden block">
                 <Image
@@ -66,7 +62,7 @@ export default function ProductCard({
                     alt={title}
                     fill
                     sizes="(max-width: 768px) 165px, 300px"
-                    className={`object-cover transition-transform duration-700 group-hover:scale-110 ${isOutOfStock ? 'grayscale-[0.5]' : ''}`}
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
                 {/* DYNAMIC TAG */}
@@ -147,15 +143,14 @@ export default function ProductCard({
                 <div className="mt-auto">
                     <Button
                         variant="primary"
-                        disabled={isOutOfStock}
                         onClick={(e) => {
                             e.preventDefault();
                             setIsModalOpen(true);
                         }}
-                        className={`group/btn w-full h-[44px] bg-brand text-white hover:bg-brand/90 text-[10px] md:text-xs uppercase tracking-[0.15em] font-bold flex items-center justify-center gap-1.5 md:gap-2.5 transition-all duration-500 shadow-lg shadow-brand/10 hover:shadow-brand/25 border-none px-4 rounded-xl ${isOutOfStock ? 'bg-slate-300 cursor-not-allowed shadow-none' : ''}`}
+                        className="group/btn w-full h-[44px] bg-brand text-white hover:bg-brand/90 text-[10px] md:text-xs uppercase tracking-[0.15em] font-bold flex items-center justify-center gap-1.5 md:gap-2.5 transition-all duration-500 shadow-lg shadow-brand/10 hover:shadow-brand/25 border-none px-4 rounded-xl"
                     >
-                        <span>{isOutOfStock ? 'Out of Stock' : 'Ask a Quote'}</span>
-                        {!isOutOfStock && <ArrowRight className="w-3.5 h-3.5 md:w-4.5 md:h-4.5 transition-transform duration-500 group-hover/btn:translate-x-2" strokeWidth={3} />}
+                        <span>Ask a Quote</span>
+                        <ArrowRight className="w-3.5 h-3.5 md:w-4.5 md:h-4.5 transition-transform duration-500 group-hover/btn:translate-x-2" strokeWidth={3} />
                     </Button>
                 </div>
             </div>

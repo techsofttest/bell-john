@@ -7,6 +7,8 @@ import VisionMission from "../components/global/VisionMission";
 import ValueProposition from "../components/global/ValueProposition";
 // import ContactSection from "../components/global/ContactSection";
 import MarqueeStrip from "../components/global/MarqueeStrip";
+import { getProducts, getCategories } from "@/app/data/products";
+import { cookies } from "next/headers";
 
 // Mock Offers for the Home Page Promo Banner
 const mockOffers = [
@@ -18,7 +20,7 @@ const mockOffers = [
     link: "/products/category/stationery",
     image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=1200",
   },
-  {
+  {   
     id: 2,
     tagline: "Furniture Services",
     title: "Free Installation on Office Desks.",
@@ -28,14 +30,27 @@ const mockOffers = [
   }
 ];
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const currentCountry = cookieStore.get("bj_selected_country")?.value || "";
+
+  // Fetch featured products dynamically from the API
+  const { products: featuredProducts } = await getProducts({ featured: "true", per_page: "10", country: currentCountry });
+
+  // Fetch categories dynamically
+  const categories = await getCategories();
+
   return (
     <div className="flex flex-col min-h-screen">
       <HeroSlider />
 
-      <FeaturedProducts />
+      {featuredProducts.length > 0 && (
+        <FeaturedProducts products={featuredProducts} />
+      )}
 
-      <CoreCategories />
+      {categories.length > 0 && (
+        <CoreCategories categories={categories} />
+      )}
 
       {/* Promo Banner Interruption with Data */}
       <div className="max-w-[1400px] mx-auto w-full px-6 lg:px-12 my-10">

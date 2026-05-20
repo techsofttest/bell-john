@@ -3,6 +3,8 @@ import { getProductById, getRelatedProducts } from "@/app/data/products";
 import ProductDetailsClient from "@/app/components/products/product-detailed-page/ProductDetailsClient";
 import ProductCarousel from "@/app/components/products/ProductCarousel";
 
+import { cookies } from "next/headers";
+
 export default async function ProductDetailsPage({
     params
 }: {
@@ -16,13 +18,16 @@ export default async function ProductDetailsPage({
         notFound();
     }
 
-    const product = getProductById(slug);
+    const cookieStore = await cookies();
+    const currentCountry = cookieStore.get("bj_selected_country")?.value || "";
+
+    const product = await getProductById(slug, currentCountry);
 
     if (!product) {
         notFound();
     }
 
-    const relatedProducts = getRelatedProducts(product);
+    const relatedProducts = await getRelatedProducts(product, 4, currentCountry);
 
     return (
         <div className="bg-[#F8FAFC] pb-4">

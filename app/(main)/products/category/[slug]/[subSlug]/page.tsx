@@ -4,67 +4,8 @@ import ProductCard from "@/app/components/products/ProductCard";
 import SidebarFilter from "@/app/components/products/SidebarFilter";
 import SortDropdown from "@/app/components/products/SortDropdown";
 import { notFound } from "next/navigation";
-
-// --- TEMPORARY MOCK DATA (Ideally fetched from your database) ---
-const mockSubCategoryInfo = {
-    title: "Writing Instruments",
-    slug: "writing-instruments",
-    parentCategory: { title: "Office Stationery & Supplies", slug: "stationery" },
-    // Notice how the children are now treated as the filterable elements
-    subCategories: [
-        { title: "Premium Pens", slug: "premium-pens", count: 24, children: [] },
-        { title: "Highlighters", slug: "highlighters", count: 15, children: [] },
-        { title: "Markers", slug: "markers", count: 50, children: [] },
-    ]
-};
-
-const mockProducts = [
-    { 
-        id: 2, 
-        title: "Pilot G2 Premium Gel Pens (Pack of 12)", 
-        category: "Writing Instruments", 
-        subCategory: "premium-pens", 
-        image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", 
-        tag: { label: "Standard", scheme: "standard" as const }, 
-        availability: "In Stock",
-        variants: {
-            colors: ["Black", "Blue", "Red", "Green"],
-            packaging: ["Standard Box", "Gift Tin"]
-        }
-    },
-    { 
-        id: 14, 
-        title: "Parker Jotter Ballpoint Pen - Blue", 
-        category: "Writing Instruments", 
-        subCategory: "premium-pens", 
-        image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", 
-        tag: { label: "Best Seller", scheme: "bestSeller" as const }, 
-        availability: "In Stock",
-        variants: {
-            sizes: ["Fine", "Medium", "Broad"],
-            colors: ["Silver", "Gold", "Black"]
-        }
-    },
-    { id: 15, title: "Lamy Safari Fountain Pen - Charcoal", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock", variants: { sizes: ["Fine", "Medium"], colors: ["Charcoal", "Red", "Yellow"] } },
-    { id: 16, title: "Uni-ball Onyx Rollerball Pens (12pk)", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock" },
-    { 
-        id: 17, 
-        title: "Sharpie Permanent Markers - Fine Point", 
-        category: "Writing Instruments", 
-        subCategory: "markers", 
-        image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600", 
-        tag: { label: "Best Seller", scheme: "bestSeller" as const }, 
-        availability: "In Stock",
-        variants: {
-            packaging: ["Pack of 5", "Pack of 12", "Bulk 50"]
-        }
-    },
-    { id: 18, title: "Staedtler Triplus Fineliners (20 Colors)", category: "Writing Instruments", subCategory: "highlighters", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600", availability: "Limited Stock", variants: { packaging: ["Wallet of 20", "Desk Set of 36"] } },
-    { id: 19, title: "Pentel EnerGel RTX Retractable Pens", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock", variants: { colors: ["Black", "Blue", "Violet"] } },
-    { id: 20, title: "Faber-Castell Grip 2011 Mechanical Pencil", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?q=80&w=600", availability: "In Stock", variants: { sizes: ["0.5mm", "0.7mm"] } },
-    { id: 21, title: "Zebra Sarasa Clip 0.5mm Retractable", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?q=80&w=600", availability: "In Stock" },
-    { id: 22, title: "Cross Classic Century Medalist Pen", category: "Writing Instruments", subCategory: "premium-pens", image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600", availability: "In Stock" },
-];
+import { getCategoryDetails, getProducts } from "@/app/data/products";
+import { cookies } from "next/headers";
 
 export default async function SubCategoryListingPage({
     params,
@@ -76,39 +17,59 @@ export default async function SubCategoryListingPage({
     const resolvedParams = await params;
     const resolvedSearchParams = await searchParams;
     const currentSlug = resolvedParams?.slug || "unknown";
-    const subSlug = resolvedParams?.subSlug || "unknown";
+    const currentSubSlug = resolvedParams?.subSlug || "unknown";
     const sortBy = resolvedSearchParams?.sort || "newest";
     const filterSub = resolvedSearchParams?.sub;
 
-    // 1. Calculate Dynamic Counts for Sidebar
+    const cookieStore = await cookies();
+    const currentCountry = cookieStore.get("bj_selected_country")?.value || "";
+
+    // Fetch SubCategory Details
+    const categoryData = await getCategoryDetails(currentSubSlug);
+    if (!categoryData) {
+        notFound();
+    }
+    
+    // Fetch Parent Category for breadcrumb
+    const parentCategoryData = await getCategoryDetails(currentSlug);
+    if (!parentCategoryData) {
+        notFound();
+    }
+
+    // Map API category details to Sidebar category tree structure
     const subCategoryInfo = {
-        ...mockSubCategoryInfo,
-        subCategories: mockSubCategoryInfo.subCategories.map((subCat: any) => ({
-            ...subCat,
-            // In the sub-category page, the top-level items in sidebar are the filters themselves
-            count: mockProducts.filter(p => p.subCategory === subCat.slug).length,
-            children: (subCat.children || []).map((child: any) => ({
-                ...child,
-                count: mockProducts.filter(p => p.subCategory === child.slug).length
+        title: categoryData.name,
+        slug: categoryData.slug,
+        parentCategory: { title: parentCategoryData.name, slug: parentCategoryData.slug },
+        subCategories: (categoryData.children || []).map((sub: any) => ({
+            title: sub.name,
+            slug: sub.slug,
+            count: sub.count || 0,
+            children: (sub.children || []).map((child: any) => ({
+                title: child.name,
+                slug: child.slug,
+                count: child.count || 0
             }))
         }))
     };
 
-    // 2. Initial Product Selection & Filtering
-    let products = [...mockProducts];
+    // Build API query parameters
+    const paramsMap: Record<string, string> = {
+        sub_category: currentSubSlug,
+        per_page: "100",
+        sort: sortBy
+    };
 
-    // Filter Logic
+    if (currentCountry) {
+        paramsMap.country = currentCountry;
+    }
+
     if (filterSub) {
-        products = products.filter(p => p.subCategory === filterSub);
+        paramsMap.sub_sub_category = filterSub;
     }
 
-    // 3. Sort Logic
-    switch (sortBy) {
-        case "newest": products.sort((a, b) => Number(b.id) - Number(a.id)); break;
-        case "best-seller": products.sort((a, b) => (a.tag?.label === "Best Seller" ? -1 : 1)); break;
-        case "a-z": products.sort((a, b) => a.title.localeCompare(b.title)); break;
-        case "z-a": products.sort((a, b) => b.title.localeCompare(a.title)); break;
-    }
+    // Fetch products
+    const { products } = await getProducts(paramsMap);
 
     return (
         <div className="bg-[#F4F5F7] min-h-screen pb-24 font-sans">
@@ -139,7 +100,6 @@ export default async function SubCategoryListingPage({
                                 {subCategoryInfo.title} <span className="text-sm font-normal text-slate-500 ml-2">({products.length} Items)</span>
                             </h1>
                         </div>
-
                         <div className="flex items-center gap-3">
                             <div className="hidden lg:block">
                                 <SortDropdown />
@@ -149,32 +109,42 @@ export default async function SubCategoryListingPage({
                             </button>
                         </div>
                     </div>
+                    {/* Mobile Sort Dropdown */}
+                    <div className="lg:hidden mt-4 pt-4 border-t border-slate-100">
+                        <SortDropdown />
+                    </div>
                 </div>
             </div>
 
             {/* Main Layout */}
             <div className="max-w-[1400px] mx-auto px-4 lg:px-8 pt-6 flex flex-col lg:flex-row gap-6">
 
-                {/* Reusing the Sidebar, but passing the sub-category data to act as filters */}
-                <SidebarFilter categoryTree={subCategoryInfo} currentSlug={subSlug} />
+                {/* Left Sidebar Component */}
+                <SidebarFilter 
+                    categoryTree={subCategoryInfo} 
+                    currentSlug={`${subCategoryInfo.parentCategory.slug}/${subCategoryInfo.slug}`}
+                />
 
-                {/* Right Content Area - Unified Grid */}
+                {/* Right Content Area */}
                 <main className="flex-1 w-full overflow-hidden">
-                    {/* Grid with fallback */}
-                    {products.length > 0 ? (
-                        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
-                            {products.map((product: any) => (
-                                <ProductCard key={product.id} {...product} />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="py-24 text-center bg-white rounded-xl border-2 border-dashed border-slate-200">
-                            <p className="text-slate-400 text-sm italic">No products match the selected filter.</p>
-                            <Link href={subSlug} className="mt-4 inline-block text-brand font-bold text-xs uppercase tracking-widest hover:underline">
-                                Clear Filters
+                    
+                    {/* Render Results */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
+                        {products.map((product: any) => (
+                            <ProductCard key={product.id} {...product} />
+                        ))}
+                    </div>
+
+                    {/* Empty State Fallback */}
+                    {products.length === 0 && (
+                        <div className="py-24 text-center border-2 border-dashed border-slate-200 rounded-xl bg-white">
+                            <p className="text-slate-400 text-sm italic">No products found matching the criteria.</p>
+                            <Link href={`/products/category/${subCategoryInfo.parentCategory.slug}/${subCategoryInfo.slug}`} className="mt-4 inline-block text-brand font-bold text-xs uppercase tracking-widest hover:underline">
+                                Reset Filters
                             </Link>
                         </div>
                     )}
+
                 </main>
             </div>
         </div>

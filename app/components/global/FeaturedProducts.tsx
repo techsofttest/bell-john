@@ -12,17 +12,19 @@ const tags: Record<string, ProductTag> = {
     featured: { label: "Featured", icon: <Tag size={12} />, scheme: 'standard' }
 };
 
-const featuredProducts = [
-    { id: 1, title: "Target Printable Computer Labels - 100 Sheets", category: "Stationery", image: "/products/printer.jpg", tag: tags.bestSeller },
-    { id: 2, title: "Leitz 180° Hardboard F/S Lever Arch Files", category: "Office Stationery", image: "/products/Arch Files.jpg", tag: tags.new },
-    { id: 3, title: "HP V241ib FHD 23.8-inch Monitor", category: "Digital Supplies", image: "/products/HP V241ib FHD 23.8-inch Monitor.png", tag: tags.featured },
-    { id: 4, title: "3M Post-it Canary Yellow Sticky Notes", category: "Office Stationery", image: "/products/3M Post-it Canary Yellow Sticky Notes.avif" }, // Optional tag example
-    { id: 5, title: "Ergonomic Corporate Workspace Chair", category: "Office Furniture", image: "/banner-products/meeting-table.png", tag: tags.premium },
-    { id: 6, title: "Durable Duraclip 30 A4 Presentation File", category: "Office Stationery", image: "/products/Durable Duraclip 30 A4 Presentation File.jfif", tag: tags.new },
-    { id: 7, title: "Fellowes Powershred 99Ci Cross-Cut Shredder", category: "Office Machines", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=600", tag: tags.bestSeller },
-];
+interface Product {
+    id: string | number;
+    title: string;
+    category: string;
+    image: string;
+    tag?: ProductTag;
+}
 
-export default function FeaturedProducts() {
+interface FeaturedProductsProps {
+    products: Product[];
+}
+
+export default function FeaturedProducts({ products }: FeaturedProductsProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
 
     const scroll = (direction: "left" | "right") => {
@@ -71,7 +73,7 @@ export default function FeaturedProducts() {
                      [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
                      "
                 >
-                    {featuredProducts.map((product) => (
+                    {products.map((product) => (
                         <div key={product.id} className="snap-start py-4 shrink-0 w-[60vw] md:w-[320px] lg:w-[calc(20%-25.6px)]"> {/* Vertical padding for hover shadow */}
                             <ProductCard {...product} />
                         </div>

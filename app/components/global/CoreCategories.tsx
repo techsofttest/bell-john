@@ -2,46 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
-
-// Mock Data: 4 Core Categories + 2 Extras
-const categories = [
-    {
-        id: 'stationery',
-        title: "Stationery",
-        image: "/category/stationery.jpg"
-    },
-    {
-        id: 'digital-supplies',
-        title: "Digital Supplies",
-        image: "/category/Digital Supplies.jpg"
-    },
-    {
-        id: 'office-machines',
-        title: "Office Machines",
-        image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?q=80&w=600&auto=format&fit=crop"
-    },
-    {
-        id: 'office-furniture',
-        title: "Office Furniture",
-        image: "https://images.unsplash.com/photo-1505797149-43b0069ec26b?q=80&w=600&auto=format&fit=crop"
-    },
-    {
-        id: 'breakroom',
-        title: "Breakroom",
-        image: "/category/Breakroom.jpg"
-    },
-    {
-        id: 'packing-materials',
-        title: "Packing Materials",
-        image: "/category/packing supplies.jpg"
-    },
-];
+import { STORAGE_URL } from "@/app/data/products";
 
 interface CoreCategoriesProps {
     hideTitle?: boolean;
+    categories?: any[];
 }
 
-export default function CoreCategories({ hideTitle = false }: CoreCategoriesProps) {
+export default function CoreCategories({ hideTitle = false, categories = [] }: CoreCategoriesProps) {
+    
+    const encodeImageUrl = (imagePath: string | null | undefined): string => {
+        if (!imagePath) return 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600';
+        if (imagePath.startsWith('http') || imagePath.startsWith('data:')) return imagePath;
+        const segments = imagePath.split('/').map(segment => encodeURIComponent(segment));
+        return `${STORAGE_URL}/${segments.join('/')}`;
+    };
+    
     return (
         // Reduced vertical padding from py-20 to py-10 md:py-12
         <section className="py-10 md:py-12 relative overflow-hidden bg-gradient-to-b from-[#F0F7FF] via-[#F8FAFC] to-white border-b border-slate-100">
@@ -70,15 +46,15 @@ export default function CoreCategories({ hideTitle = false }: CoreCategoriesProp
                     {categories.map((category) => (
                         <Link
                             key={category.id}
-                            href={`/products/category/${category.id}`}
+                            href={`/products/category/${category.slug || category.id}`}
                             // Added flex-shrink-0 to prevent squishing, and snap-start for clean mobile swiping
                             className="group flex flex-col items-center w-[110px] md:w-[140px] flex-shrink-0 snap-start outline-none"
                         >
                             {/* Image Container */}
                             <div className="w-full aspect-square bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative mb-4 group-hover:-translate-y-2 group-hover:shadow-xl group-hover:shadow-brand/20 group-hover:border-brand/40 transition-all duration-500">
                                 <Image
-                                    src={category.image}
-                                    alt={category.title}
+                                    src={encodeImageUrl(category.image)}
+                                    alt={category.name || category.title}
                                     fill
                                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                                     sizes="(max-width: 768px) 110px, 140px"
@@ -88,7 +64,7 @@ export default function CoreCategories({ hideTitle = false }: CoreCategoriesProp
 
                             {/* Category Title */}
                             <h3 className="text-sm md:text-base font-semibold text-slate-800 text-center group-hover:text-brand transition-colors duration-300">
-                                {category.title}
+                                {category.name || category.title}
                             </h3>
                         </Link>
                     ))}
