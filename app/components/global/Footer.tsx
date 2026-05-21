@@ -40,7 +40,7 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
                 {/* Top Section: Logo + Columns + Socials */}
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-12 mb-20">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 mb-20">
 
                     {/* 1. Logo Column & Contact Info */}
                     <div className="lg:col-span-1 self-start space-y-6">
@@ -58,18 +58,6 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
                                 <li>Phone: <a href="tel:+965-224-59084" className="hover:text-brand hover:underline transition-colors">+965-224-59084</a></li>
                             </ul>
                         </div>
-                    </div>
-
-                    {/* 2. Brand/Company */}
-                    <div className="space-y-4">
-                        <h4 className="text-[13px] font-bold tracking-tight">Bell & John</h4>
-                        <ul className="space-y-2 text-[13px] text-[#666666]">
-                            <li><Link href="/about" className="hover:underline">About Us</Link></li>
-                            <li><Link href="/careers" className="hover:underline">Careers</Link></li>
-                            <li><Link href="/values" className="hover:underline">Our Values</Link></li>
-                            <li><Link href="/press" className="hover:underline">Press</Link></li>
-                            <li><Link href="/timeline" className="hover:underline">Timeline</Link></li>
-                        </ul>
                     </div>
 
                     {/* 3. Main Categories */}
@@ -102,21 +90,13 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
                     <div className="space-y-4">
                         <h4 className="text-[13px] font-bold tracking-tight">Get Help</h4>
                         <ul className="space-y-2 text-[13px] text-[#666666]">
-                            <li><Link href="/contact" className="hover:underline">Customer Service</Link></li>
-                            <li><Link href="/quote" className="hover:underline">Request a Quote</Link></li>
-                            <li><Link href="/shipping" className="hover:underline">Delivery Info</Link></li>
+                            <li><Link href="/contact" className="hover:underline">Contact Us</Link></li>
                             <li><Link href="/faq" className="hover:underline">FAQs</Link></li>
                         </ul>
                     </div>
 
                     {/* 6. Newsletter & Socials */}
                     <div className="lg:col-span-1 space-y-8">
-                        <div className="space-y-4">
-                            <h4 className="text-[13px] font-bold tracking-tight">Sign up for our newsletter</h4>
-                            <button className="w-full py-2.5 rounded-md border border-black text-[12px] font-bold hover:bg-black hover:text-white transition-all duration-300">
-                                Email sign up
-                            </button>
-                        </div>
 
                         <div className="space-y-4">
                             <h4 className="text-[13px] font-bold tracking-tight">Follow Us</h4>
