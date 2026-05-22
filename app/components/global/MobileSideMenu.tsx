@@ -68,7 +68,7 @@ export default function MobileSideMenu({ isOpen, onClose, categories }: MobileSi
                                         >
                                             <div className="flex items-center gap-4">
                                                 <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-sm">
-                                                    <Image src={cat.image ? (cat.image.startsWith('http') ? cat.image : `http://bellnjohn.test:90/storage/${cat.image}`) : 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600'} alt={cat.name || cat.title || 'Category'} fill className="object-cover" />
+                                                    <Image src={cat.image ? (cat.image.startsWith('http') ? cat.image : `${process.env.NEXT_PUBLIC_STORAGE_URL || 'http://bellnjohn.test:90/storage'}/${cat.image}`) : 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600'} alt={cat.name || cat.title || 'Category'} fill className="object-cover" />
                                                 </div>
                                                 <span className={`font-bold transition-colors ${expandedCat === idx ? "text-brand" : "text-slate-700"}`}>
                                                     {cat.name || cat.title}

@@ -133,7 +133,8 @@ export default function CheckoutPage() {
                 headers["Authorization"] = `Bearer ${token}`;
             }
 
-            const response = await fetch("http://bellnjohn.test:90/api/orders", {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://bellnjohn.test:90/api';
+            const response = await fetch(`${apiUrl}/orders`, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(payload)
