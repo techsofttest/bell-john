@@ -28,9 +28,9 @@ export const STORAGE_URL = process.env.NEXT_PUBLIC_STORAGE_URL || 'http://bellnj
 
 function encodeImageUrl(imagePath: string | null | undefined, storageUrl: string): string {
     if (!imagePath) return 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600';
+    // If already a full URL (pre-encoded by the backend), use as-is
     if (imagePath.startsWith('http') || imagePath.startsWith('data:')) return imagePath;
-    
-    // Split by "/" and encode each segment, then join
+    // Fallback: encode each path segment individually for special chars
     const segments = imagePath.split('/').map(segment => encodeURIComponent(segment));
     return `${storageUrl}/${segments.join('/')}`;
 }
@@ -64,11 +64,20 @@ export function mapLaravelProduct(laravelProduct: any): Product {
     }
     
     // Map image URLs
+    // Prefer pre-encoded URLs from the backend (image_url / additional_images_urls)
+    // to avoid encoding issues with filenames containing special chars (®, ", commas, etc.)
     const storageUrl = STORAGE_URL;
-    const mainImage = encodeImageUrl(laravelProduct.image, storageUrl);
-        
+    const mainImage = laravelProduct.image_url
+        ? laravelProduct.image_url
+        : encodeImageUrl(laravelProduct.image, storageUrl);
+
     const additionalImages: string[] = [];
-    if (Array.isArray(laravelProduct.additional_images)) {
+    if (Array.isArray(laravelProduct.additional_images_urls) && laravelProduct.additional_images_urls.length > 0) {
+        // Use pre-encoded URLs provided by the backend
+        laravelProduct.additional_images_urls.forEach((url: string) => {
+            if (url) additionalImages.push(url);
+        });
+    } else if (Array.isArray(laravelProduct.additional_images)) {
         laravelProduct.additional_images.forEach((img: string) => {
             if (img) {
                 additionalImages.push(encodeImageUrl(img, storageUrl));

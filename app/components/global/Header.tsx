@@ -1,15 +1,17 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
     ChevronDown,
     Heart,
     ShoppingCart,
     Search,
     User,
-    TrendingUp
+    TrendingUp,
+    Loader2
 } from "lucide-react";
 import { useWishlist } from "@/app/context/WishlistContext";
 import { useCart } from "@/app/context/CartContext";
@@ -22,7 +24,7 @@ import MobileSearchOverlay from "./MobileSearchOverlay";
 import MobileSideMenu from "./MobileSideMenu";
 import MobileMoreModal from "./MobileMoreModal";
 
-import { STORAGE_URL } from "@/app/data/products";
+import { STORAGE_URL, API_URL } from "@/app/data/products";
 
 // Add helper to encode images
 const encodeImageUrl = (imagePath: string | null | undefined): string => {
@@ -40,12 +42,16 @@ const popularSearches = [
 ];
 
 export default function Header({ categories = [] }: { categories?: any[] }) {
+    const router = useRouter();
     const { wishlist } = useWishlist();
     const { cartItems, openCart } = useCart();
     const { selectedCountry, countries, selectCountry, logoUrl } = useRegion();
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeCategory, setActiveCategory] = useState<number | null>(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [suggestions, setSuggestions] = useState<any[]>([]);
+    const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
     // Mobile States
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -76,6 +82,60 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    // Debounced suggestions fetch
+    useEffect(() => {
+        if (searchQuery.trim().length < 2) {
+            setSuggestions([]);
+            setIsLoadingSuggestions(false);
+            return;
+        }
+        
+        setIsLoadingSuggestions(true);
+        const timer = setTimeout(async () => {
+            try {
+                const res = await fetch(
+                    `${API_URL}/products/suggestions?q=${encodeURIComponent(searchQuery.trim())}`,
+                    { 
+                        cache: 'no-store',
+                        headers: {
+                            'Accept': 'application/json',
+                        }
+                    }
+                );
+                
+                if (!res.ok) {
+                    console.error(`Search failed with status ${res.status}`);
+                    setSuggestions([]);
+                    return;
+                }
+                
+                const json = await res.json();
+                
+                // Validate response structure
+                if (json.status === 'success' && Array.isArray(json.data)) {
+                    setSuggestions(json.data);
+                } else {
+                    setSuggestions([]);
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                setSuggestions([]);
+            } finally {
+                setIsLoadingSuggestions(false);
+            }
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
+
+    const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && searchQuery.trim().length >= 2) {
+            e.preventDefault();
+            setIsSearchFocused(false);
+            router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+            setSearchQuery("");
+        }
+    };
 
     return (
         <>
@@ -131,29 +191,93 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                     <input
                                         type="text"
                                         placeholder="Search products..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
                                         onFocus={() => setIsSearchFocused(true)}
+                                        onKeyDown={handleSearchKeyDown}
                                         className={`pl-4 pr-10 py-2 bg-white border border-slate-200 text-sm font-medium transition-all duration-300 outline-none rounded-lg focus:border-brand/30
-                                            ${isSearchFocused ? "w-64 shadow-sm" : "w-48"}
+                                            ${isSearchFocused ? "w-72 shadow-sm" : "w-48"}
                                         `}
                                     />
-                                    <Search className="absolute right-3 h-4 w-4 text-slate-400" strokeWidth={2} />
+                                    {isLoadingSuggestions
+                                        ? <Loader2 className="absolute right-3 h-4 w-4 text-slate-400 animate-spin" />
+                                        : <Search className="absolute right-3 h-4 w-4 text-slate-400" strokeWidth={2} />
+                                    }
                                 </div>
 
-                                {/* Search Suggestions */}
-                                <div className={`absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-200 shadow-2xl rounded-xl overflow-hidden transition-all duration-200 origin-top z-[100] ${isSearchFocused ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"}`}>
-                                    <div className="p-4">
-                                        <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3 px-2 flex items-center gap-2">
-                                            <TrendingUp className="w-3.5 h-3.5" /> Popular
-                                        </h4>
-                                        <div className="flex flex-col gap-1">
-                                            {popularSearches.map((term, idx) => (
-                                                <button key={idx} className="text-left px-3 py-2 text-sm text-slate-600 hover:text-brand hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-3">
-                                                    <Search className="w-3.5 h-3.5 text-slate-300" />
-                                                    {term}
-                                                </button>
-                                            ))}
+                                {/* Search Suggestions Dropdown */}
+                                <div className={`absolute top-[calc(100%+8px)] left-0 w-80 bg-white border border-slate-200 shadow-2xl rounded-xl overflow-hidden transition-all duration-200 origin-top z-[100] ${isSearchFocused ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"}`}>
+                                    {searchQuery.trim().length < 2 ? (
+                                        // Empty state: popular searches
+                                        <div className="p-4">
+                                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3 px-2 flex items-center gap-2">
+                                                <TrendingUp className="w-3.5 h-3.5" /> Popular
+                                            </h4>
+                                            <div className="flex flex-col gap-1">
+                                                {popularSearches.map((term, idx) => (
+                                                    <button
+                                                        key={idx}
+                                                        onMouseDown={() => {
+                                                            setSearchQuery(term);
+                                                        }}
+                                                        className="text-left px-3 py-2 text-sm text-slate-600 hover:text-brand hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-3"
+                                                    >
+                                                        <Search className="w-3.5 h-3.5 text-slate-300" />
+                                                        {term}
+                                                    </button>
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : suggestions.length > 0 ? (
+                                        // Results
+                                        <div className="py-2">
+                                            {suggestions.map((product) => (
+                                                <Link
+                                                    key={product.id}
+                                                    href={`/products/${product.slug}`}
+                                                    onMouseDown={(e) => {
+                                                        e.preventDefault();
+                                                        setIsSearchFocused(false);
+                                                        router.push(`/products/${product.slug}`);
+                                                    }}
+                                                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors group"
+                                                >
+                                                    <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-slate-100 flex-shrink-0 bg-slate-50 flex items-center justify-center">
+                                                        <Image
+                                                            src={product.image_url || 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600'}
+                                                            alt={product.name}
+                                                            fill
+                                                            className="object-contain p-1"
+                                                            onError={(e) => {
+                                                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600';
+                                                            }}
+                                                        />
+                                                    </div>
+                                                    <span className="text-sm text-slate-700 group-hover:text-brand transition-colors line-clamp-2 leading-snug">
+                                                        {product.name}
+                                                    </span>
+                                                </Link>
+                                            ))}
+                                            <div className="border-t border-slate-100 mt-1 pt-1 px-2 pb-2">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setIsSearchFocused(false);
+                                                        router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+                                                    }}
+                                                    className="flex items-center justify-center gap-2 w-full py-2 text-xs font-bold text-brand hover:underline hover:bg-slate-50 rounded transition-colors"
+                                                >
+                                                    See all results for &ldquo;{searchQuery}&rdquo; →
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        // No results
+                                        <div className="px-4 py-8 text-center">
+                                            <Search className="w-8 h-8 text-slate-200 mx-auto mb-2" />
+                                            <p className="text-sm text-slate-500">No products found for <span className="font-semibold text-slate-800">&ldquo;{searchQuery}&rdquo;</span></p>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 

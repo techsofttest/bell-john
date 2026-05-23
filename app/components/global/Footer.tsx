@@ -74,15 +74,21 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
                         </ul>
                     </div>
 
-                    {/* 4. Solutions */}
+                    {/* 4. Featured Categories */}
                     <div className="space-y-4">
-                        <h4 className="text-[13px] font-bold tracking-tight">Solutions</h4>
+                        <h4 className="text-[13px] font-bold tracking-tight">Featured Categories</h4>
                         <ul className="space-y-2 text-[13px] text-[#666666]">
-                            <li><Link href="#" className="hover:underline">Bulk Ordering</Link></li>
-                            <li><Link href="#" className="hover:underline">Corporate Accounts</Link></li>
-                            <li><Link href="#" className="hover:underline">Procurement Services</Link></li>
-                            <li><Link href="#" className="hover:underline">Custom Printing</Link></li>
-                            <li><Link href="#" className="hover:underline">Office Setup</Link></li>
+                            {categories
+                                .filter((cat) => cat.is_featured === true || cat.is_featured === 1 || cat.is_featured === "1")
+                                .slice(0, 6)
+                                .map((cat, idx) => (
+                                    <li key={idx}>
+                                        <Link href={`/products/category/${cat.slug || cat.id}`} className="hover:underline">
+                                            {cat.name || cat.title}
+                                        </Link>
+                                    </li>
+                                ))
+                            }
                         </ul>
                     </div>
 

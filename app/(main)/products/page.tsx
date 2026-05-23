@@ -8,8 +8,9 @@ import PromoBanner from "@/app/components/global/PromoBanner";
 // Importing Product-Specific Components
 import HighlightBanner from "@/app/components/products/HighlightBanner";
 import ProductCarousel from "@/app/components/products/ProductCarousel";
+import ProductCard from "@/app/components/products/ProductCard";
 
-import { getProductsByCategory, getCategories } from "@/app/data/products";
+import { getProductsByCategory, getCategories, searchProducts } from "@/app/data/products";
 import { cookies } from "next/headers";
 
 const mockOffers = [
@@ -31,13 +32,94 @@ const mockOffers = [
     }
 ];
 
+interface PageProps {
+    searchParams: Promise<{
+        search?: string;
+    }>;
+}
 
-
-// -----------------
-
-export default async function AllProductsPage() {
+export default async function AllProductsPage({ searchParams }: PageProps) {
     const cookieStore = await cookies();
     const currentCountry = cookieStore.get("bj_selected_country")?.value || "";
+    const resolvedSearchParams = await searchParams;
+    const searchQuery = resolvedSearchParams?.search || "";
+
+    // If search query exists, fetch search results
+    if (searchQuery.trim()) {
+        const searchResults = await searchProducts(searchQuery, currentCountry);
+        const [categories] = await Promise.all([getCategories()]);
+
+        return (
+            <div className="bg-white min-h-screen pb-12">
+                <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-8 lg:pt-10">
+                    {/* 1. Page Title & Breadcrumbs */}
+                    <div className="mb-8">
+                        <nav className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+                            <Link href="/" className="hover:text-brand transition-colors">Home</Link>
+                            <ChevronRight className="w-3 h-3" />
+                            <Link href="/products" className="hover:text-brand transition-colors">All Products</Link>
+                            <ChevronRight className="w-3 h-3" />
+                            <span className="text-slate-800">Search Results</span>
+                        </nav>
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h1 className="font-serif text-3xl md:text-5xl text-slate-900 font-medium">
+                                    Search Results
+                                </h1>
+                                <p className="text-slate-600 mt-2">
+                                    Found <span className="font-semibold text-slate-900">{searchResults.length}</span> products for &ldquo;<span className="font-semibold text-slate-900">{searchQuery}</span>&rdquo;
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 2. Search Results Grid */}
+                    {searchResults.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {searchResults.map((product) => (
+                                <ProductCard
+                                    key={product.id}
+                                    id={product.id}
+                                    title={product.title}
+                                    category={product.category}
+                                    image={product.image}
+                                    availability={product.availability}
+                                    tag={product.tag}
+                                    variants={product.variants}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-16">
+                            <div className="w-16 h-16 rounded-full bg-slate-100 mx-auto mb-4 flex items-center justify-center">
+                                <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-lg font-semibold text-slate-900 mb-2">No products found</h3>
+                            <p className="text-slate-600 mb-6">
+                                We couldn't find any products matching your search. Try different keywords or browse our categories.
+                            </p>
+                            <div className="flex gap-4 justify-center">
+                                <Link
+                                    href="/products"
+                                    className="inline-flex px-6 py-2 bg-brand text-white font-semibold rounded-lg hover:bg-brand/90 transition-colors"
+                                >
+                                    Browse All Products
+                                </Link>
+                                <Link
+                                    href="/"
+                                    className="inline-flex px-6 py-2 border border-brand text-brand font-semibold rounded-lg hover:bg-slate-50 transition-colors"
+                                >
+                                    Back to Home
+                                </Link>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
 
     // Fetch products for each category in parallel from our Laravel API
     const [stationeryProducts, digitalProducts, furnitureProducts, breakroomProducts, categories] = await Promise.all([
