@@ -15,7 +15,7 @@ interface MobileBottomNavProps {
 export default function MobileBottomNav({ onOpenSearch, onOpenMore }: MobileBottomNavProps) {
     const pathname = usePathname();
     const { cartItems } = useCart();
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn, customer } = useAuth();
     
     // Hydration check to prevent SSR mismatch
     const [mounted, setMounted] = useState(false);
@@ -26,6 +26,9 @@ export default function MobileBottomNav({ onOpenSearch, onOpenMore }: MobileBott
     const navItems = [
         { title: "Home", icon: Home, href: "/" },
         { title: "Products", icon: ShoppingBag, href: "/products" },
+        ...(mounted && isLoggedIn
+            ? [{ title: customer?.name ? customer.name.split(" ")[0] : "Profile", icon: User }]
+            : []),
         { title: "Search", icon: Search, onClick: onOpenSearch },
         { title: "Cart", icon: ShoppingCart, href: "/cart", badge: cartItems.length },
         ...(mounted && !isLoggedIn 
@@ -38,7 +41,7 @@ export default function MobileBottomNav({ onOpenSearch, onOpenMore }: MobileBott
         <div className="lg:hidden fixed bottom-0 left-0 right-0 z-[150] bg-white border-t border-slate-100 px-2 pb-safe">
             <div className="flex items-center justify-around h-16 max-w-md mx-auto">
                 {navItems.map((item, idx) => {
-                    const isActive = pathname === item.href;
+                    const isActive = item.href ? pathname === item.href : false;
                     
                     const content = (
                         <div className="flex flex-col items-center gap-1 relative px-3 py-1">
@@ -68,8 +71,16 @@ export default function MobileBottomNav({ onOpenSearch, onOpenMore }: MobileBott
                         );
                     }
 
+                    if (!item.href) {
+                        return (
+                            <div key={idx} className="group cursor-default">
+                                {content}
+                            </div>
+                        );
+                    }
+
                     return (
-                        <Link key={idx} href={item.href || "/"} className="group">
+                        <Link key={idx} href={item.href} className="group">
                             {content}
                         </Link>
                     );

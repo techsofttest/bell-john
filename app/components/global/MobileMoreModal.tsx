@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Info, PhoneCall, ChevronRight, FileText, Lock } from "lucide-react";
+import { X, Info, PhoneCall, ChevronRight, FileText, Lock, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
 import { useState, useEffect } from "react";
@@ -12,7 +12,7 @@ interface MobileMoreModalProps {
 }
 
 export default function MobileMoreModal({ isOpen, onClose }: MobileMoreModalProps) {
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn, logout } = useAuth();
     
     // Hydration check to prevent SSR mismatch
     const [mounted, setMounted] = useState(false);
@@ -23,7 +23,10 @@ export default function MobileMoreModal({ isOpen, onClose }: MobileMoreModalProp
     const menuLinks = [
         { title: "My Quotes", href: "/my-requests", icon: FileText, desc: "View and track your quotes" },
         ...(mounted && isLoggedIn 
-            ? [{ title: "Change Password", href: "/auth/change-password", icon: Lock, desc: "Update your account security" }] 
+            ? [
+                { title: "Change Password", href: "/auth/change-password", icon: Lock, desc: "Update your account security" },
+                { title: "Logout", onClick: () => { logout(); onClose(); }, icon: LogOut, desc: "Sign out of your account" }
+              ] 
             : []),
         { title: "About Us", href: "/about", icon: Info, desc: "Our journey and mission" },
         { title: "Contact Us", href: "/contact", icon: PhoneCall, desc: "Get in touch with us" },
@@ -61,23 +64,58 @@ export default function MobileMoreModal({ isOpen, onClose }: MobileMoreModalProp
                         </div>
 
                         <div className="space-y-3">
-                            {menuLinks.map((link, idx) => (
-                                <Link 
-                                    key={idx}
-                                    href={link.href}
-                                    onClick={onClose}
-                                    className="flex items-center gap-4 p-4 rounded-2xl border border-slate-50 hover:border-brand/20 hover:bg-brand/5 transition-all group"
-                                >
-                                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-50 text-slate-500 group-hover:bg-white group-hover:text-brand transition-colors border border-transparent group-hover:border-brand/10">
-                                        <link.icon className="w-6 h-6" />
-                                    </div>
-                                    <div className="flex-grow">
-                                        <p className="text-sm font-bold text-slate-900">{link.title}</p>
-                                        <p className="text-xs text-slate-400">{link.desc}</p>
-                                    </div>
-                                    <ChevronRight className="w-5 h-5 text-slate-200 group-hover:text-brand transition-colors" />
-                                </Link>
-                            ))}
+                            {menuLinks.map((link, idx) => {
+                                const isLogout = link.title === "Logout";
+                                const className = `w-full text-left flex items-center gap-4 p-4 rounded-2xl border transition-all group ${
+                                    isLogout 
+                                        ? "border-red-50/30 hover:border-red-200/50 hover:bg-red-50/40" 
+                                        : "border-slate-50 hover:border-brand/20 hover:bg-brand/5"
+                                }`;
+
+                                const content = (
+                                    <>
+                                        <div className={`flex items-center justify-center w-12 h-12 rounded-xl bg-slate-50 transition-colors border border-transparent ${
+                                            isLogout 
+                                                ? "text-red-500 group-hover:bg-white group-hover:text-red-600 group-hover:border-red-100" 
+                                                : "text-slate-500 group-hover:bg-white group-hover:text-brand group-hover:border-brand/10"
+                                        }`}>
+                                            <link.icon className="w-6 h-6" />
+                                        </div>
+                                        <div className="flex-grow">
+                                            <p className={`text-sm font-bold transition-colors ${
+                                                isLogout ? "text-red-600 group-hover:text-red-700" : "text-slate-900 group-hover:text-brand"
+                                            }`}>{link.title}</p>
+                                            <p className="text-xs text-slate-400">{link.desc}</p>
+                                        </div>
+                                        <ChevronRight className={`w-5 h-5 transition-colors ${
+                                            isLogout ? "text-red-200 group-hover:text-red-500" : "text-slate-200 group-hover:text-brand"
+                                        }`} />
+                                    </>
+                                );
+
+                                if (link.onClick) {
+                                    return (
+                                        <button 
+                                            key={idx}
+                                            onClick={link.onClick}
+                                            className={className}
+                                        >
+                                            {content}
+                                        </button>
+                                    );
+                                }
+
+                                return (
+                                    <Link 
+                                        key={idx}
+                                        href={link.href || "/"}
+                                        onClick={onClose}
+                                        className={className}
+                                    >
+                                        {content}
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </motion.div>
                 </>
