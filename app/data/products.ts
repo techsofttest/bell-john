@@ -80,7 +80,8 @@ export function mapLaravelProduct(laravelProduct: any): Product {
     } else if (Array.isArray(laravelProduct.additional_images)) {
         laravelProduct.additional_images.forEach((img: string) => {
             if (img) {
-                additionalImages.push(encodeImageUrl(img, storageUrl));
+                const encoded = encodeImageUrl(img, storageUrl);
+                if (encoded) additionalImages.push(encoded);
             }
         });
     } else if (laravelProduct.additional_images && typeof laravelProduct.additional_images === 'string') {
@@ -89,7 +90,8 @@ export function mapLaravelProduct(laravelProduct: any): Product {
             if (Array.isArray(parsed)) {
                 parsed.forEach((img: string) => {
                     if (img) {
-                        additionalImages.push(encodeImageUrl(img, storageUrl));
+                        const encoded = encodeImageUrl(img, storageUrl);
+                        if (encoded) additionalImages.push(encoded);
                     }
                 });
             }
@@ -262,5 +264,3 @@ export async function getCategories(): Promise<any[]> {
     }
     return [];
 }
-
-
