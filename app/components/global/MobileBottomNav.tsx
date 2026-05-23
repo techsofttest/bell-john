@@ -19,7 +19,7 @@ export default function MobileBottomNav({ onOpenSearch, onOpenMore }: MobileBott
         { title: "Products", icon: ShoppingBag, href: "/products" },
         { title: "Search", icon: Search, onClick: onOpenSearch },
         { title: "Cart", icon: ShoppingCart, href: "/cart", badge: cartItems.length },
-        { title: "Profile", icon: User, href: "/profile" },
+        { title: "Change Password", icon: User, href: "/auth/change-password" },
         { title: "More", icon: Grid, onClick: onOpenMore },
     ];
 

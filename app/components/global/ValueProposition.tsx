@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { useRegion } from "@/app/context/RegionContext";
-import { API_URL, STORAGE_URL } from "@/app/data/products";
+import { API_URL, STORAGE_URL, encodeImageUrl, getProductsByCategory } from "@/app/data/products";
 
 export interface Category {
     id: number;
@@ -31,7 +31,22 @@ export default function ValueProposition() {
                     const json = await res.json();
                     if (json.status === "success" && json.data) {
                         // Display the first 6 main parent categories for a balanced visual grid
-                        setCategories(json.data.slice(0, 6));
+                        const raw = json.data.slice(0, 6);
+
+                        // Resolve missing category images by fetching one product from the category
+                        const resolved = await Promise.all(raw.map(async (cat: any) => {
+                            if (cat.image) return cat;
+                            try {
+                                const prods = await getProductsByCategory(cat.slug || cat.id, 1, selectedCountry?.code);
+                                if (prods && prods.length > 0) {
+                                    // prods[0].image is already an encoded/absolute URL from mapLaravelProduct
+                                    return { ...cat, image: prods[0].image };
+                                }
+                            } catch (e) {}
+                            return cat;
+                        }));
+
+                        setCategories(resolved);
                     }
                 }
             } catch (e) {
@@ -84,9 +99,7 @@ export default function ValueProposition() {
                     <div className="w-full lg:w-7/12 flex flex-col relative">
                         {categories.map((c, index) => {
                             const formattedNum = (index + 1).toString().padStart(2, "0");
-                            const categoryImage = c.image 
-                                ? encodeImageUrl(c.image, STORAGE_URL)
-                                : "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600";
+                            const categoryImage = c.image ? encodeImageUrl(c.image, STORAGE_URL) : null;
 
                             return (
                                 <Link
@@ -111,20 +124,22 @@ export default function ValueProposition() {
                                     </h3>
 
                                     {/* Floating Perspective Image */}
-                                    <div
-                                        className={`absolute top-1/2 left-[40%] -translate-y-1/2 w-48 h-32 rounded-xl overflow-hidden pointer-events-none z-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 ease-out border border-white/10 origin-center
-                                            ${activeItem === index ? "opacity-100 scale-100 rotate-2 translate-x-0" : "opacity-0 scale-90 -rotate-2 -translate-x-8"}
-                                        `}
-                                    >
-                                        <Image
-                                            src={categoryImage}
-                                            alt={c.name}
-                                            fill
-                                            sizes="192px"
-                                            className="object-cover"
-                                        />
-                                        <div className="absolute inset-0 bg-black/20"></div>
-                                    </div>
+                                    {categoryImage && (
+                                        <div
+                                            className={`absolute top-1/2 left-[40%] -translate-y-1/2 w-48 h-32 rounded-xl overflow-hidden pointer-events-none z-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 ease-out border border-white/10 origin-center
+                                                ${activeItem === index ? "opacity-100 scale-100 rotate-2 translate-x-0" : "opacity-0 scale-90 -rotate-2 -translate-x-8"}
+                                            `}
+                                        >
+                                            <Image
+                                                src={categoryImage}
+                                                alt={c.name}
+                                                fill
+                                                sizes="192px"
+                                                className="object-cover"
+                                            />
+                                            <div className="absolute inset-0 bg-black/20"></div>
+                                        </div>
+                                    )}
                                 </Link>
                             );
                         })}

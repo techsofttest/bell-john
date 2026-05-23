@@ -24,11 +24,11 @@ import MobileSearchOverlay from "./MobileSearchOverlay";
 import MobileSideMenu from "./MobileSideMenu";
 import MobileMoreModal from "./MobileMoreModal";
 
-import { STORAGE_URL, API_URL } from "@/app/data/products";
+import { STORAGE_URL, API_URL, getProductsByCategory } from "@/app/data/products";
 
 // Add helper to encode images
-const encodeImageUrl = (imagePath: string | null | undefined): string => {
-    if (!imagePath) return 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600';
+const encodeImageUrl = (imagePath: string | null | undefined): string | null => {
+    if (!imagePath) return null;
     if (imagePath.startsWith('http') || imagePath.startsWith('data:')) return imagePath;
     const segments = imagePath.split('/').map(segment => encodeURIComponent(segment));
     return `${STORAGE_URL}/${segments.join('/')}`;
@@ -58,6 +58,8 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
     const [isMobileSideMenuOpen, setIsMobileSideMenuOpen] = useState(false);
     const [isMobileMoreModalOpen, setIsMobileMoreModalOpen] = useState(false);
 
+    const [resolvedCategories, setResolvedCategories] = useState<any[]>(categories || []);
+
     // Real Auth State from Context
     const { isLoggedIn, customer, logout } = useAuth();
 
@@ -72,6 +74,24 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    // Resolve missing category images by fetching one product fallback
+    useEffect(() => {
+        let mounted = true;
+        async function resolve() {
+            const out = await Promise.all((categories || []).map(async (cat: any) => {
+                if (cat?.image) return cat;
+                try {
+                    const prods = await getProductsByCategory(cat.slug || cat.id, 1, selectedCountry?.code);
+                    if (prods && prods.length > 0) return { ...cat, image: prods[0].image };
+                } catch (e) {}
+                return cat;
+            }));
+            if (mounted) setResolvedCategories(out);
+        }
+        resolve();
+        return () => { mounted = false; };
+    }, [categories, selectedCountry]);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -374,8 +394,8 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                             </>
                                         ) : (
                                             <>
-                                                <Link href="/profile" className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg">
-                                                    Profile
+                                                <Link href="/auth/change-password" className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg">
+                                                    Change Password
                                                 </Link>
                                                 <Link href="/my-requests" className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg">
                                                     My Quotes
@@ -402,7 +422,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                 >
                     <div className="max-w-[1400px] mx-auto px-6 lg:px-12 h-16 flex items-center justify-center">
                         <div className="flex items-center space-x-12 h-full">
-                            {categories.map((category, idx) => (
+                            {resolvedCategories.map((category, idx) => (
                                 <div
                                     key={idx}
                                     className="h-full flex items-center"
@@ -418,13 +438,16 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                         `}
                                     >
                                         <div className="relative w-8 h-8 rounded-full overflow-hidden border border-slate-100 shadow-sm">
-                                            <Image src={encodeImageUrl(category.image)} alt={category.name || category.title} fill className="object-cover" />
+                                            {encodeImageUrl(category.image) && (
+                                                <Image src={encodeImageUrl(category.image)!} alt={category.name || category.title} fill className="object-cover" />
+                                            )}
                                         </div>
                                         {category.name || category.title}
                                         <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${activeCategory === idx ? "rotate-180" : ""}`} />
                                     </Link>
                                 </div>
                             ))}
+                            
                         </div>
                     </div>
 
@@ -438,16 +461,18 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                     {/* Category Header */}
                                     <div className="col-span-1 border-r border-slate-100 pr-10 flex flex-col">
                                         <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-6 shadow-md">
-                                            <Image src={encodeImageUrl(categories[activeCategory].image)} alt={categories[activeCategory].name || categories[activeCategory].title} fill className="object-cover" />
-                                        </div>
-                                        <h3 className="font-serif text-3xl font-medium tracking-tight text-slate-900 mb-4">
-                                            {categories[activeCategory].name || categories[activeCategory].title}
-                                        </h3>
-                                        <p className="text-sm text-slate-500 font-light leading-relaxed mb-8">
-                                            Explore our comprehensive range of high-quality {(categories[activeCategory].name || categories[activeCategory].title)?.toLowerCase()} tailored for your business needs.
-                                        </p>
+                                        {encodeImageUrl(resolvedCategories[activeCategory]?.image) && (
+                                            <Image src={encodeImageUrl(resolvedCategories[activeCategory]?.image)!} alt={resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title} fill className="object-cover" />
+                                        )}
+                                    </div>
+                                            <h3 className="font-serif text-3xl font-medium tracking-tight text-slate-900 mb-4">
+                                                {resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title}
+                                            </h3>
+                                            <p className="text-sm text-slate-500 font-light leading-relaxed mb-8">
+                                                Explore our comprehensive range of high-quality {(resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title)?.toLowerCase()} tailored for your business needs.
+                                            </p>
                                         <Link
-                                            href={`/products/category/${categories[activeCategory].slug || categories[activeCategory].id}`}
+                                            href={`/products/category/${resolvedCategories[activeCategory]?.slug || resolvedCategories[activeCategory]?.id}`}
                                             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-900 hover:text-brand transition-colors"
                                         >
                                             View All Products <ChevronDown className="-rotate-90 w-3 h-3" />
@@ -457,7 +482,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                     {/* Sub Categories & Items */}
                                     <div className="col-span-4">
                                         <div className="grid grid-cols-4 gap-10">
-                                            {(categories[activeCategory].children || categories[activeCategory].subCategories || []).map((sub: any, sIdx: number) => (
+                                            {(resolvedCategories[activeCategory]?.children || resolvedCategories[activeCategory]?.subCategories || []).map((sub: any, sIdx: number) => (
                                                 <div key={sIdx} className="flex flex-col">
                                                     <Link
                                                         href={`/products/category/${categories[activeCategory].slug || categories[activeCategory].id}/${sub.slug || sub.id}`}
@@ -504,7 +529,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
             <MobileSideMenu 
                 isOpen={isMobileSideMenuOpen} 
                 onClose={() => setIsMobileSideMenuOpen(false)} 
-                categories={categories}
+                categories={resolvedCategories}
             />
 
             <MobileMoreModal 

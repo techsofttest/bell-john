@@ -20,6 +20,7 @@ interface AuthContextType {
     forgotPassword: (email: string) => Promise<{ success: boolean; message: string; otp?: string }>;
     verifyOtp: (email: string, otp: string) => Promise<{ success: boolean; message: string }>;
     resetPassword: (email: string, otp: string, password: string) => Promise<{ success: boolean; message: string }>;
+    changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; message: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -208,6 +209,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    // Change password (authenticated)
+    const changePassword = async (currentPassword: string, newPassword: string) => {
+        try {
+            const res = await fetch(`${API_URL}/customer/change-password`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ 
+                    current_password: currentPassword, 
+                    new_password: newPassword,
+                    new_password_confirmation: newPassword
+                })
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.status === "success") {
+                return { success: true, message: data.message };
+            }
+
+            return { success: false, message: data.message || "Failed to change password." };
+        } catch (e) {
+            console.error("Change password request failed:", e);
+            return { success: false, message: "Server connection failed. Please try again." };
+        }
+    };
+
     const isLoggedIn = !!token && !!customer;
 
     return (
@@ -222,7 +253,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 logout,
                 forgotPassword,
                 verifyOtp,
-                resetPassword
+                resetPassword,
+                changePassword
             }}
         >
             {children}

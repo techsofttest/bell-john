@@ -1,8 +1,9 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { STORAGE_URL } from "@/app/data/products";
+import { STORAGE_URL, getProductsByCategory } from "@/app/data/products";
 
 interface CoreCategoriesProps {
     hideTitle?: boolean;
@@ -10,13 +11,31 @@ interface CoreCategoriesProps {
 }
 
 export default function CoreCategories({ hideTitle = false, categories = [] }: CoreCategoriesProps) {
-    
-    const encodeImageUrl = (imagePath: string | null | undefined): string => {
-        if (!imagePath) return 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600';
+    const [resolved, setResolved] = React.useState<any[]>(categories);
+
+    const encodeImageUrl = (imagePath: string | null | undefined): string | null => {
+        if (!imagePath) return null;
         if (imagePath.startsWith('http') || imagePath.startsWith('data:')) return imagePath;
         const segments = imagePath.split('/').map(segment => encodeURIComponent(segment));
         return `${STORAGE_URL}/${segments.join('/')}`;
     };
+
+    React.useEffect(() => {
+        let mounted = true;
+        async function resolve() {
+            const out = await Promise.all(categories.map(async (cat: any) => {
+                if (cat.image) return cat;
+                try {
+                    const prods = await getProductsByCategory(cat.slug || cat.id, 1);
+                    if (prods && prods.length > 0) return { ...cat, image: prods[0].image };
+                } catch (e) {}
+                return cat;
+            }));
+            if (mounted) setResolved(out);
+        }
+        resolve();
+        return () => { mounted = false; };
+    }, [categories]);
     
     return (
         // Reduced vertical padding from py-20 to py-10 md:py-12
@@ -43,7 +62,7 @@ export default function CoreCategories({ hideTitle = false, categories = [] }: C
 
                 {/* --- Horizontally Scrolling Flex Row --- */}
                 <div className="flex flex-nowrap overflow-x-auto gap-6 md:gap-10 px-6 lg:px-12 pb-8 pt-4 snap-x snap-mandatory justify-start lg:justify-center [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                    {categories.map((category) => (
+                    {resolved.map((category) => (
                         <Link
                             key={category.id}
                             href={`/products/category/${category.slug || category.id}`}
@@ -52,13 +71,15 @@ export default function CoreCategories({ hideTitle = false, categories = [] }: C
                         >
                             {/* Image Container */}
                             <div className="w-full aspect-square bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative mb-4 group-hover:-translate-y-2 group-hover:shadow-xl group-hover:shadow-brand/20 group-hover:border-brand/40 transition-all duration-500">
-                                <Image
-                                    src={encodeImageUrl(category.image)}
-                                    alt={category.name || category.title}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                    sizes="(max-width: 768px) 110px, 140px"
-                                />
+                                {encodeImageUrl(category.image) && (
+                                    <Image
+                                        src={encodeImageUrl(category.image)!}
+                                        alt={category.name || category.title}
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        sizes="(max-width: 768px) 110px, 140px"
+                                    />
+                                )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             </div>
 

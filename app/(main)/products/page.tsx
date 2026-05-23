@@ -159,22 +159,18 @@ export default async function AllProductsPage({ searchParams }: PageProps) {
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-16">
 
                 {/* 4. First Category Carousel */}
-                {stationeryProducts.length > 0 && (
-                    <ProductCarousel
-                        title="Office Stationery"
-                        categorySlug="stationery"
-                        products={stationeryProducts}
-                    />
-                )}
+                <ProductCarousel
+                    title="Office Stationery"
+                    categorySlug="stationery"
+                    products={stationeryProducts}
+                />
 
                 {/* 5. Second Category Carousel */}
-                {digitalProducts.length > 0 && (
-                    <ProductCarousel
-                        title="Digital Supplies & IT"
-                        categorySlug="digital-supplies"
-                        products={digitalProducts}
-                    />
-                )}
+                <ProductCarousel
+                    title="Digital Supplies & IT"
+                    categorySlug="digital-supplies"
+                    products={digitalProducts}
+                />
 
             </div>
 
@@ -186,22 +182,18 @@ export default async function AllProductsPage({ searchParams }: PageProps) {
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
                 {/* 7. Third Category Carousel */}
-                {furnitureProducts.length > 0 && (
-                    <ProductCarousel
-                        title="Corporate Office Furniture"
-                        categorySlug="office-furniture"
-                        products={furnitureProducts}
-                    />
-                )}
+                <ProductCarousel
+                    title="Corporate Office Furniture"
+                    categorySlug="office-furniture"
+                    products={furnitureProducts}
+                />
 
                 {/* 8. Fourth Category Carousel */}
-                {breakroomProducts.length > 0 && (
-                    <ProductCarousel
-                        title="Breakroom & Janitorial"
-                        categorySlug="breakroom"
-                        products={breakroomProducts}
-                    />
-                )}
+                <ProductCarousel
+                    title="Breakroom & Janitorial"
+                    categorySlug="breakroom"
+                    products={breakroomProducts}
+                />
 
             </div>
         </div>

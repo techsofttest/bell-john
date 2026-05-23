@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, ArrowRight, Sparkles } from "lucide-react";
 import { useRegion } from "@/app/context/RegionContext";
-import { API_URL, STORAGE_URL, encodeImageUrl } from "@/app/data/products";
+import { API_URL, STORAGE_URL, encodeImageUrl, getProductsByCategory } from "@/app/data/products";
 
 export interface Category {
     id: number;
@@ -30,7 +30,16 @@ export default function CategorySpotlight() {
                 if (res.ok) {
                     const json = await res.json();
                     if (json.status === 'success' && json.data) {
-                        setCategories(json.data);
+                        const raw = json.data;
+                        const resolved = await Promise.all(raw.map(async (cat: any) => {
+                            if (cat.image) return cat;
+                            try {
+                                const prods = await getProductsByCategory(cat.slug || cat.id, 1, selectedCountry?.code);
+                                if (prods && prods.length > 0) return { ...cat, image: prods[0].image };
+                            } catch (e) {}
+                            return cat;
+                        }));
+                        setCategories(resolved);
                     }
                 }
             } catch (e) {
@@ -115,13 +124,15 @@ export default function CategorySpotlight() {
                                 
                                 {/* Category Image */}
                                 <div className="relative w-full h-full overflow-hidden">
-                                    <Image 
-                                        src={c.image ? encodeImageUrl(c.image, STORAGE_URL) : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600'} 
-                                        alt={c.name}
-                                        fill
-                                        sizes="(max-width: 768px) 70vw, 360px"
-                                        className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                                    />
+                                    {encodeImageUrl(c.image, STORAGE_URL) && (
+                                        <Image 
+                                            src={encodeImageUrl(c.image, STORAGE_URL)!} 
+                                            alt={c.name}
+                                            fill
+                                            sizes="(max-width: 768px) 70vw, 360px"
+                                            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                                        />
+                                    )}
                                 </div>
 
                                 {/* Text Info Overlay */}
