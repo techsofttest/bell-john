@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 
-import { STORAGE_URL, encodeImageUrl } from "@/app/data/products";
+import { STORAGE_URL } from "@/app/data/products";
 
 interface MenuItem {
     id?: number | string;
@@ -44,20 +44,15 @@ export default function MobileSideMenu({
     const [expandedCat, setExpandedCat] = useState<number | null>(null);
 
     const getImageSrc = (image: string | null | undefined): string => {
-        if (typeof image !== "string" || image.trim() === "") {
+        if (!image || typeof image !== "string" || image.trim() === "") {
             return FALLBACK_IMAGE;
         }
 
-        const safeImage: string = image;
-
-        try {
-            return safeImage.startsWith("http")
-                ? safeImage
-                : encodeImageUrl(safeImage, STORAGE_URL);
-        } catch (error) {
-            console.error("Image URL error:", error);
-            return FALLBACK_IMAGE;
+        if (image.startsWith("http")) {
+            return image;
         }
+
+        return `${STORAGE_URL}/${image}`;
     };
 
     const toggleCategory = (index: number) => {
