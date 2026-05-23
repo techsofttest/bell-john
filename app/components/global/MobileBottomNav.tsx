@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, ShoppingBag, Search, ShoppingCart, User, Grid } from "lucide-react";
+import { Home, ShoppingBag, Search, ShoppingCart, User, Grid, LogIn } from "lucide-react";
 import { useCart } from "@/app/context/CartContext";
+import { useAuth } from "@/app/context/AuthContext";
+import { useState, useEffect } from "react";
 
 interface MobileBottomNavProps {
     onOpenSearch: () => void;
@@ -13,13 +15,22 @@ interface MobileBottomNavProps {
 export default function MobileBottomNav({ onOpenSearch, onOpenMore }: MobileBottomNavProps) {
     const pathname = usePathname();
     const { cartItems } = useCart();
+    const { isLoggedIn } = useAuth();
+    
+    // Hydration check to prevent SSR mismatch
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const navItems = [
         { title: "Home", icon: Home, href: "/" },
         { title: "Products", icon: ShoppingBag, href: "/products" },
         { title: "Search", icon: Search, onClick: onOpenSearch },
         { title: "Cart", icon: ShoppingCart, href: "/cart", badge: cartItems.length },
-        { title: "Change Password", icon: User, href: "/auth/change-password" },
+        ...(mounted && !isLoggedIn 
+            ? [{ title: "Sign In", icon: LogIn, href: "/auth/login" }] 
+            : []),
         { title: "More", icon: Grid, onClick: onOpenMore },
     ];
 

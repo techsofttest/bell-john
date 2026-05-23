@@ -1,8 +1,10 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Home, ShoppingBag, Info, PhoneCall, ChevronRight } from "lucide-react";
+import { X, Info, PhoneCall, ChevronRight, FileText, Lock } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@/app/context/AuthContext";
+import { useState, useEffect } from "react";
 
 interface MobileMoreModalProps {
     isOpen: boolean;
@@ -10,9 +12,19 @@ interface MobileMoreModalProps {
 }
 
 export default function MobileMoreModal({ isOpen, onClose }: MobileMoreModalProps) {
+    const { isLoggedIn } = useAuth();
+    
+    // Hydration check to prevent SSR mismatch
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const menuLinks = [
-        { title: "Home", href: "/", icon: Home, desc: "Back to starting page" },
-        { title: "All Products", href: "/products", icon: ShoppingBag, desc: "Browse full catalog" },
+        { title: "My Quotes", href: "/my-requests", icon: FileText, desc: "View and track your quotes" },
+        ...(mounted && isLoggedIn 
+            ? [{ title: "Change Password", href: "/auth/change-password", icon: Lock, desc: "Update your account security" }] 
+            : []),
         { title: "About Us", href: "/about", icon: Info, desc: "Our journey and mission" },
         { title: "Contact Us", href: "/contact", icon: PhoneCall, desc: "Get in touch with us" },
     ];
