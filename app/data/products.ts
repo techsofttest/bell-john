@@ -24,9 +24,9 @@ export interface Product {
 }
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://bellnjohn.test:90/api';
-export const STORAGE_URL = process.env.NEXT_PUBLIC_STORAGE_URL || 'http://bellnjohn.test:90/storage';
+export const STORAGE_URL = process.env.NEXT_PUBLIC_STORAGE_URL || 'http://bellnjohn.test:90/api/file';
 
-function encodeImageUrl(imagePath: string | null | undefined, storageUrl: string): string {
+export function encodeImageUrl(imagePath: string | null | undefined, storageUrl: string): string {
     if (!imagePath) return 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600';
     // If already a full URL (pre-encoded by the backend), use as-is
     if (imagePath.startsWith('http') || imagePath.startsWith('data:')) return imagePath;

@@ -85,7 +85,7 @@ export default function ValueProposition() {
                         {categories.map((c, index) => {
                             const formattedNum = (index + 1).toString().padStart(2, "0");
                             const categoryImage = c.image 
-                                ? `${STORAGE_URL}/${c.image}` 
+                                ? encodeImageUrl(c.image, STORAGE_URL)
                                 : "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600";
 
                             return (

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, ArrowRight, Sparkles } from "lucide-react";
 import { useRegion } from "@/app/context/RegionContext";
-import { API_URL, STORAGE_URL } from "@/app/data/products";
+import { API_URL, STORAGE_URL, encodeImageUrl } from "@/app/data/products";
 
 export interface Category {
     id: number;
@@ -116,7 +116,7 @@ export default function CategorySpotlight() {
                                 {/* Category Image */}
                                 <div className="relative w-full h-full overflow-hidden">
                                     <Image 
-                                        src={c.image ? `${STORAGE_URL}/${c.image}` : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600'} 
+                                        src={c.image ? encodeImageUrl(c.image, STORAGE_URL) : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600'} 
                                         alt={c.name}
                                         fill
                                         sizes="(max-width: 768px) 70vw, 360px"
