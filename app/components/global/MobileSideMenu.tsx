@@ -43,8 +43,10 @@ export default function MobileSideMenu({
 }: MobileSideMenuProps) {
     const [expandedCat, setExpandedCat] = useState<number | null>(null);
 
-    const getImageSrc = (image?: string | null): string => {
-        if (!image || image.trim() === "") {
+    const getImageSrc = (
+        image: string | null | undefined
+    ): string => {
+        if (typeof image !== "string" || image.trim() === "") {
             return FALLBACK_IMAGE;
         }
 
@@ -93,6 +95,7 @@ export default function MobileSideMenu({
                                 <h3 className="font-serif text-xl font-medium text-slate-900">
                                     Categories
                                 </h3>
+
                                 <p className="text-xs text-slate-400">
                                     Browse our product catalog
                                 </p>
@@ -112,14 +115,18 @@ export default function MobileSideMenu({
                             <div className="space-y-4 px-6">
                                 {categories.map((cat, idx) => {
                                     const categoryName =
-                                        cat.name || cat.title || "Category";
+                                        cat.name ||
+                                        cat.title ||
+                                        "Category";
 
                                     const categoryChildren =
                                         cat.children ||
                                         cat.subCategories ||
                                         [];
 
-                                    const imageSrc = getImageSrc(cat.image);
+                                    const imageSrc = getImageSrc(
+                                        cat.image
+                                    );
 
                                     const isExpanded =
                                         expandedCat === idx;
@@ -252,7 +259,7 @@ export default function MobileSideMenu({
                                                                                                     onClick={
                                                                                                         onClose
                                                                                                     }
-                                                                                                    className="flex items-center gap-2 text-sm text-slate-600 hover:text-brand"
+                                                                                                    className="flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-brand"
                                                                                                 >
                                                                                                     <Package className="h-3.5 w-3.5 text-slate-200" />
 
