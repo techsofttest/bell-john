@@ -43,9 +43,7 @@ export default function MobileSideMenu({
 }: MobileSideMenuProps) {
     const [expandedCat, setExpandedCat] = useState<number | null>(null);
 
-    const getImageSrc = (
-        image: string | null | undefined
-    ): string => {
+    const getImageSrc = (image: string | null | undefined): string => {
         if (typeof image !== "string" || image.trim() === "") {
             return FALLBACK_IMAGE;
         }
@@ -53,7 +51,7 @@ export default function MobileSideMenu({
         try {
             return image.startsWith("http")
                 ? image
-                : encodeImageUrl(image, STORAGE_URL);
+                : encodeImageUrl(image as string, STORAGE_URL);
         } catch (error) {
             console.error("Image URL error:", error);
             return FALLBACK_IMAGE;
@@ -124,12 +122,9 @@ export default function MobileSideMenu({
                                         cat.subCategories ||
                                         [];
 
-                                    const imageSrc = getImageSrc(
-                                        cat.image
-                                    );
+                                    const imageSrc = getImageSrc(cat.image);
 
-                                    const isExpanded =
-                                        expandedCat === idx;
+                                    const isExpanded = expandedCat === idx;
 
                                     return (
                                         <div
@@ -194,10 +189,7 @@ export default function MobileSideMenu({
                                                     >
                                                         <div className="space-y-6 py-4 pl-16 pr-2">
                                                             {categoryChildren.map(
-                                                                (
-                                                                    sub,
-                                                                    sIdx
-                                                                ) => {
+                                                                (sub, sIdx) => {
                                                                     const subName =
                                                                         sub.name ||
                                                                         sub.title ||
@@ -220,22 +212,15 @@ export default function MobileSideMenu({
                                                                                     sub.slug ||
                                                                                     sub.id
                                                                                 }`}
-                                                                                onClick={
-                                                                                    onClose
-                                                                                }
+                                                                                onClick={onClose}
                                                                                 className="mb-3 block text-[11px] font-bold uppercase tracking-widest text-slate-400 transition-colors hover:text-brand"
                                                                             >
-                                                                                {
-                                                                                    subName
-                                                                                }
+                                                                                {subName}
                                                                             </Link>
 
                                                                             <ul className="space-y-3">
                                                                                 {subChildren.map(
-                                                                                    (
-                                                                                        item,
-                                                                                        iIdx
-                                                                                    ) => {
+                                                                                    (item, iIdx) => {
                                                                                         const itemName =
                                                                                             item.name ||
                                                                                             item.title ||
@@ -256,16 +241,11 @@ export default function MobileSideMenu({
                                                                                                         item.slug ||
                                                                                                         item.id
                                                                                                     }`}
-                                                                                                    onClick={
-                                                                                                        onClose
-                                                                                                    }
+                                                                                                    onClick={onClose}
                                                                                                     className="flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-brand"
                                                                                                 >
                                                                                                     <Package className="h-3.5 w-3.5 text-slate-200" />
-
-                                                                                                    {
-                                                                                                        itemName
-                                                                                                    }
+                                                                                                    {itemName}
                                                                                                 </Link>
                                                                                             </li>
                                                                                         );
