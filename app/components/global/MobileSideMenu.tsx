@@ -48,10 +48,12 @@ export default function MobileSideMenu({
             return FALLBACK_IMAGE;
         }
 
+        const safeImage: string = image;
+
         try {
-            return image.startsWith("http")
-                ? image
-                : encodeImageUrl(image as string, STORAGE_URL);
+            return safeImage.startsWith("http")
+                ? safeImage
+                : encodeImageUrl(safeImage, STORAGE_URL);
         } catch (error) {
             console.error("Image URL error:", error);
             return FALLBACK_IMAGE;
