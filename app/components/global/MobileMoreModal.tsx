@@ -21,9 +21,9 @@ export default function MobileMoreModal({ isOpen, onClose }: MobileMoreModalProp
     }, []);
 
     const menuLinks = [
-        { title: "My Quotes", href: "/my-requests", icon: FileText, desc: "View and track your quotes" },
         ...(mounted && isLoggedIn 
             ? [
+                { title: "My Quotes", href: "/my-requests", icon: FileText, desc: "View and track your quotes" },
                 { title: "Change Password", href: "/auth/change-password", icon: Lock, desc: "Update your account security" },
                 { title: "Logout", onClick: () => { logout(); onClose(); }, icon: LogOut, desc: "Sign out of your account" }
               ] 

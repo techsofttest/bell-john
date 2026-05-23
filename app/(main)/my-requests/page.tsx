@@ -64,9 +64,11 @@ export default function MyRequestsPage() {
     const [error, setError] = useState("");
     const [expandedId, setExpandedId] = useState<number | null>(null);
     
-    // Email input state for lookup (guests or logged-out users)
-    const [emailInput, setEmailInput] = useState("");
-    const [searchedEmail, setSearchedEmail] = useState("");
+    // Hydration check to prevent SSR mismatch
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Automatically fetch requests when logged in status changes
     useEffect(() => {
@@ -94,7 +96,6 @@ export default function MyRequestsPage() {
             const data = await response.json();
             if (response.ok && data.status === "success") {
                 setRequests(data.data || []);
-                setSearchedEmail(email);
             } else {
                 setError(data.message || "Failed to load requests.");
             }
@@ -104,12 +105,6 @@ export default function MyRequestsPage() {
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleLookupSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!emailInput.trim()) return;
-        fetchRequests(emailInput.trim());
     };
 
     const toggleExpand = (id: number) => {
@@ -144,6 +139,35 @@ export default function MyRequestsPage() {
         return "bg-amber-50 text-amber-700 border-amber-200/60";
     };
 
+    if (mounted && !isLoggedIn) {
+        return (
+            <div className="min-h-screen bg-white flex items-center justify-center px-6 py-12">
+                <div className="text-center max-w-md">
+                    <h2 className="text-2xl font-serif font-medium text-slate-900 mb-3">
+                        Access Denied
+                    </h2>
+                    <p className="text-slate-600 mb-6">
+                        You need to be logged in to view your quotes.
+                    </p>
+                    <div className="flex gap-4 justify-center">
+                        <Link
+                            href="/auth/login"
+                            className="px-6 py-2.5 bg-brand text-white font-semibold rounded-lg hover:bg-brand/90 transition-colors"
+                        >
+                            Sign In
+                        </Link>
+                        <Link
+                            href="/"
+                            className="px-6 py-2.5 border border-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-colors"
+                        >
+                            Back Home
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-[#F8FAFC] min-h-screen py-10 px-4 sm:px-6 lg:px-8 font-sans">
             <div className="max-w-4xl mx-auto">
@@ -156,69 +180,7 @@ export default function MyRequestsPage() {
                     <h1 className="text-3xl md:text-4xl font-serif text-slate-900 font-bold tracking-tight mt-3 mb-2">
                         My Inquiries & Requests
                     </h1>
-                    <p className="text-slate-500 text-sm max-w-xl">
-                        Trace, view and manage your submitted business quote requests with real-time status tracking.
-                    </p>
                 </div>
-
-                {/* LOGGED OUT / GUEST LOOKUP BOX */}
-                {!isLoggedIn && !searchedEmail && (
-                    <div className="bg-white border border-slate-200/80 rounded-3xl p-6 md:p-8 shadow-sm mb-8">
-                        <div className="flex flex-col md:flex-row md:items-center gap-6">
-                            <div className="w-12 h-12 rounded-2xl bg-brand/10 text-brand flex items-center justify-center flex-shrink-0">
-                                <Mail className="w-6 h-6" />
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="text-base font-bold text-slate-900 mb-1">
-                                    Instant Quote History Lookup
-                                </h3>
-                                <p className="text-slate-500 text-xs md:text-sm">
-                                    Did you place a quote as a guest? Enter the email address used during checkout to view all matching requests instantly.
-                                </p>
-                            </div>
-                        </div>
-
-                        <form onSubmit={handleLookupSubmit} className="mt-6 flex flex-col sm:flex-row gap-3">
-                            <div className="relative flex-1">
-                                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                <input
-                                    type="email"
-                                    required
-                                    value={emailInput}
-                                    onChange={(e) => setEmailInput(e.target.value)}
-                                    placeholder="Enter your email address..."
-                                    className="w-full h-11 pl-10 pr-4 border border-slate-250 rounded-xl focus:border-slate-900 focus:ring-1 focus:ring-slate-900/5 focus:outline-none text-sm font-medium placeholder:text-slate-400"
-                                />
-                            </div>
-                            <Button 
-                                type="submit" 
-                                variant="secondary"
-                                className="h-11 px-6 uppercase tracking-wider text-xs font-bold rounded-xl whitespace-nowrap"
-                            >
-                                Lookup Quote Requests
-                            </Button>
-                        </form>
-                    </div>
-                )}
-
-                {/* NOT LOGGED IN BUT INITIATED SEARCH */}
-                {!isLoggedIn && searchedEmail && (
-                    <div className="bg-slate-100 border border-slate-200/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-                        <div className="text-xs text-slate-600">
-                            Showing quotes for: <span className="font-semibold text-slate-900">{searchedEmail}</span>
-                        </div>
-                        <button 
-                            onClick={() => {
-                                setSearchedEmail("");
-                                setRequests([]);
-                                setError("");
-                            }}
-                            className="text-xs font-bold text-brand hover:underline self-start sm:self-center"
-                        >
-                            Change Email Lookup
-                        </button>
-                    </div>
-                )}
 
                 {/* ERROR STATE */}
                 {error && (
@@ -245,7 +207,7 @@ export default function MyRequestsPage() {
                 ) : (
                     <>
                         {/* NO REQUESTS RETURNED */}
-                        {requests.length === 0 && (searchedEmail || isLoggedIn) && (
+                        {requests.length === 0 && (
                             <div className="bg-white border border-slate-200/90 rounded-3xl p-10 text-center flex flex-col items-center justify-center shadow-sm animate-fade-in">
                                 <div className="w-16 h-16 bg-slate-50 border border-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mb-5">
                                     <FileText className="w-7 h-7" />
@@ -254,7 +216,7 @@ export default function MyRequestsPage() {
                                     No Quote Requests Found
                                 </h3>
                                 <p className="text-slate-500 text-xs md:text-sm max-w-sm mb-6">
-                                    We couldn't find any quote enquiries matching {isLoggedIn ? "your account email" : searchedEmail}.
+                                    We couldn't find any quote enquiries matching your account email.
                                 </p>
                                 <Link href="/products">
                                     <Button variant="secondary" className="px-6 h-11 uppercase text-xs tracking-wider font-bold rounded-xl flex items-center gap-2">
