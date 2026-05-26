@@ -439,7 +439,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                     >
                                         <div className="relative w-8 h-8 rounded-full overflow-hidden border border-slate-100 shadow-sm">
                                             {encodeImageUrl(category.image) && (
-                                                <Image src={encodeImageUrl(category.image)!} alt={category.name || category.title} fill className="object-cover" />
+                                                <Image src={encodeImageUrl(category.image)!} alt={category.name || category.title} fill className="object-contain" />
                                             )}
                                         </div>
                                         {category.name || category.title}
@@ -460,9 +460,9 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                 <div className="grid grid-cols-5 gap-12">
                                     {/* Category Header */}
                                     <div className="col-span-1 border-r border-slate-100 pr-10 flex flex-col">
-                                        <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-6 shadow-md">
+                                        <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-6 shadow-md bg-slate-50">
                                         {encodeImageUrl(resolvedCategories[activeCategory]?.image) && (
-                                            <Image src={encodeImageUrl(resolvedCategories[activeCategory]?.image)!} alt={resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title} fill className="object-cover" />
+                                            <Image src={encodeImageUrl(resolvedCategories[activeCategory]?.image)!} alt={resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title} fill className="object-contain" />
                                         )}
                                     </div>
                                             <h3 className="font-serif text-3xl font-medium tracking-tight text-slate-900 mb-4">

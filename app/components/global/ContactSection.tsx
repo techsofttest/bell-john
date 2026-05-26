@@ -7,9 +7,9 @@ import { useRegion } from "@/app/context/RegionContext";
 export default function ContactSection() {
     const { selectedCountry } = useRegion();
 
-    const phones     = selectedCountry?.phone_numbers ?? [];
-    const email      = selectedCountry?.email_address ?? null;
-    const address    = selectedCountry?.address ?? null;      // HTML string from RichEditor
+    const phones = selectedCountry?.phone_numbers ?? [];
+    const email = selectedCountry?.email_address ?? null;
+    const address = selectedCountry?.address ?? null;      // HTML string from RichEditor
 
     return (
         <section className="bg-[#F8FAFC] border-t border-slate-200">
@@ -95,8 +95,8 @@ export default function ContactSection() {
                                 <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Working Hours</p>
                                 <div className="space-y-2">
                                     {[
-                                        { days: "Sunday – Thursday", time: "8:00 AM – 5:00 PM" },
-                                        { days: "Saturday",          time: "9:00 AM – 1:00 PM" },
+                                        { days: "Monday – Friday", time: "8:00 AM – 5:00 PM" },
+                                        { days: "Saturday", time: "9:00 AM – 1:00 PM" },
                                     ].map((h, i) => (
                                         <div key={i} className="flex items-center justify-between gap-6 text-sm">
                                             <span className="text-slate-600 font-normal">{h.days}</span>
