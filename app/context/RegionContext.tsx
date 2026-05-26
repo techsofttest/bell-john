@@ -8,6 +8,9 @@ export interface Country {
     name: string;
     code: string;
     is_default: boolean;
+    address: string | null;
+    phone_numbers: { number: string }[];
+    email_address: string | null;
 }
 
 interface RegionContextType {
@@ -33,7 +36,20 @@ export function RegionProvider({ children }: { children: React.ReactNode }) {
                 if (res.ok) {
                     const json = await res.json();
                     if (json.status === "success" && json.data) {
-                        const fetchedCountries = json.data.countries || [];
+                        const rawCountries: any[] = json.data.countries || [];
+
+                        // Normalize phone_numbers: Laravel may return the JSON
+                        // column as a raw string instead of a parsed array.
+                        const fetchedCountries: Country[] = rawCountries.map((c) => ({
+                            ...c,
+                            phone_numbers: (() => {
+                                if (Array.isArray(c.phone_numbers)) return c.phone_numbers;
+                                if (typeof c.phone_numbers === "string") {
+                                    try { return JSON.parse(c.phone_numbers); } catch { return []; }
+                                }
+                                return [];
+                            })(),
+                        }));
                         setCountries(fetchedCountries);
                         // Keep logoUrl pointing to local Next.js static asset `/logo/logo.png`
 

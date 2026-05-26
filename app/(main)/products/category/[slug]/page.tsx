@@ -70,7 +70,7 @@ export default async function CategoryListingPage({
     }
 
     // Fetch products
-    const { products } = await getProducts(paramsMap);
+    const { products, total } = await getProducts(paramsMap);
 
     // Helper to find sub-category title from slug for filtering indicator
     const getSubTitle = (slug: string) => {
@@ -97,7 +97,7 @@ export default async function CategoryListingPage({
                     </nav>
                     <div className="flex items-center justify-between">
                         <h1 className="text-xl md:text-2xl text-slate-900 font-bold">
-                            {categoryInfo.title} <span className="text-sm font-normal text-slate-500 ml-2">({products.length} Items)</span>
+                            {categoryInfo.title} <span className="text-sm font-normal text-slate-500 ml-2">({total} Items)</span>
                         </h1>
                         <div className="flex items-center gap-3">
                             <div className="hidden lg:block">

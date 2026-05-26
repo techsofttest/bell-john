@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import { ChevronDown, SlidersHorizontal, Search } from "lucide-react";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { ChevronDown, SlidersHorizontal, Search, Loader2 } from "lucide-react";
+import Image from "next/image";
+import { API_URL } from "@/app/data/products";
 
 interface SubCategory {
     title: string;
@@ -30,6 +32,7 @@ interface SidebarFilterProps {
 export default function SidebarFilter({ categoryTree, currentSlug }: SidebarFilterProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const router = useRouter();
     const activeSub = searchParams.get("sub");
 
     // Auto-open the category that contains the active sub, or default to first
@@ -45,6 +48,75 @@ export default function SidebarFilter({ categoryTree, currentSlug }: SidebarFilt
         );
     };
 
+    // Search Logic
+    const [searchQuery, setSearchQuery] = useState("");
+    const [suggestions, setSuggestions] = useState<any[]>([]);
+    const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const searchRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+                setIsSearchFocused(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    useEffect(() => {
+        if (searchQuery.trim().length < 2) {
+            setSuggestions([]);
+            setIsLoadingSuggestions(false);
+            return;
+        }
+        
+        setIsLoadingSuggestions(true);
+        const timer = setTimeout(async () => {
+            try {
+                // Pass category in search to limit results within the current category
+                const res = await fetch(
+                    `${API_URL}/products/suggestions?q=${encodeURIComponent(searchQuery.trim())}&category=${currentSlug.split('/')[0]}`,
+                    { 
+                        cache: 'no-store',
+                        headers: {
+                            'Accept': 'application/json',
+                        }
+                    }
+                );
+                
+                if (!res.ok) {
+                    setSuggestions([]);
+                    return;
+                }
+                
+                const json = await res.json();
+                
+                if (json.status === 'success' && Array.isArray(json.data)) {
+                    setSuggestions(json.data);
+                } else {
+                    setSuggestions([]);
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                setSuggestions([]);
+            } finally {
+                setIsLoadingSuggestions(false);
+            }
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchQuery, currentSlug]);
+
+    const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && searchQuery.trim().length >= 2) {
+            e.preventDefault();
+            setIsSearchFocused(false);
+            router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}&category=${currentSlug.split('/')[0]}`);
+            setSearchQuery("");
+        }
+    };
+
     return (
         <aside className="hidden lg:block w-[260px] flex-shrink-0 bg-white border border-slate-300 rounded-xl p-4 self-start sticky top-24 shadow-sm">
             <div className="flex items-center gap-2 pb-4 mb-6 border-b border-slate-300">
@@ -53,13 +125,64 @@ export default function SidebarFilter({ categoryTree, currentSlug }: SidebarFilt
             </div>
 
             {/* Quick Search */}
-            <div className="relative mb-8">
-                <input
-                    type="text"
-                    placeholder="Search in category..."
-                    className="w-full pl-9 pr-3 py-2 bg-slate-100/50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-brand transition-colors"
-                />
-                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <div className="relative mb-8 z-40" ref={searchRef}>
+                <div className="relative">
+                    <input
+                        type="text"
+                        placeholder="Search products..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onFocus={() => setIsSearchFocused(true)}
+                        onKeyDown={handleSearchKeyDown}
+                        className="w-full pl-9 pr-3 py-2 bg-slate-100/50 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-brand transition-colors"
+                    />
+                    {isLoadingSuggestions ? (
+                        <Loader2 className="w-4 h-4 text-slate-400 absolute left-3 top-2.5 animate-spin" />
+                    ) : (
+                        <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                    )}
+                </div>
+
+                {/* Search Suggestions Dropdown */}
+                <div className={`absolute top-[calc(100%+8px)] left-0 w-[300px] bg-white border border-slate-200 shadow-xl rounded-xl overflow-hidden transition-all duration-200 origin-top z-[100] ${isSearchFocused && searchQuery.length >= 2 ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible hidden"}`}>
+                    {suggestions.length > 0 ? (
+                        <div className="py-2 max-h-[300px] overflow-y-auto">
+                            {suggestions.map((product) => (
+                                <Link
+                                    key={product.id}
+                                    href={`/products/${product.slug}`}
+                                    onMouseDown={(e) => {
+                                        e.preventDefault();
+                                        setIsSearchFocused(false);
+                                        router.push(`/products/${product.slug}`);
+                                    }}
+                                    className="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 transition-colors group"
+                                >
+                                    <div className="relative w-8 h-8 rounded border border-slate-100 flex-shrink-0 bg-slate-50 overflow-hidden">
+                                        <Image
+                                            src={product.image_url || 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600'}
+                                            alt={product.name}
+                                            fill
+                                            className="object-contain"
+                                            onError={(e) => {
+                                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=600';
+                                            }}
+                                        />
+                                    </div>
+                                    <span className="text-xs text-slate-700 group-hover:text-brand line-clamp-2">
+                                        {product.name}
+                                    </span>
+                                </Link>
+                            ))}
+                        </div>
+                    ) : (
+                        !isLoadingSuggestions && searchQuery.length >= 2 && (
+                            <div className="px-4 py-6 text-center">
+                                <p className="text-xs text-slate-500">No products found.</p>
+                            </div>
+                        )
+                    )}
+                </div>
             </div>
 
             <div className="space-y-6">

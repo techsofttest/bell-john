@@ -13,7 +13,7 @@ export default function ContactPage() {
 
             {/* 2. Your Existing Two-Column Contact Form & Info Panel */}
             <div className="relative -mt-8 z-20">
-                <ContactSection region="Kuwait" />
+                <ContactSection />
             </div>
 
             {/* 3. Marquee Strip */}

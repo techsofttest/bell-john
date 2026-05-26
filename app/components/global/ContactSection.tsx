@@ -2,33 +2,14 @@
 
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import Button from "../ui/Button";
+import { useRegion } from "@/app/context/RegionContext";
 
-const contactData: Record<string, {
-    address: string[];
-    phones: string[];
-    email: string;
-    hours: { days: string; time: string }[];
-}> = {
-    Kuwait: {
-        address: [
-            "Al Tujjar Tower, Tower B, Floor 7, Office # 6",
-            "Abdulaziz Hamad Al Saqer St, Kuwait City",
-        ],
-        phones: ["+965-224-59082", "+965-224-59083", "+965-224-59084"],
-        email: "info@bellandjohn.online",
-        hours: [
-            { days: "Sunday – Thursday", time: "8:00 AM – 5:00 PM" },
-            { days: "Saturday", time: "9:00 AM – 1:00 PM" },
-        ],
-    },
-};
+export default function ContactSection() {
+    const { selectedCountry } = useRegion();
 
-interface ContactSectionProps {
-    region?: string;
-}
-
-export default function ContactSection({ region = "Kuwait" }: ContactSectionProps) {
-    const info = contactData[region] || contactData["Kuwait"];
+    const phones     = selectedCountry?.phone_numbers ?? [];
+    const email      = selectedCountry?.email_address ?? null;
+    const address    = selectedCountry?.address ?? null;      // HTML string from RichEditor
 
     return (
         <section className="bg-[#F8FAFC] border-t border-slate-200">
@@ -40,6 +21,9 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                         <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand mb-2">Contact Us</p>
                         <h2 className="text-xl md:text-3xl font-semibold text-slate-900 leading-tight">
                             We&apos;re here to help
+                            {selectedCountry && (
+                                <span className="text-brand"> — {selectedCountry.name}</span>
+                            )}
                         </h2>
                     </div>
                     <p className="text-sm text-slate-750 max-w-sm leading-relaxed font-normal">
@@ -54,47 +38,55 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                     <div className="lg:col-span-2 py-12 lg:pr-12 lg:border-r border-slate-200 flex flex-col gap-10">
 
                         {/* Address */}
-                        <div className="flex gap-4 group">
-                            <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-slate-200/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-brand/30 group-hover:bg-brand/5 group-hover:shadow-md">
-                                <MapPin size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+                        {address && (
+                            <div className="flex gap-4 group">
+                                <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-slate-200/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-brand/30 group-hover:bg-brand/5 group-hover:shadow-md">
+                                    <MapPin size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+                                </div>
+                                <div>
+                                    <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Visit Us</p>
+                                    {/* Rich text from Filament RichEditor — preserves line breaks & formatting */}
+                                    <div
+                                        className="text-sm text-slate-800 leading-relaxed font-normal prose prose-sm max-w-none prose-p:my-1"
+                                        dangerouslySetInnerHTML={{ __html: address }}
+                                    />
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Visit Us</p>
-                                {info.address.map((line, i) => (
-                                    <p key={i} className="text-sm text-slate-800 leading-relaxed font-normal">{line}</p>
-                                ))}
-                            </div>
-                        </div>
+                        )}
 
                         {/* Phone */}
-                        <div className="flex gap-4 group">
-                            <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-slate-200/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-brand/30 group-hover:bg-brand/5 group-hover:shadow-md">
-                                <Phone size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+                        {phones.length > 0 && (
+                            <div className="flex gap-4 group">
+                                <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-slate-200/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-brand/30 group-hover:bg-brand/5 group-hover:shadow-md">
+                                    <Phone size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+                                </div>
+                                <div>
+                                    <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Call Us</p>
+                                    {phones.map((p, i) => (
+                                        <a key={i} href={`tel:${p.number}`} className="block text-sm text-slate-800 hover:text-brand font-semibold transition-colors">
+                                            {p.number}
+                                        </a>
+                                    ))}
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Call Us</p>
-                                {info.phones.map((phone, i) => (
-                                    <a key={i} href={`tel:${phone}`} className="block text-sm text-slate-800 hover:text-brand font-semibold transition-colors">
-                                        {phone}
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
+                        )}
 
                         {/* Email */}
-                        <div className="flex gap-4 group">
-                            <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-slate-200/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-brand/30 group-hover:bg-brand/5 group-hover:shadow-md">
-                                <Mail size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+                        {email && (
+                            <div className="flex gap-4 group">
+                                <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-slate-200/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-brand/30 group-hover:bg-brand/5 group-hover:shadow-md">
+                                    <Mail size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+                                </div>
+                                <div>
+                                    <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Email</p>
+                                    <a href={`mailto:${email}`} className="text-sm text-brand font-semibold hover:underline break-all transition-colors">
+                                        {email}
+                                    </a>
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Email</p>
-                                <a href={`mailto:${info.email}`} className="text-sm text-brand font-semibold hover:underline break-all transition-colors">
-                                    {info.email}
-                                </a>
-                            </div>
-                        </div>
+                        )}
 
-                        {/* Hours */}
+                        {/* Hours — static, not region-specific */}
                         <div className="flex gap-4 group">
                             <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-slate-200/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-brand/30 group-hover:bg-brand/5 group-hover:shadow-md">
                                 <Clock size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
@@ -102,7 +94,10 @@ export default function ContactSection({ region = "Kuwait" }: ContactSectionProp
                             <div className="flex-1">
                                 <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Working Hours</p>
                                 <div className="space-y-2">
-                                    {info.hours.map((h, i) => (
+                                    {[
+                                        { days: "Sunday – Thursday", time: "8:00 AM – 5:00 PM" },
+                                        { days: "Saturday",          time: "9:00 AM – 1:00 PM" },
+                                    ].map((h, i) => (
                                         <div key={i} className="flex items-center justify-between gap-6 text-sm">
                                             <span className="text-slate-600 font-normal">{h.days}</span>
                                             <span className="text-slate-900 font-semibold">{h.time}</span>

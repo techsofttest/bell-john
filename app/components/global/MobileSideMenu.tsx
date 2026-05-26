@@ -228,16 +228,7 @@ export default function MobileSideMenu({
                                                                                                 key={`${item.id ?? iIdx}`}
                                                                                             >
                                                                                                 <Link
-                                                                                                    href={`/products/category/${
-                                                                                                        cat.slug ||
-                                                                                                        cat.id
-                                                                                                    }/${
-                                                                                                        sub.slug ||
-                                                                                                        sub.id
-                                                                                                    }/${
-                                                                                                        item.slug ||
-                                                                                                        item.id
-                                                                                                    }`}
+                                                                                                    href={`/products/category/${cat.slug || cat.id}/${sub.slug || sub.id}?sub=${item.slug || item.id}`}
                                                                                                     onClick={onClose}
                                                                                                     className="flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-brand"
                                                                                                 >

@@ -69,7 +69,7 @@ export default async function SubCategoryListingPage({
     }
 
     // Fetch products
-    const { products } = await getProducts(paramsMap);
+    const { products, total } = await getProducts(paramsMap);
 
     return (
         <div className="bg-[#F4F5F7] min-h-screen pb-24 font-sans">
@@ -97,7 +97,7 @@ export default async function SubCategoryListingPage({
                                 <ArrowLeft className="w-4 h-4" />
                             </Link>
                             <h1 className="text-xl md:text-2xl text-slate-900 font-bold">
-                                {subCategoryInfo.title} <span className="text-sm font-normal text-slate-500 ml-2">({products.length} Items)</span>
+                                {subCategoryInfo.title} <span className="text-sm font-normal text-slate-500 ml-2">({total} Items)</span>
                             </h1>
                         </div>
                         <div className="flex items-center gap-3">

@@ -494,7 +494,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                                         {(sub.children || sub.items || []).map((item: any, iIdx: number) => (
                                                             <li key={iIdx}>
                                                                 <Link
-                                                                    href={`/products/category/${categories[activeCategory].slug || categories[activeCategory].id}/${sub.slug || sub.id}/${item.slug || item.id}`}
+                                                                    href={`/products/category/${categories[activeCategory].slug || categories[activeCategory].id}/${sub.slug || sub.id}?sub=${item.slug || item.id}`}
                                                                     className="text-sm text-slate-500 hover:text-brand transition-all flex items-center group/item"
                                                                 >
                                                                     <span className="w-0 h-0.5 bg-brand mr-0 transition-all group-hover/item:w-3 group-hover/item:mr-2"></span>
