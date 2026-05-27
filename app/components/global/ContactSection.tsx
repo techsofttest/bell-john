@@ -10,6 +10,7 @@ export default function ContactSection() {
     const phones = selectedCountry?.phone_numbers ?? [];
     const email = selectedCountry?.email_address ?? null;
     const address = selectedCountry?.address ?? null;      // HTML string from RichEditor
+    const workingHours = selectedCountry?.working_hours ?? null;
 
     return (
         <section className="bg-[#F8FAFC] border-t border-slate-200">
@@ -86,26 +87,21 @@ export default function ContactSection() {
                             </div>
                         )}
 
-                        {/* Hours — static, not region-specific */}
-                        <div className="flex gap-4 group">
-                            <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-slate-200/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-brand/30 group-hover:bg-brand/5 group-hover:shadow-md">
-                                <Clock size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
-                            </div>
-                            <div className="flex-1">
-                                <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Working Hours</p>
-                                <div className="space-y-2">
-                                    {[
-                                        { days: "Monday – Friday", time: "8:00 AM – 5:00 PM" },
-                                        { days: "Saturday", time: "9:00 AM – 1:00 PM" },
-                                    ].map((h, i) => (
-                                        <div key={i} className="flex items-center justify-between gap-6 text-sm">
-                                            <span className="text-slate-600 font-normal">{h.days}</span>
-                                            <span className="text-slate-900 font-semibold">{h.time}</span>
-                                        </div>
-                                    ))}
+                        {/* Working Hours */}
+                        {workingHours && (
+                            <div className="flex gap-4 group">
+                                <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-white border border-slate-200/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-brand/30 group-hover:bg-brand/5 group-hover:shadow-md">
+                                    <Clock size={18} className="text-brand transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-600 mb-2">Working Hours</p>
+                                    <div
+                                        className="text-sm text-slate-800 leading-relaxed font-normal prose prose-sm max-w-none prose-p:my-1"
+                                        dangerouslySetInnerHTML={{ __html: workingHours }}
+                                    />
                                 </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Divider + Note */}
                         <div className="pt-6 mt-2 border-t border-slate-200/60">

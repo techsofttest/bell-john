@@ -11,6 +11,7 @@ export interface Country {
     address: string | null;
     phone_numbers: { number: string }[];
     email_address: string | null;
+    working_hours: string | null;
 }
 
 interface RegionContextType {
@@ -65,16 +66,6 @@ export function RegionProvider({ children }: { children: React.ReactNode }) {
                         }
 
                         let active = fetchedCountries.find((c: Country) => c.code.toLowerCase() === savedCode.toLowerCase());
-                        
-                        // 2. Fallback to default country in DB
-                        if (!active) {
-                            active = fetchedCountries.find((c: Country) => c.is_default);
-                        }
-
-                        // 3. Fallback to first active country
-                        if (!active && fetchedCountries.length > 0) {
-                            active = fetchedCountries[0];
-                        }
 
                         if (active) {
                             setSelectedCountry(active);

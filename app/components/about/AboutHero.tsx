@@ -43,7 +43,7 @@ export default function AboutHero() {
                     {/* Full Width Image Card */}
                     <div className="md:col-span-12 relative h-[300px] md:h-[500px] border-t border-slate-200 overflow-hidden group">
                         <Image 
-                            src="/about-page/Who We Are.jpg" 
+                            src="/about-page/gcc.jpeg" 
                             alt="Bell & John Heritage" 
                             fill 
                             className="object-cover group-hover:scale-105 transition-transform duration-1000 grayscale-[20%] group-hover:grayscale-0" 

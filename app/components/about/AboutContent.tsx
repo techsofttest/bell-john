@@ -16,11 +16,11 @@ export default function AboutContent() {
                 {/* Kuwait Office */}
                 <div className="group border-b md:border-b-0 md:border-r border-slate-200 bg-white">
                     <div className="relative h-[350px] overflow-hidden grayscale-[30%] group-hover:grayscale-0 transition-all duration-700">
-                        <Image 
-                            src="/about-page/Who We Are.jpg" 
-                            alt="Bell & John Kuwait" 
-                            fill 
-                            className="object-cover group-hover:scale-105 transition-transform duration-700" 
+                        <Image
+                            src="/about-page/Who We Are.jpg"
+                            alt="Bell & John Kuwait"
+                            fill
+                            className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                         />
                         <div className="absolute top-8 left-8">
                             <div className="px-5 py-2 bg-white text-[11px] font-bold uppercase tracking-widest text-slate-900 border border-slate-200 rounded-full shadow-sm">
@@ -28,7 +28,7 @@ export default function AboutContent() {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div className="p-10 md:p-14">
                         <h3 className="font-serif text-3xl text-slate-900 font-medium mb-6 group-hover:text-brand transition-colors tracking-tight">
                             Kuwait · Bell & John Trading Co. W.L.L.
@@ -42,11 +42,11 @@ export default function AboutContent() {
                 {/* UAE Office */}
                 <div className="group bg-white">
                     <div className="relative h-[350px] overflow-hidden grayscale-[30%] group-hover:grayscale-0 transition-all duration-700">
-                        <Image 
-                            src="/about-page/warehouse interior.jpg" 
-                            alt="Bell & John UAE" 
-                            fill 
-                            className="object-cover group-hover:scale-105 transition-transform duration-700" 
+                        <Image
+                            src="/about-page/warehouse interior.jpg"
+                            alt="Bell & John UAE"
+                            fill
+                            className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                         />
                         <div className="absolute top-8 left-8">
                             <div className="px-5 py-2 bg-white text-[11px] font-bold uppercase tracking-widest text-slate-900 border border-slate-200 rounded-full shadow-sm">
@@ -54,7 +54,7 @@ export default function AboutContent() {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div className="p-10 md:p-14">
                         <h3 className="font-serif text-3xl text-slate-900 font-medium mb-6 group-hover:text-brand transition-colors tracking-tight">
                             UAE · Bell & John General Trading Co. L.L.C.
