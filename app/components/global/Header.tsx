@@ -84,7 +84,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                 try {
                     const prods = await getProductsByCategory(cat.slug || cat.id, 1, selectedCountry?.code);
                     if (prods && prods.length > 0) return { ...cat, image: prods[0].image };
-                } catch (e) {}
+                } catch (e) { }
                 return cat;
             }));
             if (mounted) setResolvedCategories(out);
@@ -110,28 +110,28 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
             setIsLoadingSuggestions(false);
             return;
         }
-        
+
         setIsLoadingSuggestions(true);
         const timer = setTimeout(async () => {
             try {
                 const res = await fetch(
                     `${API_URL}/products/suggestions?q=${encodeURIComponent(searchQuery.trim())}`,
-                    { 
+                    {
                         cache: 'no-store',
                         headers: {
                             'Accept': 'application/json',
                         }
                     }
                 );
-                
+
                 if (!res.ok) {
                     console.error(`Search failed with status ${res.status}`);
                     setSuggestions([]);
                     return;
                 }
-                
+
                 const json = await res.json();
-                
+
                 // Validate response structure
                 if (json.status === 'success' && Array.isArray(json.data)) {
                     setSuggestions(json.data);
@@ -160,7 +160,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
     return (
         <>
             <header className={`fixed top-0 left-0 right-0 z-50 flex flex-col w-full bg-white transition-all duration-300 ${isScrolled ? "shadow-md" : "border-b border-slate-100"}`}>
-                
+
                 {/* --- Mobile Top Navigation --- */}
                 <MobileTopNav onOpenSideMenu={() => setIsMobileSideMenuOpen(true)} />
 
@@ -382,7 +382,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                                 {mounted && isLoggedIn && customer ? `Hello, ${customer.name}` : "Account"}
                                             </p>
                                         </div>
-                                        
+
                                         {(!mounted || !isLoggedIn) ? (
                                             <>
                                                 <Link href="/auth/login" className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg">
@@ -400,7 +400,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                                 <Link href="/my-requests" className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg">
                                                     My Quotes
                                                 </Link>
-                                                <button 
+                                                <button
                                                     onClick={() => logout()}
                                                     className="w-full text-left flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 text-red-600 hover:text-red-700 transition-colors text-sm font-medium rounded-lg"
                                                 >
@@ -439,7 +439,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                     >
                                         <div className="relative w-8 h-8 rounded-full overflow-hidden border border-slate-100 shadow-sm">
                                             {encodeImageUrl(category.image) && (
-                                                <Image src={encodeImageUrl(category.image)!} alt={category.name || category.title} fill className="object-contain" />
+                                                <Image src={encodeImageUrl(category.image)!} alt={category.name || category.title} fill className="object-cover" />
                                             )}
                                         </div>
                                         {category.name || category.title}
@@ -447,7 +447,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                     </Link>
                                 </div>
                             ))}
-                            
+
                         </div>
                     </div>
 
@@ -461,16 +461,16 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                     {/* Category Header */}
                                     <div className="col-span-1 border-r border-slate-100 pr-10 flex flex-col">
                                         <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-6 shadow-md bg-slate-50">
-                                        {encodeImageUrl(resolvedCategories[activeCategory]?.image) && (
-                                            <Image src={encodeImageUrl(resolvedCategories[activeCategory]?.image)!} alt={resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title} fill className="object-contain" />
-                                        )}
-                                    </div>
-                                            <h3 className="font-serif text-3xl font-medium tracking-tight text-slate-900 mb-4">
-                                                {resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title}
-                                            </h3>
-                                            <p className="text-sm text-slate-500 font-light leading-relaxed mb-8">
-                                                Explore our comprehensive range of high-quality {(resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title)?.toLowerCase()} tailored for your business needs.
-                                            </p>
+                                            {encodeImageUrl(resolvedCategories[activeCategory]?.image) && (
+                                                <Image src={encodeImageUrl(resolvedCategories[activeCategory]?.image)!} alt={resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title} fill className="object-contain" />
+                                            )}
+                                        </div>
+                                        <h3 className="font-serif text-3xl font-medium tracking-tight text-slate-900 mb-4">
+                                            {resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title}
+                                        </h3>
+                                        <p className="text-sm text-slate-500 font-light leading-relaxed mb-8">
+                                            Explore our comprehensive range of high-quality {(resolvedCategories[activeCategory]?.name || resolvedCategories[activeCategory]?.title)?.toLowerCase()} tailored for your business needs.
+                                        </p>
                                         <Link
                                             href={`/products/category/${resolvedCategories[activeCategory]?.slug || resolvedCategories[activeCategory]?.id}`}
                                             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-900 hover:text-brand transition-colors"
@@ -515,26 +515,26 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
             </header>
 
             {/* --- Mobile Navigation Overlays & Bars --- */}
-            <MobileBottomNav 
+            <MobileBottomNav
                 onOpenSearch={() => setIsMobileSearchOpen(true)}
                 onOpenMore={() => setIsMobileMoreModalOpen(true)}
             />
 
-            <MobileSearchOverlay 
-                isOpen={isMobileSearchOpen} 
-                onClose={() => setIsMobileSearchOpen(false)} 
+            <MobileSearchOverlay
+                isOpen={isMobileSearchOpen}
+                onClose={() => setIsMobileSearchOpen(false)}
                 popularSearches={popularSearches}
             />
 
-            <MobileSideMenu 
-                isOpen={isMobileSideMenuOpen} 
-                onClose={() => setIsMobileSideMenuOpen(false)} 
+            <MobileSideMenu
+                isOpen={isMobileSideMenuOpen}
+                onClose={() => setIsMobileSideMenuOpen(false)}
                 categories={resolvedCategories}
             />
 
-            <MobileMoreModal 
-                isOpen={isMobileMoreModalOpen} 
-                onClose={() => setIsMobileMoreModalOpen(false)} 
+            <MobileMoreModal
+                isOpen={isMobileMoreModalOpen}
+                onClose={() => setIsMobileMoreModalOpen(false)}
             />
         </>
     );
