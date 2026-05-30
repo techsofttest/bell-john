@@ -4,7 +4,7 @@ const items = [
     "Premium Office Supplies",
     "Bulk Orders Welcome",
     "GCC-Wide Delivery",
-    "Trusted Since 2000",
+    "Trusted Since 2003",
     "Office Furniture",
     "Digital Supplies",
     "Office Machines",

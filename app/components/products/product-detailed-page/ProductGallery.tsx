@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import { ChevronLeft, ChevronRight, ZoomIn, X } from "lucide-react";
 import { useRef, useState, useCallback } from "react";
 
 interface ProductGalleryProps {
@@ -38,6 +38,8 @@ export default function ProductGallery({
     const [panelPos, setPanelPos] = useState({ top: 0, left: 0 });
     // Source image natural dimensions captured once per mount (for bg-size)
     const [imgNaturalSize, setImgNaturalSize] = useState({ w: 0, h: 0 });
+    const [mobileZoomOpen, setMobileZoomOpen] = useState(false);
+    
 
     const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -103,6 +105,11 @@ export default function ProductGallery({
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={() => setIsZooming(false)}
                 onMouseMove={handleMouseMove}
+                onClick={() => {
+                    if (window.innerWidth < 1024) {
+                        setMobileZoomOpen(true);
+                    }
+                }}
             >
                 <Image
                     src={selectedImage}
@@ -133,7 +140,15 @@ export default function ProductGallery({
                     }`}
                 >
                     <ZoomIn size={13} />
-                    <span>Hover to zoom</span>
+
+                     <span className="hidden lg:inline">
+                        Hover to zoom
+                    </span>
+
+                    <span className="lg:hidden">
+                        Tap to zoom
+                    </span>
+
                 </div>
 
                 {/* Dynamic Tag */}
@@ -179,7 +194,35 @@ export default function ProductGallery({
                         backgroundPosition: `${bgX}px ${bgY}px`,
                     }}
                 />
+
             )}
+
+
+
+            {mobileZoomOpen && (
+    <div className="lg:hidden fixed inset-0 z-[99999] bg-black">
+        <button
+            onClick={() => setMobileZoomOpen(false)}
+            className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur text-white flex items-center justify-center"
+        >
+            <X size={20} />
+        </button>
+
+        <div className="w-full h-full overflow-auto">
+            <div className="min-h-full flex items-center justify-center p-4">
+                <Image
+                    src={selectedImage}
+                    alt={title}
+                    width={2500}
+                    height={2500}
+                    priority
+                    className="max-w-none w-auto h-auto"
+                />
+            </div>
+        </div>
+    </div>
+)}
+
 
             {/* ── Thumbnail strip ───────────────────────────────────────────── */}
             {galleryImages.length > 1 && (

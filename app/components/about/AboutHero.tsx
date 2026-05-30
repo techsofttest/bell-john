@@ -41,19 +41,58 @@ export default function AboutHero() {
                     </div>
 
                     {/* Full Width Image Card */}
-                    <div className="md:col-span-12 relative h-[300px] md:h-[500px] border-t border-slate-200 overflow-hidden group">
-                        <Image 
-                            src="/about-page/gcc.jpeg" 
-                            alt="Bell & John Heritage" 
-                            fill 
-                            className="object-cover group-hover:scale-105 transition-transform duration-1000 grayscale-[20%] group-hover:grayscale-0" 
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
-                        <div className="absolute bottom-10 left-10 text-white">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.3em] mb-3 text-brand">Heritage & Vision</p>
-                            <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight">Serving the GCC Since 2003</h2>
-                        </div>
-                    </div>
+                    <div className="md:col-span-12 border-t border-slate-200 overflow-hidden group">
+
+    {/* Mobile */}
+    <div className="relative md:hidden">
+        <Image
+            src="/about-page/gcc.jpeg"
+            alt="Bell & John Heritage"
+            width={1920}
+            height={1080}
+            className="w-full h-auto"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+
+        <div className="absolute bottom-4 left-4 right-4 text-white">
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] mb-2 text-brand">
+                Heritage & Vision
+            </p>
+
+            <h2 className="font-serif text-xl font-semibold tracking-tight">
+                Serving the GCC Since 2003
+            </h2>
+        </div>
+    </div>
+
+    {/* Desktop */}
+    <div className="hidden md:block relative h-[500px]">
+        <Image
+            src="/about-page/gcc.jpeg"
+            alt="Bell & John Heritage"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-1000 grayscale-[20%] group-hover:grayscale-0"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+
+        <div className="absolute bottom-10 left-10 text-white">
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] mb-3 text-brand">
+                Heritage & Vision
+            </p>
+
+            <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight">
+                Serving the GCC Since 2003
+            </h2>
+        </div>
+    </div>
+
+</div>
+
+
+
+
                 </div>
             </div>
         </div>
