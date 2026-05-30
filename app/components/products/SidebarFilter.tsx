@@ -205,7 +205,7 @@ export default function SidebarFilter({ categoryTree, currentSlug }: SidebarFilt
                                                 {subCat.title}
                                             </span>
                                             <div className="flex items-center gap-2">
-                                                <span className="text-[10px] text-slate-400 font-medium bg-white border border-slate-300 px-2 py-0.5 rounded-full">
+                                                <span className="hidden text-[10px] text-slate-400 font-medium bg-white border border-slate-300 px-2 py-0.5 rounded-full">
                                                     {subCat.count}
                                                 </span>
                                                 <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-300 ${isOpen ? "rotate-180 text-brand" : ""}`} />
@@ -219,7 +219,7 @@ export default function SidebarFilter({ categoryTree, currentSlug }: SidebarFilt
                                             <span className="text-[13px] font-semibold">
                                                 {subCat.title}
                                             </span>
-                                            <span className={`text-[10px] font-medium border px-2 py-0.5 rounded-full ${isParentActive ? "bg-brand text-white border-brand" : "bg-white text-slate-400 border-slate-300"}`}>
+                                            <span className={`hidden text-[10px] font-medium border px-2 py-0.5 rounded-full ${isParentActive ? "bg-brand text-white border-brand" : "bg-white text-slate-400 border-slate-300"}`}>
                                                 {subCat.count}
                                             </span>
                                         </Link>
@@ -236,7 +236,7 @@ export default function SidebarFilter({ categoryTree, currentSlug }: SidebarFilt
                                                                 className={`flex items-center justify-between px-3 py-2 text-[13px] rounded-md transition-colors ${isActive ? "bg-brand text-white font-medium" : "text-slate-500 hover:text-brand hover:bg-slate-50"}`}
                                                             >
                                                                 <span>{child.title}</span>
-                                                                <span className={`text-[10px] ${isActive ? "text-white/80" : "text-slate-400"}`}>{child.count}</span>
+                                                                <span className={`hidden text-[10px] ${isActive ? "text-white/80" : "text-slate-400"}`}>{child.count}</span>
                                                             </Link>
                                                         </li>
                                                     );
