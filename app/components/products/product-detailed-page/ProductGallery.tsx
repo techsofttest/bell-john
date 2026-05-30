@@ -208,18 +208,18 @@ export default function ProductGallery({
             <X size={20} />
         </button>
 
-        <div className="w-full h-full overflow-auto">
-            <div className="min-h-full flex items-center justify-center p-4">
-                <Image
-                    src={selectedImage}
-                    alt={title}
-                    width={2500}
-                    height={2500}
-                    priority
-                    className="max-w-none w-auto h-auto"
-                />
-            </div>
+        <div className="relative w-full h-full flex items-center justify-center p-4">
+            <Image
+                src={selectedImage}
+                alt={title}
+                fill
+                priority
+                className="object-contain"
+                sizes="100vw"
+            />
         </div>
+
+
     </div>
 )}
 
