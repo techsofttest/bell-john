@@ -11,7 +11,7 @@ const slides = [
         id: 1,
         title: "Precision in Every Detail.",
         subtitle: "Architectural office solutions and premium stationery for the modern workspace.",
-        ctaPrimary: "View Catalog",
+        ctaPrimary: "Explore Products",
         ctaSecondary: "Our Story",
         image: "/banner-products/printer.png",
     },
@@ -19,16 +19,16 @@ const slides = [
         id: 2,
         title: "The Digital Backbone.",
         subtitle: "High-performance storage and networking essentials for seamless enterprise connectivity.",
-        ctaPrimary: "Digital Supplies",
-        ctaSecondary: "Tech Specs",
+        ctaPrimary: "Explore Products",
+        ctaSecondary: "Our Story",
         image: "/banner-products/meeting-table.png",
     },
     {
         id: 3,
         title: "Tailored Efficiency.",
         subtitle: "Customized procurement solutions for corporate headquarters across the GCC.",
-        ctaPrimary: "Get a Quote",
-        ctaSecondary: "Contact Us",
+        ctaPrimary: "Explore Products",
+        ctaSecondary: "Our Story",
         image: "/banner-products/storage-cab.png",
     }
 ];
@@ -97,7 +97,7 @@ export default function HeroSlider() {
                                     </Link>
 
                                     {/* Tertiary Ghost Button (White text variant) */}
-                                    <Link href="/contact">
+                                    <Link href="/about">
                                         <Button variant="tertiary" className="text-white hover:bg-white/10 hover:text-white border border-white/20">
                                             {slide.ctaSecondary}
                                         </Button>

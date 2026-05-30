@@ -52,11 +52,7 @@ export default async function Home() {
         <CoreCategories categories={categories} />
       )}
 
-      {/* Promo Banner Interruption with Data */}
-      <div className="max-w-[1400px] mx-auto w-full px-6 lg:px-12 my-10">
-        <PromoBanner offers={mockOffers} />
-      </div>
-
+      
       <CategorySpotlight />
 
       <VisionMission />

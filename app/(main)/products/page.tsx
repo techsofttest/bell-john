@@ -3,7 +3,6 @@ import { ChevronRight } from "lucide-react";
 
 // Importing Global Components
 import CoreCategories from "@/app/components/global/CoreCategories";
-import PromoBanner from "@/app/components/global/PromoBanner";
 
 // Importing Product-Specific Components
 import HighlightBanner from "@/app/components/products/HighlightBanner";
@@ -146,8 +145,6 @@ export default async function AllProductsPage({ searchParams }: PageProps) {
                     </h1>
                 </div>
 
-                {/* 2. Highlight Slider Banner */}
-                <HighlightBanner />
 
             </div>
 
@@ -174,10 +171,7 @@ export default async function AllProductsPage({ searchParams }: PageProps) {
 
             </div>
 
-            {/* 6. Promo Banner Interruption */}
-            <div className="max-w-[1400px] mx-auto px-6 lg:px-12 my-10">
-                <PromoBanner offers={mockOffers} />
-            </div>
+           
 
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 

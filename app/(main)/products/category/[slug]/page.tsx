@@ -124,19 +124,6 @@ export default async function CategoryListingPage({
                 {/* Right Content Area */}
                 <main className="flex-1 w-full overflow-hidden">
 
-                    {/* Promotional Highlight Banner (Visible only when not filtering) */}
-                    {!activeSub && (
-                        <div className="mb-10">
-                            <HighlightBanner
-                                bannerTitle="Bulk Offer on Writing Instruments"
-                                bannerSubtitle="UP TO 40% OFF"
-                                bannerDescription="Stock up your office with premium gel pens, markers, and executive sets. Valid for B2B accounts."
-                                bannerButtonText="Shop Offers"
-                                bannerLink={`/products/category/${currentSlug}/writing-instruments`}
-                                bannerImage="https://images.unsplash.com/photo-1585336261022-680e295ce3fe?q=80&w=800"
-                            />
-                        </div>
-                    )}
 
                     {/* Active Filter Header */}
                     {activeSub && (
