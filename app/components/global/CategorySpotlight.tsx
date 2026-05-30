@@ -116,7 +116,7 @@ export default function CategorySpotlight() {
                     {categories.map((c) => (
                         <div key={c.id} className="snap-start shrink-0 w-[70vw] md:w-[360px] lg:w-[calc(25%-24px)] animate-fade-in">
                             <Link 
-                                href={`/products?category=${c.slug}`}
+                                href={`/products/category/${c.slug}`}
                                 className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-white border border-slate-100 hover:border-brand/20 shadow-sm hover:shadow-xl transition-all duration-500 h-[280px] w-full"
                             >
                                 {/* Dark Gradient Overlay */}
