@@ -21,6 +21,7 @@ export interface Product {
     variants?: ProductVariants;
     description: string;
     specifications: Record<string, string>;
+    skus?: string[];
 }
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://bellnjohn.test:90/api';
@@ -103,9 +104,27 @@ export function mapLaravelProduct(laravelProduct: any): Product {
     if (laravelProduct.brand?.name) {
         specifications["Brand"] = laravelProduct.brand.name;
     }
-    if (laravelProduct.sku) {
-        specifications["SKU"] = laravelProduct.sku;
+    
+    let skus: string[] = [];
+    if (Array.isArray(laravelProduct.sku)) {
+        skus = laravelProduct.sku;
+    } else if (typeof laravelProduct.sku === 'string' && laravelProduct.sku) {
+        try {
+            const parsed = JSON.parse(laravelProduct.sku);
+            if (Array.isArray(parsed)) {
+                skus = parsed;
+            } else {
+                skus = [laravelProduct.sku];
+            }
+        } catch (e) {
+            skus = laravelProduct.sku.split(',').map((s: string) => s.trim()).filter(Boolean);
+        }
     }
+
+    if (skus.length > 0) {
+        specifications["SKU"] = skus.join(', ');
+    }
+    
     if (laravelProduct.product_id) {
         specifications["Product ID"] = laravelProduct.product_id;
     }
@@ -125,7 +144,8 @@ export function mapLaravelProduct(laravelProduct: any): Product {
         tag,
         variants,
         description: laravelProduct.description || '',
-        specifications
+        specifications,
+        skus
     };
 }
 

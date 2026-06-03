@@ -29,9 +29,14 @@ export default function CartItem({ item, onRemove, onUpdateQty }: ItemProps) {
                     </div>
 
 
-                    {/* Selected Options (Size, Color, Pack) */}
-                    {(item.size || item.color || item.packaging) && (
+                    {/* Selected Options (Size, Color, Pack, SKU) */}
+                    {(item.size || item.color || item.packaging || item.sku) && (
                         <div className="flex flex-wrap gap-x-4 gap-y-1 mb-2">
+                            {item.sku && (
+                                <span className="text-[10px] text-slate-800 font-extrabold uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                                    SKU: <span className="text-brand">{item.sku}</span>
+                                </span>
+                            )}
                             {item.size && (
                                 <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
                                     Size: <span className="text-slate-900">{item.size}</span>

@@ -39,6 +39,7 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
     const [size, setSize] = useState(product.variants?.sizes?.[0] || "");
     const [color, setColor] = useState(product.variants?.colors?.[0] || "");
     const [packaging, setPackaging] = useState(product.variants?.packaging?.[0] || "");
+    const [selectedSku, setSelectedSku] = useState(product.skus?.[0] || "");
 
     const [isAdding, setIsAdding] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
@@ -53,7 +54,8 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                 qty,
                 size: size || undefined,
                 color: color || undefined,
-                packaging: packaging || undefined
+                packaging: packaging || undefined,
+                sku: selectedSku || undefined
             });
             setIsAdding(false);
             setIsAdded(true);
@@ -167,6 +169,33 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                                             packaging={packaging}
                                             setPackaging={setPackaging}
                                         />
+                                    </div>
+                                )}
+
+                                {/* SKU Selection if multiple */}
+                                {product.skus && product.skus.length > 1 && (
+                                    <div className="border-t border-slate-200 pt-5">
+                                        <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">
+                                            Select Item SKU / Model Code
+                                        </label>
+                                        <div className="relative">
+                                            <select
+                                                value={selectedSku}
+                                                onChange={(e) => setSelectedSku(e.target.value)}
+                                                className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm font-semibold text-slate-700 outline-none focus:border-brand/40 focus:ring-1 focus:ring-brand/10 transition-all appearance-none cursor-pointer"
+                                            >
+                                                {product.skus.map((skuCode) => (
+                                                    <option key={skuCode} value={skuCode}>
+                                                        {skuCode}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
 

@@ -118,7 +118,8 @@ export default function CheckoutPage() {
             items: cartItems.map(item => ({
                 product_id: item.id,
                 qty: item.qty,
-                variant_id: null
+                variant_id: null,
+                sku: item.sku || null
             }))
         };
 

@@ -13,6 +13,7 @@ interface CartItem {
     size?: string;
     color?: string;
     packaging?: string;
+    sku?: string;
 }
 
 interface CheckoutSummaryProps {
@@ -71,6 +72,7 @@ export default function CheckoutSummary({
                                         
                                         {/* Variant Specifications */}
                                         <div className="text-[10px] text-slate-500 mt-1 space-y-0.5 font-semibold uppercase tracking-wider">
+                                            {item.sku && <p>SKU: <span className="text-slate-800">{item.sku}</span></p>}
                                             {item.size && <p>Size: <span className="text-slate-800">{item.size}</span></p>}
                                             {item.color && <p>Color: <span className="text-slate-800">{item.color}</span></p>}
                                             {item.packaging && <p>Packaging: <span className="text-slate-800">{item.packaging}</span></p>}
@@ -78,7 +80,7 @@ export default function CheckoutSummary({
                                     </div>
 
                                     {/* Accordion toggle for details */}
-                                    {(item.size || item.color || item.packaging) && (
+                                    {(item.sku || item.size || item.color || item.packaging) && (
                                         <button 
                                             onClick={() => setExpandedItem(isExpanded ? null : item.id)}
                                             className="text-[10px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1 mt-1 hover:text-slate-900"
