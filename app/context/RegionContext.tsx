@@ -12,12 +12,14 @@ export interface Country {
     phone_numbers: { number: string }[];
     email_address: string | null;
     working_hours: string | null;
+    map_code: string | null;
 }
 
 interface RegionContextType {
     selectedCountry: Country | null;
     countries: Country[];
     logoUrl: string;
+    clients: any[];
     selectCountry: (countryCode: string) => void;
     isLoading: boolean;
 }
@@ -27,6 +29,7 @@ const RegionContext = createContext<RegionContextType | undefined>(undefined);
 export function RegionProvider({ children }: { children: React.ReactNode }) {
     const [countries, setCountries] = useState<Country[]>([]);
     const [logoUrl, setLogoUrl] = useState<string>("/logo/logo.png");
+    const [clients, setClients] = useState<any[]>([]);
     const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -38,6 +41,8 @@ export function RegionProvider({ children }: { children: React.ReactNode }) {
                     const json = await res.json();
                     if (json.status === "success" && json.data) {
                         const rawCountries: any[] = json.data.countries || [];
+                        const rawClients: any[] = json.data.clients || [];
+                        setClients(rawClients);
 
                         // Normalize phone_numbers: Laravel may return the JSON
                         // column as a raw string instead of a parsed array.
@@ -90,13 +95,14 @@ export function RegionProvider({ children }: { children: React.ReactNode }) {
             setSelectedCountry(country);
             document.cookie = `bj_selected_country=${country.code}; path=/; max-age=31536000; SameSite=Lax`;
             localStorage.setItem("bj_selected_country", country.code);
+            sessionStorage.setItem("justSelectedCountry", "true");
             // Refresh page to reload products for new country
             window.location.reload();
         }
     };
 
     return (
-        <RegionContext.Provider value={{ selectedCountry, countries, logoUrl, selectCountry, isLoading }}>
+        <RegionContext.Provider value={{ selectedCountry, countries, logoUrl, clients, selectCountry, isLoading }}>
             {children}
         </RegionContext.Provider>
     );

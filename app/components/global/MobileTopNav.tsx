@@ -3,8 +3,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, ChevronDown } from "lucide-react";
+import { Menu, ChevronDown, ShoppingCart, User, LogIn } from "lucide-react";
 import { useRegion } from "@/app/context/RegionContext";
+import { useCart } from "@/app/context/CartContext";
+import { useAuth } from "@/app/context/AuthContext";
 import { STORAGE_URL } from "@/app/data/products";
 
 interface MobileTopNavProps {
@@ -13,8 +15,16 @@ interface MobileTopNavProps {
 
 export default function MobileTopNav({ onOpenSideMenu }: MobileTopNavProps) {
     const { selectedCountry, countries, selectCountry, logoUrl } = useRegion();
+    const { cartItems } = useCart();
+    const { isLoggedIn } = useAuth();
+    
     const [isRegionOpen, setIsRegionOpen] = useState(false);
     const regionRef = useRef<HTMLDivElement>(null);
+
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -42,6 +52,25 @@ export default function MobileTopNav({ onOpenSideMenu }: MobileTopNavProps) {
             </Link>
 
             <div className="flex items-center gap-2">
+                {/* Auth Icon */}
+                {mounted && (
+                    <Link href={isLoggedIn ? "/profile" : "/auth/login"} className="p-2 text-slate-700 hover:text-brand transition-colors active:scale-95">
+                        {isLoggedIn ? <User className="w-5 h-5" /> : <LogIn className="w-5 h-5" />}
+                    </Link>
+                )}
+
+                {/* Cart Icon */}
+                {mounted && (
+                    <Link href="/cart" className="p-2 text-slate-700 hover:text-brand transition-colors relative active:scale-95">
+                        <ShoppingCart className="w-5 h-5" />
+                        {cartItems.length > 0 && (
+                            <span className="absolute top-1 right-0.5 bg-brand text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">
+                                {cartItems.length}
+                            </span>
+                        )}
+                    </Link>
+                )}
+
                 {/* Region Dropdown */}
                 {selectedCountry && countries.length > 0 && (
                     <div className="relative cursor-pointer" ref={regionRef}>

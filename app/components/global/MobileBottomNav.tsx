@@ -2,10 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, ShoppingBag, Search, ShoppingCart, User, Grid, LogIn } from "lucide-react";
-import { useCart } from "@/app/context/CartContext";
-import { useAuth } from "@/app/context/AuthContext";
-import { useState, useEffect } from "react";
+import { Home, ShoppingBag, Search, Heart, Grid } from "lucide-react";
 
 interface MobileBottomNavProps {
     onOpenSearch: () => void;
@@ -14,26 +11,12 @@ interface MobileBottomNavProps {
 
 export default function MobileBottomNav({ onOpenSearch, onOpenMore }: MobileBottomNavProps) {
     const pathname = usePathname();
-    const { cartItems } = useCart();
-    const { isLoggedIn, customer } = useAuth();
-    
-    // Hydration check to prevent SSR mismatch
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
     const navItems = [
         { title: "Home", icon: Home, href: "/" },
         { title: "Products", icon: ShoppingBag, href: "/products" },
-        ...(mounted && isLoggedIn
-            ? [{ title: customer?.name ? customer.name.split(" ")[0] : "Profile", icon: User }]
-            : []),
         { title: "Search", icon: Search, onClick: onOpenSearch },
-        { title: "Cart", icon: ShoppingCart, href: "/cart", badge: cartItems.length },
-        ...(mounted && !isLoggedIn 
-            ? [{ title: "Sign In", icon: LogIn, href: "/auth/login" }] 
-            : []),
+        { title: "Wishlist", icon: Heart, href: "/wishlist" },
         { title: "More", icon: Grid, onClick: onOpenMore },
     ];
 

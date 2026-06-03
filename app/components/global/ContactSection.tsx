@@ -189,6 +189,21 @@ export default function ContactSection() {
                     </div>
 
                 </div>
+
+                {/* ── Map ── */}
+                {selectedCountry?.map_code && (
+                    <div className="w-full mt-12 border-t border-slate-200 pt-12">
+                        <iframe 
+                            src={selectedCountry.map_code} 
+                            width="100%" 
+                            height="450" 
+                            style={{ border: 0 }} 
+                            allowFullScreen 
+                            loading="lazy" 
+                            referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                    </div>
+                )}
             </div>
         </section>
     );

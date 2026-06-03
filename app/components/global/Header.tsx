@@ -473,6 +473,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                         </p>
                                         <Link
                                             href={`/products/category/${resolvedCategories[activeCategory]?.slug || resolvedCategories[activeCategory]?.id}`}
+                                            onClick={() => setActiveCategory(null)}
                                             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-900 hover:text-brand transition-colors"
                                         >
                                             View All Products <ChevronDown className="-rotate-90 w-3 h-3" />
@@ -486,6 +487,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                                 <div key={sIdx} className="flex flex-col">
                                                     <Link
                                                         href={`/products/category/${categories[activeCategory].slug || categories[activeCategory].id}/${sub.slug || sub.id}`}
+                                                        onClick={() => setActiveCategory(null)}
                                                         className="font-bold text-slate-900 text-[13px] uppercase tracking-wider mb-6 pb-2 border-b border-slate-100 hover:text-brand transition-colors"
                                                     >
                                                         {sub.name || sub.title}
@@ -495,6 +497,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                                             <li key={iIdx}>
                                                                 <Link
                                                                     href={`/products/category/${categories[activeCategory].slug || categories[activeCategory].id}/${sub.slug || sub.id}?sub=${item.slug || item.id}`}
+                                                                    onClick={() => setActiveCategory(null)}
                                                                     className="text-sm text-slate-500 hover:text-brand transition-all flex items-center group/item"
                                                                 >
                                                                     <span className="w-0 h-0.5 bg-brand mr-0 transition-all group-hover/item:w-3 group-hover/item:mr-2"></span>
