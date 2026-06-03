@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Home, ShoppingBag, Search, Heart, Grid } from "lucide-react";
+import { useWishlist } from "@/app/context/WishlistContext";
 
 interface MobileBottomNavProps {
     onOpenSearch: () => void;
@@ -11,12 +13,24 @@ interface MobileBottomNavProps {
 
 export default function MobileBottomNav({ onOpenSearch, onOpenMore }: MobileBottomNavProps) {
     const pathname = usePathname();
+    const { wishlist } = useWishlist();
+    const [mounted, setMounted] = useState(false);
 
-    const navItems = [
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const navItems: Array<{
+        title: string;
+        icon: any;
+        href?: string;
+        onClick?: () => void;
+        badge?: number;
+    }> = [
         { title: "Home", icon: Home, href: "/" },
         { title: "Products", icon: ShoppingBag, href: "/products" },
         { title: "Search", icon: Search, onClick: onOpenSearch },
-        { title: "Wishlist", icon: Heart, href: "/wishlist" },
+        { title: "Wishlist", icon: Heart, href: "/wishlist", badge: mounted ? wishlist.length : 0 },
         { title: "More", icon: Grid, onClick: onOpenMore },
     ];
 
