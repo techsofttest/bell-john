@@ -5,31 +5,22 @@ import Image from "next/image";
 import { X, Check, Globe } from "lucide-react";
 import { useRegion } from "@/app/context/RegionContext";
 import { STORAGE_URL } from "@/app/data/products";
-import { usePathname } from "next/navigation";
 
 export default function RegionSelectorModal() {
     const { countries, selectedCountry, selectCountry, isLoading, logoUrl } = useRegion();
-    const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         if (!isLoading && countries.length > 0) {
-            const justSelected = sessionStorage.getItem("justSelectedCountry");
-            
-            if (pathname === '/') {
-                if (justSelected) {
-                    // Don't open if they just selected a country and the page reloaded
-                    sessionStorage.removeItem("justSelectedCountry");
-                } else {
-                    // Always open on homepage visit
-                    setIsOpen(true);
-                }
-            } else if (!selectedCountry) {
-                // On other pages, only open if no country is selected
+            // Only show the popup for first-time users (no saved country).
+            // Once they select a region it's persisted in localStorage + cookie,
+            // so selectedCountry will be hydrated on subsequent visits and
+            // the popup won't appear again.
+            if (!selectedCountry) {
                 setIsOpen(true);
             }
         }
-    }, [isLoading, selectedCountry, countries, pathname]);
+    }, [isLoading, selectedCountry, countries]);
 
     if (isLoading || !isOpen || countries.length === 0) return null;
 

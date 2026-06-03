@@ -95,7 +95,6 @@ export function RegionProvider({ children }: { children: React.ReactNode }) {
             setSelectedCountry(country);
             document.cookie = `bj_selected_country=${country.code}; path=/; max-age=31536000; SameSite=Lax`;
             localStorage.setItem("bj_selected_country", country.code);
-            sessionStorage.setItem("justSelectedCountry", "true");
             // Refresh page to reload products for new country
             window.location.reload();
         }
