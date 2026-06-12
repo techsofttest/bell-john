@@ -72,7 +72,7 @@ export default function SidebarFilter({ categoryTree, currentSlug }: SidebarFilt
             return;
         }
         
-        setIsLoadingSuggestions(true
+        setIsLoadingSuggestions(true)
         const timer = setTimeout(async () => {
             try {
                 // Pass category in search to limit results within the current category
