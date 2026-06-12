@@ -123,7 +123,7 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
                             <div className="flex gap-5 text-black">
                                 <Link href="#" className="hover:opacity-60 transition-opacity"><IconInstagram size={20} /></Link>
                                 <Link href="#" className="hover:opacity-60 transition-opacity"><IconFacebook size={20} /></Link>
-                                <Link href="#" className="hover:opacity-60 transition-opacity"><IconLinkedin size={20} /></Link>
+                                <Link href="https://www.linkedin.com/company/bell-john-general-trading-co-llc" className="hover:opacity-60 transition-opacity"><IconLinkedin size={20} /></Link>
                                 <Link href="#" className="hover:opacity-60 transition-opacity"><IconX size={20} /></Link>
                             </div>
                         </div>
@@ -140,15 +140,17 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
                     )}
 
                     <p className="text-[12px] text-[#666666]">
-                        © {currentYear} Bell & John General Trading, Inc.
+                        © {currentYear} Bell & John General Trading, Inc. Web Design Company - <Link href="https://www.techsoftweb.com" target="_blank" className="hover:underline">Techsoft</Link>
                     </p>
 
+					{/*
                     <div className="flex gap-6 text-[12px] font-medium">
                         <Link href="#" className="hover:underline">Privacy Notice</Link>
                         <Link href="#" className="hover:underline">Cookie Notice</Link>
                         <Link href="#" className="hover:underline">Terms</Link>
-                        <Link href="#" className="hover:underline">Sitemap</Link>
                     </div>
+					*/}
+					
                 </div>
             </div>
 

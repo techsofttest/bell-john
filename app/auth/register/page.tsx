@@ -21,6 +21,8 @@ export default function RegisterPage() {
                 <RegisterForm />
 
                 {/* Divider - Reduced Margin */}
+
+                {/*
                 <div className="relative my-5 text-center">
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-slate-200"></div>
@@ -31,6 +33,8 @@ export default function RegisterPage() {
                 </div>
 
                 <SocialAuth />
+                 */}
+
 
                 <p className="text-[11px] text-slate-600 mt-5 leading-relaxed text-center">
                     By continuing, you agree to Bell & John's <Link href="/conditions" className="text-brand hover:underline">Conditions of Use</Link> and <Link href="/privacy" className="text-brand hover:underline">Privacy Notice</Link>.

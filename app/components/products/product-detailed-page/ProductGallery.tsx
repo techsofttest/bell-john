@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, ZoomIn, X } from "lucide-react";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 
 interface ProductGalleryProps {
     title: string;
@@ -13,9 +13,35 @@ interface ProductGalleryProps {
     schemeClasses?: string;
 }
 
-const ZOOM_FACTOR = 2.8;   // magnification level
+const ZOOM_FACTOR = 2.0;   // magnification level
 const ZOOM_PANEL_SIZE = 300; // px — compact fixed size, no scrollbar risk
 const LENS_SIZE_PX = 100;   // px — lens square on the source image
+
+
+function ThumbnailImage({
+    src,
+    alt,
+}: {
+    src: string;
+    alt: string;
+}) {
+    const [imageSrc, setImageSrc] = useState(src);
+
+    useEffect(() => {
+        setImageSrc(src);
+    }, [src]);
+
+    return (
+        <Image
+            src={imageSrc}
+            alt={alt}
+            fill
+            className="object-contain"
+            onError={() => setImageSrc("/logo/logo.png")}
+        />
+    );
+}
+
 
 export default function ProductGallery({
     title,
@@ -38,7 +64,16 @@ export default function ProductGallery({
     const [panelPos, setPanelPos] = useState({ top: 0, left: 0 });
     // Source image natural dimensions captured once per mount (for bg-size)
     const [imgNaturalSize, setImgNaturalSize] = useState({ w: 0, h: 0 });
+
+
     const [mobileZoomOpen, setMobileZoomOpen] = useState(false);
+    const [imageError, setImageError] = useState(false);
+
+    useEffect(() => {
+        setImageError(false);
+    }, [selectedImage]);
+
+
     
 
     const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -91,8 +126,8 @@ export default function ProductGallery({
     // ── Zoom panel background-position calculation ────────────────────────────
     // The panel shows the image at ZOOM_PANEL_SIZE * ZOOM_FACTOR dimensions.
     // We shift so the hovered fraction maps to the panel centre.
-    const bgW = ZOOM_PANEL_SIZE * ZOOM_FACTOR;
-    const bgH = ZOOM_PANEL_SIZE * ZOOM_FACTOR;
+    const bgW = imgNaturalSize.w * ZOOM_FACTOR;
+	const bgH = imgNaturalSize.h * ZOOM_FACTOR;
     const bgX = -(lensFrac.x * bgW - ZOOM_PANEL_SIZE / 2);
     const bgY = -(lensFrac.y * bgH - ZOOM_PANEL_SIZE / 2);
 
@@ -111,13 +146,15 @@ export default function ProductGallery({
                     }
                 }}
             >
+                
                 <Image
-                    src={selectedImage}
+                    src={imageError ? "/logo/logo.png" : selectedImage}
                     alt={title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 600px"
                     className="object-contain transition-opacity duration-300"
                     priority
+                    onError={() => setImageError(true)}
                 />
 
                 {/* Lens square that follows the cursor */}
@@ -210,12 +247,13 @@ export default function ProductGallery({
 
         <div className="relative w-full h-full flex items-center justify-center p-4">
             <Image
-                src={selectedImage}
+                src={imageError ? "/logo/logo.png" : selectedImage}
                 alt={title}
                 fill
                 priority
                 className="object-contain"
                 sizes="100vw"
+                onError={() => setImageError(true)}
             />
         </div>
 
@@ -237,7 +275,10 @@ export default function ProductGallery({
                                     : "border-slate-200 hover:border-slate-400"
                             }`}
                         >
-                            <Image src={img} alt={`Thumbnail ${index + 1}`} fill className="object-contain" />
+                            <ThumbnailImage
+								src={img}
+								alt={`Thumbnail ${index + 1}`}
+							/>
                         </button>
                     ))}
                 </div>

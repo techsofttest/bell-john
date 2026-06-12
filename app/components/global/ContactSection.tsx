@@ -1,16 +1,51 @@
 "use client";
 
+import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import Button from "../ui/Button";
 import { useRegion } from "@/app/context/RegionContext";
+import { API_URL } from "@/app/data/products";
 
 export default function ContactSection() {
     const { selectedCountry } = useRegion();
+    const [status, setStatus] = useState<{type: 'success' | 'error', message: string} | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const phones = selectedCountry?.phone_numbers ?? [];
     const email = selectedCountry?.email_address ?? null;
     const address = selectedCountry?.address ?? null;      // HTML string from RichEditor
     const workingHours = selectedCountry?.working_hours ?? null;
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setStatus(null);
+        
+        const formData = new FormData(e.currentTarget);
+        const data = Object.fromEntries(formData.entries());
+        
+        try {
+            const res = await fetch(`${API_URL}/contact`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            const json = await res.json();
+            if (res.ok && json.status === 'success') {
+                setStatus({ type: 'success', message: json.message || 'Message sent successfully!' });
+                (e.target as HTMLFormElement).reset();
+            } else {
+                setStatus({ type: 'error', message: json.message || 'Failed to send message.' });
+            }
+        } catch (error) {
+            setStatus({ type: 'error', message: 'An error occurred. Please try again later.' });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <section className="bg-[#F8FAFC] border-t border-slate-200">
@@ -118,16 +153,24 @@ export default function ContactSection() {
                             <p className="text-sm text-slate-700 mt-1 font-normal">We'll get back to you as soon as possible.</p>
                         </div>
 
-                        <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {status && (
+                            <div className={`p-4 rounded-xl mb-6 text-sm font-medium ${status.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+                                {status.message}
+                            </div>
+                        )}
+
+                        <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
                             <div className="space-y-2">
                                 <label className="text-[11px] font-semibold text-slate-700 uppercase tracking-widest flex items-center gap-1">
                                     Full Name <span className="text-brand font-semibold">*</span>
                                 </label>
                                 <input
                                     type="text"
+                                    name="name"
                                     required
+                                    disabled={isLoading}
                                     placeholder="John Doe"
-                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400"
+                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400 disabled:opacity-50"
                                 />
                             </div>
 
@@ -137,9 +180,11 @@ export default function ContactSection() {
                                 </label>
                                 <input
                                     type="email"
+                                    name="email"
                                     required
+                                    disabled={isLoading}
                                     placeholder="john@company.com"
-                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400"
+                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400 disabled:opacity-50"
                                 />
                             </div>
 
@@ -149,8 +194,10 @@ export default function ContactSection() {
                                 </label>
                                 <input
                                     type="text"
+                                    name="company"
+                                    disabled={isLoading}
                                     placeholder="Enterprise Ltd."
-                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400"
+                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400 disabled:opacity-50"
                                 />
                             </div>
 
@@ -160,8 +207,10 @@ export default function ContactSection() {
                                 </label>
                                 <input
                                     type="tel"
+                                    name="phone"
+                                    disabled={isLoading}
                                     placeholder="+965 ..."
-                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400"
+                                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400 disabled:opacity-50"
                                 />
                             </div>
 
@@ -170,10 +219,12 @@ export default function ContactSection() {
                                     Your Message <span className="text-brand font-semibold">*</span>
                                 </label>
                                 <textarea
+                                    name="message"
                                     required
+                                    disabled={isLoading}
                                     rows={5}
                                     placeholder="How can we assist your business today?"
-                                    className="w-full p-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400 resize-none"
+                                    className="w-full p-4 bg-white border border-slate-300 rounded-xl focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-400 resize-none disabled:opacity-50"
                                 />
                             </div>
 
@@ -181,8 +232,8 @@ export default function ContactSection() {
                                 <p className="text-[13px] text-slate-700 font-normal">
                                     Fields marked <span className="text-brand font-semibold">*</span> are required.
                                 </p>
-                                <Button variant="secondary" className="gap-2 px-8 h-12 rounded-xl shadow-sm hover:shadow-md transition-all font-medium flex items-center justify-center">
-                                    Send Message <Send size={16} />
+                                <Button type="submit" disabled={isLoading} variant="secondary" className="gap-2 px-8 h-12 rounded-xl shadow-sm hover:shadow-md transition-all font-medium flex items-center justify-center disabled:opacity-50">
+                                    {isLoading ? 'Sending...' : 'Send Message'} <Send size={16} />
                                 </Button>
                             </div>
                         </form>

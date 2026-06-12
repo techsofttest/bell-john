@@ -78,9 +78,13 @@ export default function ProductSpecsAndOverview({ product }: ProductSpecsAndOver
                     <p className="font-bold text-slate-900 text-base">
                         {product.title}
                     </p>
-                    <p className="text-slate-600 leading-relaxed font-normal">
-                        {product.description}
-                    </p>
+					
+                    <div
+						className="text-slate-600 leading-relaxed font-normal prose prose-slate max-w-none"
+						dangerouslySetInnerHTML={{
+							__html: product.description || "",
+						}}
+					/>
                     
                     {/* Compact Trust Factor Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-6 pt-2">

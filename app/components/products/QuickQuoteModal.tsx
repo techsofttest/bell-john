@@ -118,7 +118,7 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                 src={product.image} 
                                 alt={product.title} 
                                 fill 
-                                className="object-cover transition-transform duration-700 hover:scale-105" 
+                                className="object-contain transition-transform duration-700 hover:scale-105" 
                             />
                         </div>
 

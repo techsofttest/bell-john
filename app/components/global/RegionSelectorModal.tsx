@@ -12,12 +12,27 @@ export default function RegionSelectorModal() {
 
     useEffect(() => {
         if (!isLoading && countries.length > 0) {
-            // Only show the popup for first-time users (no saved country).
-            // Once they select a region it's persisted in localStorage + cookie,
-            // so selectedCountry will be hydrated on subsequent visits and
-            // the popup won't appear again.
+            const lastShownStr = localStorage.getItem("bj_region_modal_time");
+            const now = new Date().getTime();
+            
+            let shouldShow = false;
+            
             if (!selectedCountry) {
+                shouldShow = true;
+            } else {
+                if (!lastShownStr) {
+                    shouldShow = true;
+                } else {
+                    const lastShown = parseInt(lastShownStr, 10);
+                    if (now - lastShown > 30 * 60 * 1000) { // 30 minutes
+                        shouldShow = true;
+                    }
+                }
+            }
+
+            if (shouldShow) {
                 setIsOpen(true);
+                localStorage.setItem("bj_region_modal_time", now.toString());
             }
         }
     }, [isLoading, selectedCountry, countries]);
@@ -45,6 +60,8 @@ export default function RegionSelectorModal() {
                         <X className="w-5 h-5" />
                     </button>
                 )}
+                
+                
 
                 {/* Brand Logo Header with custom glowing illustration wrapper */}
                 <div className="flex flex-col items-center text-center mt-2">

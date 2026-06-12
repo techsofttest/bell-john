@@ -11,7 +11,7 @@ import QuickQuoteModal from "./QuickQuoteModal";
 
 export interface ProductTag {
     label: string;
-    icon?: ReactNode;
+    icon?: ReactNode;    
     scheme?: 'new' | 'bestSeller' | 'premium' | 'standard' | 'outOfStock';
 }
 
@@ -68,7 +68,7 @@ export default function ProductCard({
     const schemeClasses = tagColorSchemes[displayTag?.scheme || 'standard'];
 
     return (
-        <div className="group relative flex flex-col bg-white border border-slate-100 rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-slate-200/60 w-full">
+        <div className="group relative flex flex-col bg-white border border-slate-100 rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-slate-200/60 w-full h-full">
 
             {/* IMAGE AREA */}
             <Link

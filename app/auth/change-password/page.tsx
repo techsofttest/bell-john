@@ -104,7 +104,7 @@ export default function ChangePasswordPage() {
 
     return (
         <div className="min-h-screen bg-white py-16 lg:py-20">
-            <div className="max-w-[400px] mx-auto px-6">
+            <div className="max-w-[400px] lg:max-w-[900px] lg:min-w-[600px] mx-auto px-6">
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-serif font-medium text-slate-900 mb-2">
@@ -157,7 +157,7 @@ export default function ChangePasswordPage() {
                                     type={showCurrentPassword ? "text" : "password"}
                                     value={currentPassword}
                                     onChange={(e) => setCurrentPassword(e.target.value)}
-                                    placeholder="Enter your current password"
+                                    placeholder=""
                                     className="w-full px-4 py-3 border border-slate-200 rounded-lg font-medium text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-brand/30 focus:ring-2 focus:ring-brand/10 transition-all"
                                     disabled={isLoading}
                                 />
@@ -186,7 +186,7 @@ export default function ChangePasswordPage() {
                                     type={showNewPassword ? "text" : "password"}
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
-                                    placeholder="Enter your new password (min 6 characters)"
+                                    placeholder="Min 6 characters"
                                     className="w-full px-4 py-3 border border-slate-200 rounded-lg font-medium text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-brand/30 focus:ring-2 focus:ring-brand/10 transition-all"
                                     disabled={isLoading}
                                 />
@@ -215,7 +215,7 @@ export default function ChangePasswordPage() {
                                     type={showConfirmPassword ? "text" : "password"}
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    placeholder="Confirm your new password"
+                                    placeholder="Enter Again"
                                     className="w-full px-4 py-3 border border-slate-200 rounded-lg font-medium text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-brand/30 focus:ring-2 focus:ring-brand/10 transition-all"
                                     disabled={isLoading}
                                 />

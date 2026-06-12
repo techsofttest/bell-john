@@ -94,7 +94,7 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
     }, [categories, selectedCountry]);
 
     useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
+            function handleClickOutside(event: MouseEvent) {
             if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
                 setIsSearchFocused(false);
             }
@@ -409,6 +409,8 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                             </>
                                         )}
                                     </div>
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -480,7 +482,8 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                         </Link>
                                     </div>
 
-                                    {/* Sub Categories & Items */}
+                                    
+									{/* Sub Categories & Items */}
                                     <div className="col-span-4">
                                         <div className="grid grid-cols-4 gap-10">
                                             {(resolvedCategories[activeCategory]?.children || resolvedCategories[activeCategory]?.subCategories || []).map((sub: any, sIdx: number) => (
@@ -488,11 +491,11 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                                     <Link
                                                         href={`/products/category/${categories[activeCategory].slug || categories[activeCategory].id}/${sub.slug || sub.id}`}
                                                         onClick={() => setActiveCategory(null)}
-                                                        className="font-bold text-slate-900 text-[13px] uppercase tracking-wider mb-6 pb-2 border-b border-slate-100 hover:text-brand transition-colors"
+                                                        className="font-bold text-slate-900 text-[13px] uppercase tracking-wider mb-2 pb-2 border-slate-100 hover:text-brand transition-colors"
                                                     >
                                                         {sub.name || sub.title}
                                                     </Link>
-                                                    <ul className="space-y-3">
+                                                    {/*<ul className="space-y-3">
                                                         {(sub.children || sub.items || []).map((item: any, iIdx: number) => (
                                                             <li key={iIdx}>
                                                                 <Link
@@ -505,11 +508,13 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                                                 </Link>
                                                             </li>
                                                         ))}
-                                                    </ul>
+                                                    </ul> */}
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
+									
+									
                                 </div>
                             )}
                         </div>

@@ -74,17 +74,23 @@ export default function ProductActions({
             </Button>
 
             {/* Wishlist toggle button */}
-            <button 
-                onClick={onToggleWishlist}
-                className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 shrink-0 ${
-                    isWishlisted 
-                        ? 'border-red-100 bg-red-50 text-red-500 shadow-sm' 
-                        : 'border-slate-200 text-slate-400 hover:border-slate-300 hover:text-slate-600 bg-white'
-                }`}
-                aria-label="Add to Wishlist"
-            >
-                <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-red-500' : ''}`} />
-            </button>
+            <Button
+				onClick={onToggleWishlist}
+				variant="secondary"
+				className={`w-full sm:flex-1 h-14 rounded-2xl text-xs uppercase font-semibold tracking-[0.2em] transition-all border flex items-center justify-center gap-2 ${
+					isWishlisted
+						? "bg-red-50 border-red-200 text-red-600 hover:bg-red-100"
+						: "bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+				}`}
+			>
+				<Heart
+					className={`w-4 h-4 ${
+						isWishlisted ? "fill-red-500 text-red-500" : ""
+					}`}
+				/>
+
+				{isWishlisted ? "Wishlisted" : "Add To Wishlist"}
+			</Button>
         </div>
     );
 }

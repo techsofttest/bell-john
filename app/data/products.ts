@@ -273,7 +273,11 @@ export async function getProducts(params: Record<string, string>): Promise<{ pro
 
 export async function getCategories(): Promise<any[]> {
     try {
-        const res = await fetch(`${API_URL}/categories`, { cache: 'no-store' });
+        const res = await fetch(`${API_URL}/categories`, {
+            next: {
+                revalidate: 300,
+            },
+        });
         if (!res.ok) return [];
         const json = await res.json();
         if (json.status === 'success' && Array.isArray(json.data)) {

@@ -37,7 +37,7 @@ export default function ContactHero() {
                 <nav className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-300 mb-6">
                     <Link href="/" className="hover:text-brand transition-colors">Home</Link>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
-                    <span className="text-white">Contact Us</span>
+                    <span className="text-white">Contact</span>
                 </nav>
 
                 {/* <span className="inline-block py-1.5 px-4 rounded-full bg-white/10 text-brand border-brand/30 text-[10px] uppercase tracking-widest font-bold mb-5 border backdrop-blur-sm shadow-sm">
