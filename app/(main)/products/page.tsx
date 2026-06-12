@@ -125,7 +125,7 @@ export default async function AllProductsPage({ searchParams }: PageProps) {
         getProductsByCategory("stationery", 8, currentCountry),
         getProductsByCategory("digital-supplies", 8, currentCountry),
         getProductsByCategory("office-furniture", 8, currentCountry),
-        getProductsByCategory("breakroom", 8, currentCountry),
+        getProductsByCategory("office-machines", 8, currentCountry),
         getCategories(),
     ]);
 
