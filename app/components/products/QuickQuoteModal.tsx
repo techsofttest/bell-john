@@ -103,7 +103,7 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 40 }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="relative w-full max-w-2xl h-screen bg-white rounded-3xl shadow-2xl overflow-hidden z-10 flex flex-col md:flex-row border border-white/20"
+                        className="relative w-full max-w-2xl h-[90vh] bg-white rounded-3xl shadow-2xl overflow-hidden z-10 flex flex-col md:flex-row border border-white/20"
                     >
                         <button 
                             onClick={onClose} 
