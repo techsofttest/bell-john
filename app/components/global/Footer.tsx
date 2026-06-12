@@ -76,7 +76,7 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
 
                     {/* 3. Main Categories */}
                     <div className="space-y-4">
-                        <h4 className="text-[13px] font-bold tracking-tight">Main Categories</h4>
+                        <h4 className="text-[13px] font-bold tracking-tight">Featured Categories</h4>
                         <ul className="space-y-2 text-[13px] text-[#666666]">
                             {categories.slice(0, 6).map((cat, idx) => (
                                 <li key={idx}>
