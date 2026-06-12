@@ -88,28 +88,14 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
                         </ul>
                     </div>
 
-                    {/* 4. Featured Categories */}
-                    <div className="space-y-4">
-                        <h4 className="text-[13px] font-bold tracking-tight">Featured Categories</h4>
-                        <ul className="space-y-2 text-[13px] text-[#666666]">
-                            {categories
-                                .filter((cat) => cat.is_featured === true || cat.is_featured === 1 || cat.is_featured === "1")
-                                .slice(0, 6)
-                                .map((cat, idx) => (
-                                    <li key={idx}>
-                                        <Link href={`/products/category/${cat.slug || cat.id}`} className="hover:underline">
-                                            {cat.name || cat.title}
-                                        </Link>
-                                    </li>
-                                ))
-                            }
-                        </ul>
-                    </div>
+                   
 
                     {/* 5. Support */}
                     <div className="space-y-4">
-                        <h4 className="text-[13px] font-bold tracking-tight">Get Help</h4>
+                        <h4 className="text-[13px] font-bold tracking-tight">Quick Links</h4>
                         <ul className="space-y-2 text-[13px] text-[#666666]">
+							<li><Link href="/" className="hover:underline">Home</Link></li>
+							<li><Link href="/products" className="hover:underline">All Products</Link></li>
                             <li><Link href="/contact" className="hover:underline">Contact Us</Link></li>
                             <li><Link href="/faq" className="hover:underline">FAQs</Link></li>
                         </ul>
