@@ -28,12 +28,12 @@ interface QuickQuoteModalProps {
 export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuoteModalProps) {
     const { addToCart } = useCart();
     const [qty, setQty] = useState(1);
-    
+
     // Initialize states with the first option if available
     const [size, setSize] = useState("");
     const [color, setColor] = useState("");
     const [packaging, setPackaging] = useState("");
-    
+
     const [mounted, setMounted] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
@@ -58,7 +58,7 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
 
     const handleAdd = () => {
         setIsAdding(true);
-        
+
         // Simulate a small delay for the animation
         setTimeout(() => {
             addToCart({
@@ -70,7 +70,7 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                 color: color || undefined,
                 packaging: packaging || undefined
             } as any); // Type cast to any for now to handle packaging in context if needed
-            
+
             setIsAdding(false);
             setIsAdded(true);
 
@@ -96,7 +96,7 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                         onClick={onClose}
                         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
                     />
-                    
+
                     {/* Modal Panel */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9, y: 40 }}
@@ -105,8 +105,8 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
                         className="relative w-full max-w-2xl h-[90vh] bg-white rounded-3xl shadow-2xl overflow-scroll z-10 flex flex-col md:flex-row border border-white/20"
                     >
-                        <button 
-                            onClick={onClose} 
+                        <button
+                            onClick={onClose}
                             className="absolute top-4 right-4 z-20 p-2 bg-white/80 hover:bg-white backdrop-blur-md rounded-full text-slate-500 hover:text-slate-900 shadow-sm transition-all border border-slate-100"
                         >
                             <X className="w-4 h-4" />
@@ -114,11 +114,11 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
 
                         {/* Image Left */}
                         <div className="w-full md:w-1/2 h-48 md:h-auto relative bg-slate-50 overflow-scroll">
-                            <Image 
-                                src={product.image} 
-                                alt={product.title} 
-                                fill 
-                                className="object-contain transition-transform duration-700 hover:scale-105" 
+                            <Image
+                                src={product.image}
+                                alt={product.title}
+                                fill
+                                className="object-contain transition-transform duration-700 hover:scale-105"
                             />
                         </div>
 
@@ -132,17 +132,15 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                 {product.variants?.sizes && product.variants.sizes.length > 0 && (
                                     <div>
                                         <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">Select Size</label>
-                                        <div className="flex flex-wrap gap-2">
+                                        <select
+                                            value={size}
+                                            onChange={(e) => setSize(e.target.value)}
+                                            className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 bg-white text-slate-600 font-medium focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all duration-300 hover:border-slate-300 cursor-pointer"
+                                        >
                                             {product.variants.sizes.map(s => (
-                                                <button 
-                                                    key={s} 
-                                                    onClick={() => setSize(s)} 
-                                                    className={`px-4 py-2 text-xs rounded-xl border transition-all duration-300 ${size === s ? 'border-brand bg-brand/5 text-brand font-bold shadow-sm shadow-brand/10' : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'}`}
-                                                >
-                                                    {s}
-                                                </button>
+                                                <option key={s} value={s}>{s}</option>
                                             ))}
-                                        </div>
+                                        </select>
                                     </div>
                                 )}
 
@@ -150,17 +148,15 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                 {product.variants?.colors && product.variants.colors.length > 0 && (
                                     <div>
                                         <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">Select Color</label>
-                                        <div className="flex flex-wrap gap-2">
+                                        <select
+                                            value={color}
+                                            onChange={(e) => setColor(e.target.value)}
+                                            className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 bg-white text-slate-600 font-medium focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all duration-300 hover:border-slate-300 cursor-pointer"
+                                        >
                                             {product.variants.colors.map(c => (
-                                                <button 
-                                                    key={c} 
-                                                    onClick={() => setColor(c)} 
-                                                    className={`px-4 py-2 text-xs rounded-xl border transition-all duration-300 ${color === c ? 'border-brand bg-brand/5 text-brand font-bold shadow-sm shadow-brand/10' : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'}`}
-                                                >
-                                                    {c}
-                                                </button>
+                                                <option key={c} value={c}>{c}</option>
                                             ))}
-                                        </div>
+                                        </select>
                                     </div>
                                 )}
 
@@ -168,17 +164,15 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                 {product.variants?.packaging && product.variants.packaging.length > 0 && (
                                     <div>
                                         <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">Packaging Type</label>
-                                        <div className="flex flex-wrap gap-2">
+                                        <select
+                                            value={packaging}
+                                            onChange={(e) => setPackaging(e.target.value)}
+                                            className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 bg-white text-slate-600 font-medium focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all duration-300 hover:border-slate-300 cursor-pointer"
+                                        >
                                             {product.variants.packaging.map(p => (
-                                                <button 
-                                                    key={p} 
-                                                    onClick={() => setPackaging(p)} 
-                                                    className={`px-4 py-2 text-xs rounded-xl border transition-all duration-300 ${packaging === p ? 'border-brand bg-brand/5 text-brand font-bold shadow-sm shadow-brand/10' : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'}`}
-                                                >
-                                                    {p}
-                                                </button>
+                                                <option key={p} value={p}>{p}</option>
                                             ))}
-                                        </div>
+                                        </select>
                                     </div>
                                 )}
 
@@ -191,10 +185,10 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                 </div>
                             </div>
 
-                            <Button 
-                                onClick={handleAdd} 
+                            <Button
+                                onClick={handleAdd}
                                 disabled={isAdding || isAdded}
-                                variant="primary" 
+                                variant="primary"
                                 className="w-full mt-10 h-14 bg-brand hover:bg-brand/90 text-white text-xs uppercase font-bold tracking-[0.2em] rounded-2xl shadow-xl shadow-brand/20 transition-all active:scale-[0.98] border-none"
                             >
                                 <AnimatePresence mode="wait">
@@ -222,11 +216,11 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                             <motion.div
                                                 initial={{ scale: 0, rotate: -45 }}
                                                 animate={{ scale: 1, rotate: 0 }}
-                                                transition={{ 
-                                                    type: "spring", 
-                                                    stiffness: 400, 
+                                                transition={{
+                                                    type: "spring",
+                                                    stiffness: 400,
                                                     damping: 15,
-                                                    delay: 0.1 
+                                                    delay: 0.1
                                                 }}
                                             >
                                                 <Check className="w-5 h-5" />

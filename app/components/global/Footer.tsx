@@ -141,7 +141,7 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
             </div>
 
             {/* The Final Bottom Strip */}
-            <div className="bg-[#D9D9D9] py-4 text-center mt-auto">
+            <div className="bg-[#D9D9D9] py-4 pb-[80px] lg:pb-4 text-center mt-auto">
                 <p className="text-[11px] font-bold uppercase tracking-widest text-[#333333]">
                     Delivering Excellence Across the GCC
                 </p>

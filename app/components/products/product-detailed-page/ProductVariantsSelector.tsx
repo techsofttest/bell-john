@@ -26,66 +26,48 @@ export default function ProductVariantsSelector({
             {/* Size Variant */}
             {variants?.sizes && variants.sizes.length > 0 && (
                 <div>
-                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">Select Size</span>
-                    <div className="flex flex-wrap gap-2">
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">Select Size</label>
+                    <select
+                        value={size}
+                        onChange={(e) => setSize(e.target.value)}
+                        className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 hover:border-slate-400 cursor-pointer"
+                    >
                         {variants.sizes.map(s => (
-                            <button 
-                                key={s} 
-                                onClick={() => setSize(s)} 
-                                className={`px-4 py-2 text-xs rounded-xl border transition-all duration-200 ${
-                                    size === s 
-                                        ? 'border-brand bg-brand text-white font-bold shadow-md shadow-brand/15 scale-[1.01]' 
-                                        : 'border-slate-300 bg-white text-slate-800 font-semibold hover:border-slate-400 hover:bg-slate-50'
-                                }`}
-                            >
-                                {s}
-                            </button>
+                            <option key={s} value={s}>{s}</option>
                         ))}
-                    </div>
+                    </select>
                 </div>
             )}
 
             {/* Color Variant */}
             {variants?.colors && variants.colors.length > 0 && (
                 <div>
-                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">Select Color</span>
-                    <div className="flex flex-wrap gap-2">
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">Select Color</label>
+                    <select
+                        value={color}
+                        onChange={(e) => setColor(e.target.value)}
+                        className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 hover:border-slate-400 cursor-pointer"
+                    >
                         {variants.colors.map(c => (
-                            <button 
-                                key={c} 
-                                onClick={() => setColor(c)} 
-                                className={`px-4 py-2 text-xs rounded-xl border transition-all duration-200 ${
-                                    color === c 
-                                        ? 'border-brand bg-brand text-white font-bold shadow-md shadow-brand/15 scale-[1.01]' 
-                                        : 'border-slate-300 bg-white text-slate-800 font-semibold hover:border-slate-400 hover:bg-slate-50'
-                                }`}
-                            >
-                                {c}
-                            </button>
+                            <option key={c} value={c}>{c}</option>
                         ))}
-                    </div>
+                    </select>
                 </div>
             )}
 
             {/* Packaging Variant */}
             {variants?.packaging && variants.packaging.length > 0 && (
                 <div>
-                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">Packaging Type</span>
-                    <div className="flex flex-wrap gap-2">
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">Packaging Type</label>
+                    <select
+                        value={packaging}
+                        onChange={(e) => setPackaging(e.target.value)}
+                        className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 hover:border-slate-400 cursor-pointer"
+                    >
                         {variants.packaging.map(p => (
-                            <button 
-                                key={p} 
-                                onClick={() => setPackaging(p)} 
-                                className={`px-4 py-2 text-xs rounded-xl border transition-all duration-200 ${
-                                    packaging === p 
-                                        ? 'border-brand bg-brand text-white font-bold shadow-md shadow-brand/15 scale-[1.01]' 
-                                        : 'border-slate-300 bg-white text-slate-800 font-semibold hover:border-slate-400 hover:bg-slate-50'
-                                }`}
-                            >
-                                {p}
-                            </button>
+                            <option key={p} value={p}>{p}</option>
                         ))}
-                    </div>
+                    </select>
                 </div>
             )}
         </div>

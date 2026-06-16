@@ -205,7 +205,7 @@ export async function getRelatedProducts(product: Product, limit = 4, country?: 
 
 export async function getAllProducts(country?: string): Promise<Product[]> {
     try {
-        let url = `${API_URL}/products?per_page=100`;
+        let url = `${API_URL}/products?per_page=all`;
         if (country) {
             url += `&country=${encodeURIComponent(country)}`;
         }

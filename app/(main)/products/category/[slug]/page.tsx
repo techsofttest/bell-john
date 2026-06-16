@@ -51,7 +51,7 @@ export default async function CategoryListingPage({
     // Build API query parameters
     const paramsMap: Record<string, string> = {
         category: currentSlug,
-        per_page: "100",
+        per_page: "all",
         sort: sortBy
     };
 

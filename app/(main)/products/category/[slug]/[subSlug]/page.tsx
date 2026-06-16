@@ -56,7 +56,7 @@ export default async function SubCategoryListingPage({
     // Build API query parameters
     const paramsMap: Record<string, string> = {
         sub_category: currentSubSlug,
-        per_page: "100",
+        per_page: "all",
         sort: sortBy
     };
 
