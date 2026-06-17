@@ -177,17 +177,19 @@ export default async function AllProductsPage({ searchParams }: PageProps) {
 
                 {/* 7. Third Category Carousel */}
                 <ProductCarousel
+                    title="Office Machines"
+                    categorySlug="office-machines"
+                    products={breakroomProducts}
+                />
+
+
+                {/* 8. Fourth Category Carousel */}
+                <ProductCarousel
                     title="Corporate Office Furniture"
                     categorySlug="office-furniture"
                     products={furnitureProducts}
                 />
 
-                {/* 8. Fourth Category Carousel */}
-                <ProductCarousel
-                    title="Office Machines"
-                    categorySlug="office-machines"
-                    products={breakroomProducts}
-                />
 
             </div>
         </div>
