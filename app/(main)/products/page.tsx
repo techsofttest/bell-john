@@ -124,8 +124,8 @@ export default async function AllProductsPage({ searchParams }: PageProps) {
     const [stationeryProducts, digitalProducts, furnitureProducts, breakroomProducts, categories] = await Promise.all([
         getProductsByCategory("stationery", 8, currentCountry),
         getProductsByCategory("digital-supplies", 8, currentCountry),
-        getProductsByCategory("office-furniture", 8, currentCountry),
         getProductsByCategory("office-machines", 8, currentCountry),
+        getProductsByCategory("office-furniture", 8, currentCountry),
         getCategories(),
     ]);
 
@@ -171,7 +171,7 @@ export default async function AllProductsPage({ searchParams }: PageProps) {
 
             </div>
 
-           
+
 
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
