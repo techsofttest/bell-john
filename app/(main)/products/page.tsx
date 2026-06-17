@@ -121,7 +121,7 @@ export default async function AllProductsPage({ searchParams }: PageProps) {
     }
 
     // Fetch products for each category in parallel from our Laravel API
-    const [stationeryProducts, digitalProducts, furnitureProducts, breakroomProducts, categories] = await Promise.all([
+    const [stationeryProducts, digitalProducts, breakroomProducts, furnitureProducts, categories] = await Promise.all([
         getProductsByCategory("stationery", 8, currentCountry),
         getProductsByCategory("digital-supplies", 8, currentCountry),
         getProductsByCategory("office-machines", 8, currentCountry),
