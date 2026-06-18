@@ -50,7 +50,7 @@ export function mapLaravelProduct(laravelProduct: any): Product {
     if (Array.isArray(laravelProduct.variant_options)) {
         laravelProduct.variant_options.forEach((group: any) => {
             const labelLower = group.label?.toLowerCase() || '';
-            if (labelLower.includes('size')) {
+            if (labelLower.includes('size') || labelLower.includes('variant') || labelLower.includes('varient')) {
                 variants.sizes = group.attributes;
             } else if (labelLower.includes('color')) {
                 variants.colors = group.attributes;
