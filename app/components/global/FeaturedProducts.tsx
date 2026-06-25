@@ -62,7 +62,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
 
         let rafId = 0;
         let lastTime = 0;
-        const speed = 24; // px per second
+        const speed = 100; // px per second
 
         const tick = (time: number) => {
             if (!lastTime) {
@@ -96,13 +96,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
     return (
         <section
             className="py-16 bg-white overflow-hidden"
-            onMouseEnter={() => {
-                isHoveringRef.current = true;
-            }}
-            onMouseLeave={() => {
-                isHoveringRef.current = false;
-            }}
-        >
+			>
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
                 {/* --- Tiered  Title --- */}

@@ -8,6 +8,7 @@ export interface Country {
     name: string;
     code: string;
     is_default: boolean;
+    company_official_name?: string | null;
     address: string | null;
     phone_numbers: { number: string }[];
     email_address: string | null;

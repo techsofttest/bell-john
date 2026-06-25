@@ -34,6 +34,10 @@ const IconX = ({ size = 20 }: { size?: number }) => (
 export default function Footer({ categories = [] }: { categories?: any[] }) {
     const currentYear = new Date().getFullYear();
     const { selectedCountry, logoUrl } = useRegion();
+    const officialCompanyName =
+        selectedCountry?.company_official_name?.trim() ||
+        selectedCountry?.name ||
+        "Bell & John General Trading, Inc.";
 
     return (
         <footer className="bg-[#F8FAFC] pt-20 text-[#333333]">
@@ -126,7 +130,7 @@ export default function Footer({ categories = [] }: { categories?: any[] }) {
                     )}
 
                     <p className="text-[12px] text-[#666666]">
-                        © {currentYear} Bell & John General Trading, Inc. Web Design Company - <Link href="https://www.techsoftweb.com" target="_blank" className="hover:underline">Techsoft</Link>
+                        &copy; {currentYear} {officialCompanyName}
                     </p>
 
 					{/*
