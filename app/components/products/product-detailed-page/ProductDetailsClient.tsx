@@ -146,7 +146,7 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                         B2B Item Code:
                         <span className="text-slate-950">
                             #{product.id}
-                        </span>
+                        </span> 
                     </span>
                 </div>
 
@@ -169,11 +169,14 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                 </div>
             )}
 
+
+            {/*
             {product.skus && product.skus.length > 1 && (
                 <div className="border-t border-slate-200 pt-5">
-                    {/* Existing SKU selector */}
+                     
                 </div>
             )}
+            */}
 
             <div className="border-t border-slate-200 pt-5">
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3.5 block">

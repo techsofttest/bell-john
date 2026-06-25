@@ -1,16 +1,8 @@
 "use client";
 
-import { useRef } from "react";
-import { ChevronLeft, ChevronRight, Sparkles, BarChart3, Tag } from "lucide-react"; // Imported different icons
-import ProductCard, { ProductTag } from "../products/ProductCard"; // Imported ProductTag interface
-
-// Pre-define tags for clarity/reuse in mock data
-const tags: Record<string, ProductTag> = {
-    new: { label: "New", icon: <Sparkles size={12} />, scheme: 'new' },
-    bestSeller: { label: "Best Selling", icon: <BarChart3 size={12} />, scheme: 'bestSeller' },
-    premium: { label: "Premium Solutions", icon: <Sparkles size={12} />, scheme: 'premium' },
-    featured: { label: "Featured", icon: <Tag size={12} />, scheme: 'standard' }
-};
+import { useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProductCard, { ProductTag } from "../products/ProductCard";
 
 interface Product {
     id: string | number;
@@ -25,18 +17,92 @@ interface FeaturedProductsProps {
 }
 
 export default function FeaturedProducts({ products }: FeaturedProductsProps) {
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const viewportRef = useRef<HTMLDivElement>(null);
+    const trackRef = useRef<HTMLDivElement>(null);
+    const isHoveringRef = useRef(false);
+    const offsetRef = useRef(0);
 
-    const scroll = (direction: "left" | "right") => {
-        if (scrollRef.current) {
-            const { scrollLeft, clientWidth } = scrollRef.current;
-            const scrollTo = direction === "left" ? scrollLeft - clientWidth : scrollLeft + clientWidth;
-            scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+    const setTrackOffset = (offset: number) => {
+        const track = trackRef.current;
+        if (!track) {
+            return;
         }
+
+        offsetRef.current = offset;
+        track.style.transform = `translateX(${-offset}px)`;
     };
 
+    const scroll = (direction: "left" | "right") => {
+        const track = trackRef.current;
+        if (!track) {
+            return;
+        }
+
+        const halfWidth = track.scrollWidth / 2;
+        if (halfWidth <= 0) {
+            return;
+        }
+
+        const viewportWidth = viewportRef.current?.clientWidth || halfWidth;
+        const step = Math.min(viewportWidth, halfWidth);
+        const nextOffset = direction === "left"
+            ? (offsetRef.current - step + halfWidth) % halfWidth
+            : (offsetRef.current + step) % halfWidth;
+
+        setTrackOffset(nextOffset);
+    };
+
+    useEffect(() => {
+        const viewport = viewportRef.current;
+        const track = trackRef.current;
+
+        if (!viewport || !track || products.length === 0) {
+            return;
+        }
+
+        let rafId = 0;
+        let lastTime = 0;
+        const speed = 24; // px per second
+
+        const tick = (time: number) => {
+            if (!lastTime) {
+                lastTime = time;
+            }
+
+            const deltaSeconds = (time - lastTime) / 1000;
+            lastTime = time;
+
+            if (!isHoveringRef.current) {
+                const halfWidth = track.scrollWidth / 2;
+
+                if (halfWidth > 0) {
+                    const nextOffset = (offsetRef.current + speed * deltaSeconds) % halfWidth;
+                    setTrackOffset(nextOffset);
+                }
+            }
+
+            rafId = window.requestAnimationFrame(tick);
+        };
+
+        rafId = window.requestAnimationFrame(tick);
+
+        return () => {
+            window.cancelAnimationFrame(rafId);
+        };
+    }, [products.length]);
+
+    const duplicatedProducts = [...products, ...products];
+
     return (
-        <section className="py-16 bg-white overflow-hidden">
+        <section
+            className="py-16 bg-white overflow-hidden"
+            onMouseEnter={() => {
+                isHoveringRef.current = true;
+            }}
+            onMouseLeave={() => {
+                isHoveringRef.current = false;
+            }}
+        >
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
                 {/* --- Tiered  Title --- */}
@@ -68,16 +134,18 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
 
                 {/* --- The Seamless Carousel --- */}
                 <div
-                    ref={scrollRef}
-                    className="flex gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth 
-                     [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
-                     "
+                    ref={viewportRef}
+                    className="overflow-hidden"
                 >
-                    {products.map((product) => (
-                        <div key={product.id} className="snap-start py-4 shrink-0 w-[60vw] md:w-[320px] lg:w-[calc(20%-25.6px)]"> {/* Vertical padding for hover shadow */}
-                            <ProductCard {...product} />
-                        </div>
-                    ))}
+                    <div ref={trackRef} className="flex gap-6 xl:gap-8 will-change-transform">
+                        {duplicatedProducts.map((product, index) => (
+                            <div
+                                key={`${product.id}-${index}`}
+                                className="py-4 flex-none sm:w-[45vw] md:w-[31vw] lg:w-[240px] xl:w-[280px]">
+                                <ProductCard {...product} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
