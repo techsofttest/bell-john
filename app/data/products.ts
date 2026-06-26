@@ -39,9 +39,9 @@ export function encodeImageUrl(imagePath: string | null | undefined, storageUrl:
 export function mapLaravelProduct(laravelProduct: any): Product {
     if (!laravelProduct) return {} as Product;
     
-    // Map tag based on is_featured
+    // Map tag based on is_bestseller
     let tag: ProductTag | undefined = undefined;
-    if (laravelProduct.is_featured) {
+    if (laravelProduct.is_bestseller) {
         tag = { label: 'Best Seller', scheme: 'bestSeller' };
     }
     
