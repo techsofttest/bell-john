@@ -43,25 +43,22 @@ export default function CheckoutSuccess({ formData, itemsCount, onBack }: Checko
                 </h1>
                 
                 <p className="text-slate-600 text-xs md:text-sm font-normal mb-5 leading-relaxed max-w-md text-center">
-                    Thank you, <span className="font-semibold text-slate-900">{formData.firstName || "techsoftmvp"}</span>. Your RFQ has been successfully sent to our GCC sales team. We will contact you with a customized pricing list within 1 business day.
+                    Thank you, <span className="font-semibold text-slate-900">{formData.firstName || "techsoftmvp"}</span>. Your Request has been successfully sent to our sales team. We will contact you with a customized pricing list soon.
                 </p>
 
                 <div className="bg-white border border-slate-200 rounded-2xl p-5 w-full text-left space-y-3 mb-5 shadow-sm">
                     <h3 className="text-xs font-bold text-slate-950 uppercase tracking-widest border-b border-slate-100 pb-2">
-                        RFQ Summary Details
+                        Request Details
                     </h3>
                     <div className="grid grid-cols-2 gap-y-2 text-xs md:text-sm">
-                        <span className="text-slate-600">RFQ Ref Number:</span>
+                        <span className="text-slate-600">Ref Number:</span>
                         <span className="font-semibold text-slate-900 text-right">{rfqNumber || "Generating..."}</span>
 
-                        <span className="text-slate-600">Delivery Target:</span>
+                        <span className="text-slate-600">Address:</span>
                         <span className="font-semibold text-slate-900 text-right line-clamp-1">{formData.address}, {formData.city}, {formData.country}</span>
 
                         <span className="text-slate-600">Contact Phone:</span>
                         <span className="font-semibold text-slate-900 text-right">{formData.phone}</span>
-
-                        <span className="text-slate-600">Items Count:</span>
-                        <span className="font-semibold text-slate-900 text-right">{itemsCount} Solutions</span>
 
                         <span className="text-slate-600">Inquiry Status:</span>
                         <span className="font-semibold text-brand text-right uppercase tracking-wider text-xs">Processing RFQ</span>
