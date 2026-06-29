@@ -119,7 +119,10 @@ export default function CheckoutPage() {
                 product_id: item.id,
                 qty: item.qty,
                 variant_id: null,
-                sku: item.sku || null
+                sku: item.sku || null,
+                size: item.size || null,
+                color: item.color || null,
+                packaging: item.packaging || null
             }))
         };
 
