@@ -11,8 +11,11 @@ interface CartItem {
     image: string;
     qty: number;
     size?: string;
+    sizeLabel?: string;
     color?: string;
+    colorLabel?: string;
     packaging?: string;
+    packagingLabel?: string;
     sku?: string;
 }
 
@@ -73,9 +76,9 @@ export default function CheckoutSummary({
                                         {/* Variant Specifications */}
                                         <div className="text-[10px] text-slate-500 mt-1 space-y-0.5 font-semibold uppercase tracking-wider">
                                             {item.sku && <p>SKU: <span className="text-slate-800">{item.sku}</span></p>}
-                                            {item.size && <p>Size: <span className="text-slate-800">{item.size}</span></p>}
-                                            {item.color && <p>Color: <span className="text-slate-800">{item.color}</span></p>}
-                                            {item.packaging && <p>Packaging: <span className="text-slate-800">{item.packaging}</span></p>}
+                                            {item.size && <p>{item.sizeLabel || "Size"}: <span className="text-slate-800">{item.size}</span></p>}
+                                            {item.color && <p>{item.colorLabel || "Color"}: <span className="text-slate-800">{item.color}</span></p>}
+                                            {item.packaging && <p>{item.packagingLabel || "Packaging"}: <span className="text-slate-800">{item.packaging}</span></p>}
                                         </div>
                                     </div>
 

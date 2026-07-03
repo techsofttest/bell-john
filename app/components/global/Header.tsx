@@ -64,6 +64,12 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
     const { isLoggedIn, customer, logout } = useAuth();
 
     const searchRef = useRef<HTMLDivElement>(null);
+    const regionRef = useRef<HTMLDivElement>(null);
+    const profileRef = useRef<HTMLDivElement>(null);
+    const isTouchRef = useRef(false);
+
+    const [isRegionOpen, setIsRegionOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     // Hydration check to prevent SSR mismatches
     const [mounted, setMounted] = useState(false);
@@ -94,13 +100,38 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
     }, [categories, selectedCountry]);
 
     useEffect(() => {
-            function handleClickOutside(event: MouseEvent) {
+        function handleClickOutside(event: MouseEvent) {
             if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
                 setIsSearchFocused(false);
             }
+            if (regionRef.current && !regionRef.current.contains(event.target as Node)) {
+                setIsRegionOpen(false);
+            }
+            if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+                setIsProfileOpen(false);
+            }
         }
+
+        const handleTouchStart = () => {
+            isTouchRef.current = true;
+        };
+
+        const handleTouchEnd = () => {
+            // Delay resetting touch ref to prevent hover triggering on mobile/hybrid devices immediately after tap
+            setTimeout(() => {
+                isTouchRef.current = false;
+            }, 1000);
+        };
+
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        window.addEventListener("touchstart", handleTouchStart, { passive: true });
+        window.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            window.removeEventListener("touchstart", handleTouchStart);
+            window.removeEventListener("touchend", handleTouchEnd);
+        };
     }, []);
 
     // Debounced suggestions fetch
@@ -325,7 +356,22 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
 
                                 {/* Region Dropdown */}
                                 {selectedCountry && countries.length > 0 && (
-                                    <div className="relative group cursor-pointer">
+                                    <div 
+                                        ref={regionRef}
+                                        className="relative cursor-pointer"
+                                        onMouseEnter={() => {
+                                            if (!isTouchRef.current) {
+                                                setIsRegionOpen(true);
+                                            }
+                                        }}
+                                        onMouseLeave={() => {
+                                            setIsRegionOpen(false);
+                                        }}
+                                        onClick={() => {
+                                            setIsRegionOpen(prev => !prev);
+                                            setIsProfileOpen(false);
+                                        }}
+                                    >
                                         <div className="flex items-center gap-2.5 hover:bg-slate-50 px-3 py-2 rounded-lg transition-all">
                                             <Image src={`${STORAGE_URL}/countries/${selectedCountry.name.toLowerCase()}.png`} width={22} height={15} alt={`${selectedCountry.name} Flag`} className="rounded-sm shadow-sm" />
                                             <span className="text-xs font-bold text-slate-700">
@@ -338,13 +384,19 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                                     om: "OMR"
                                                 }[selectedCountry.code.toLowerCase()] || selectedCountry.code.toUpperCase()}
                                             </span>
-                                            <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform" />
+                                            <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${isRegionOpen ? "rotate-180" : ""}`} />
                                         </div>
-                                        <div className="absolute top-full right-0 mt-1 w-44 bg-white border border-slate-100 shadow-2xl rounded-xl p-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[120]">
+                                        <div 
+                                            onClick={(e) => e.stopPropagation()}
+                                            className={`absolute top-full right-0 mt-1 w-44 bg-white border border-slate-100 shadow-2xl rounded-xl p-1 transition-all duration-200 z-[120] ${isRegionOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+                                        >
                                             {countries.map((c) => (
                                                 <button
                                                     key={c.id}
-                                                    onClick={() => selectCountry(c.code)}
+                                                    onClick={() => {
+                                                        selectCountry(c.code);
+                                                        setIsRegionOpen(false);
+                                                    }}
                                                     className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-slate-700 transition-colors text-left font-semibold text-xs rounded-lg"
                                                 >
                                                     <Image src={`${STORAGE_URL}/countries/${c.name.toLowerCase()}.png`} width={20} height={14} alt={`${c.name} Flag`} />
@@ -361,9 +413,23 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                         </div>
                                     </div>
                                 )}
-
                                 {/* Profile Dropdown */}
-                                <div className="relative group cursor-pointer">
+                                <div 
+                                    ref={profileRef}
+                                    className="relative cursor-pointer"
+                                    onMouseEnter={() => {
+                                        if (!isTouchRef.current) {
+                                            setIsProfileOpen(true);
+                                        }
+                                    }}
+                                    onMouseLeave={() => {
+                                        setIsProfileOpen(false);
+                                    }}
+                                    onClick={() => {
+                                        setIsProfileOpen(prev => !prev);
+                                        setIsRegionOpen(false);
+                                    }}
+                                >
                                     <div className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100">
                                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-700">
                                             <User className="w-4 h-4" strokeWidth={2} />
@@ -376,7 +442,10 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                     </div>
 
                                     {/* Dropdown Menu */}
-                                    <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-slate-100 shadow-2xl rounded-xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[120]">
+                                    <div 
+                                        onClick={(e) => e.stopPropagation()}
+                                        className={`absolute top-full right-0 mt-1 w-48 bg-white border border-slate-100 shadow-2xl rounded-xl p-2 transition-all duration-200 z-[120] ${isProfileOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+                                    >
                                         <div className="px-4 py-2 border-b border-slate-50 mb-1">
                                             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                                                 {mounted && isLoggedIn && customer ? `Hello, ${customer.name}` : "Account"}
@@ -385,23 +454,42 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
 
                                         {(!mounted || !isLoggedIn) ? (
                                             <>
-                                                <Link href="/auth/login" className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg">
+                                                <Link 
+                                                    href="/auth/login" 
+                                                    onClick={() => setIsProfileOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg"
+                                                >
                                                     Sign In
                                                 </Link>
-                                                <Link href="/auth/register" className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg">
+                                                <Link 
+                                                    href="/auth/register" 
+                                                    onClick={() => setIsProfileOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg"
+                                                >
                                                     Register
                                                 </Link>
                                             </>
                                         ) : (
                                             <>
-                                                <Link href="/auth/change-password" className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg">
+                                                <Link 
+                                                    href="/auth/change-password" 
+                                                    onClick={() => setIsProfileOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg"
+                                                >
                                                     Change Password
                                                 </Link>
-                                                <Link href="/my-requests" className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg">
+                                                <Link 
+                                                    href="/my-requests" 
+                                                    onClick={() => setIsProfileOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-slate-700 hover:text-brand transition-colors text-sm font-medium rounded-lg"
+                                                >
                                                     My Quotes
                                                 </Link>
                                                 <button
-                                                    onClick={() => logout()}
+                                                    onClick={() => {
+                                                        logout();
+                                                        setIsProfileOpen(false);
+                                                    }}
                                                     className="w-full text-left flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 text-red-600 hover:text-red-700 transition-colors text-sm font-medium rounded-lg"
                                                 >
                                                     Sign Out
@@ -409,8 +497,6 @@ export default function Header({ categories = [] }: { categories?: any[] }) {
                                             </>
                                         )}
                                     </div>
-
-                                    
                                 </div>
                             </div>
                         </div>

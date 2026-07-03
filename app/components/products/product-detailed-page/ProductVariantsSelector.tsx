@@ -26,7 +26,9 @@ export default function ProductVariantsSelector({
             {/* Size Variant */}
             {variants?.sizes && variants.sizes.length > 0 && (
                 <div>
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">Select Size</label>
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">
+                        {variants.sizesLabel || "Select Size"}
+                    </label>
                     <select
                         value={size}
                         onChange={(e) => setSize(e.target.value)}
@@ -42,7 +44,9 @@ export default function ProductVariantsSelector({
             {/* Color Variant */}
             {variants?.colors && variants.colors.length > 0 && (
                 <div>
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">Select Color</label>
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">
+                        {variants.colorsLabel || "Select Color"}
+                    </label>
                     <select
                         value={color}
                         onChange={(e) => setColor(e.target.value)}
@@ -58,7 +62,9 @@ export default function ProductVariantsSelector({
             {/* Packaging Variant */}
             {variants?.packaging && variants.packaging.length > 0 && (
                 <div>
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">Packaging Type</label>
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">
+                        {variants.packagingLabel || "Packaging Type"}
+                    </label>
                     <select
                         value={packaging}
                         onChange={(e) => setPackaging(e.target.value)}

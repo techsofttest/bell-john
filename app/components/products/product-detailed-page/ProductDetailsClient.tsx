@@ -53,8 +53,11 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                 image: product.image,
                 qty,
                 size: size || undefined,
+                sizeLabel: product.variants?.sizesLabel || undefined,
                 color: color || undefined,
+                colorLabel: product.variants?.colorsLabel || undefined,
                 packaging: packaging || undefined,
+                packagingLabel: product.variants?.packagingLabel || undefined,
                 sku: selectedSku || undefined
             });
             setIsAdding(false);

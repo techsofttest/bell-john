@@ -39,17 +39,17 @@ export default function CartItem({ item, onRemove, onUpdateQty }: ItemProps) {
                             )}
                             {item.size && (
                                 <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
-                                    Size: <span className="text-slate-900">{item.size}</span>
+                                    {item.sizeLabel || "Size"}: <span className="text-slate-900">{item.size}</span>
                                 </span>
                             )}
                             {item.color && (
                                 <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
-                                    Color: <span className="text-slate-900">{item.color}</span>
+                                    {item.colorLabel || "Color"}: <span className="text-slate-900">{item.color}</span>
                                 </span>
                             )}
                             {item.packaging && (
                                 <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
-                                    Pack: <span className="text-slate-900">{item.packaging}</span>
+                                    {item.packagingLabel || "Pack"}: <span className="text-slate-900">{item.packaging}</span>
                                 </span>
                             )}
                         </div>

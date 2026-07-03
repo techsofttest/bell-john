@@ -8,8 +8,11 @@ interface CartItem {
     image: string;
     qty: number;
     size?: string;
+    sizeLabel?: string;
     color?: string;
+    colorLabel?: string;
     packaging?: string;
+    packagingLabel?: string;
     sku?: string;
 }
 

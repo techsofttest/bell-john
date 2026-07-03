@@ -5,8 +5,11 @@ export interface ProductTag {
 
 export interface ProductVariants {
     sizes?: string[];
+    sizesLabel?: string;
     colors?: string[];
+    colorsLabel?: string;
     packaging?: string[];
+    packagingLabel?: string;
 }
 
 export interface Product {
@@ -52,13 +55,17 @@ export function mapLaravelProduct(laravelProduct: any): Product {
             const labelLower = group.label?.toLowerCase() || '';
             if (labelLower.includes('size') || labelLower.includes('variant') || labelLower.includes('varient')) {
                 variants.sizes = group.attributes;
+                variants.sizesLabel = group.label;
             } else if (labelLower.includes('color')) {
                 variants.colors = group.attributes;
+                variants.colorsLabel = group.label;
             } else if (labelLower.includes('unit') || labelLower.includes('pack') || labelLower.includes('packaging')) {
                 variants.packaging = group.attributes;
+                variants.packagingLabel = group.label;
             } else {
                 if (!variants.packaging) {
                     variants.packaging = group.attributes;
+                    variants.packagingLabel = group.label;
                 }
             }
         });

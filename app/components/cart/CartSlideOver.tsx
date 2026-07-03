@@ -55,9 +55,9 @@ export default function CartSlideOver() {
                                             <h4 className="text-xs font-bold text-slate-800 line-clamp-2 leading-tight">{item.title}</h4>
                                             <div className="text-[10px] text-slate-600 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 font-semibold uppercase tracking-wider">
                                                 {item.sku && <span className="text-slate-800 font-bold">SKU: {item.sku}</span>}
-                                                {item.size && <span>Size: {item.size}</span>}
-                                                {item.color && <span>Color: {item.color}</span>}
-                                                {item.packaging && <span>Pack: {item.packaging}</span>}
+                                                {item.size && <span>{item.sizeLabel || "Size"}: {item.size}</span>}
+                                                {item.color && <span>{item.colorLabel || "Color"}: {item.color}</span>}
+                                                {item.packaging && <span>{item.packagingLabel || "Pack"}: {item.packaging}</span>}
                                                 <span>Qty: {item.qty}</span>
                                             </div>
                                             <button

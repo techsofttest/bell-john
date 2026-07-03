@@ -19,8 +19,11 @@ interface QuickQuoteModalProps {
         image: string;
         variants?: {
             sizes?: string[];
+            sizesLabel?: string;
             colors?: string[];
+            colorsLabel?: string;
             packaging?: string[];
+            packagingLabel?: string;
         };
     };
 }
@@ -67,9 +70,12 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                 image: product.image,
                 qty,
                 size: size || undefined,
+                sizeLabel: product.variants?.sizesLabel || undefined,
                 color: color || undefined,
-                packaging: packaging || undefined
-            } as any); // Type cast to any for now to handle packaging in context if needed
+                colorLabel: product.variants?.colorsLabel || undefined,
+                packaging: packaging || undefined,
+                packagingLabel: product.variants?.packagingLabel || undefined
+            });
 
             setIsAdding(false);
             setIsAdded(true);
@@ -131,7 +137,9 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                 {/* Variant: Size */}
                                 {product.variants?.sizes && product.variants.sizes.length > 0 && (
                                     <div>
-                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">Select Size</label>
+                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">
+                                            {product.variants.sizesLabel || "Select Size"}
+                                        </label>
                                         <select
                                             value={size}
                                             onChange={(e) => setSize(e.target.value)}
@@ -147,7 +155,9 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                 {/* Variant: Color */}
                                 {product.variants?.colors && product.variants.colors.length > 0 && (
                                     <div>
-                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">Select Color</label>
+                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">
+                                            {product.variants.colorsLabel || "Select Color"}
+                                        </label>
                                         <select
                                             value={color}
                                             onChange={(e) => setColor(e.target.value)}
@@ -163,7 +173,9 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                 {/* Variant: Packaging */}
                                 {product.variants?.packaging && product.variants.packaging.length > 0 && (
                                     <div>
-                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">Packaging Type</label>
+                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">
+                                            {product.variants.packagingLabel || "Packaging Type"}
+                                        </label>
                                         <select
                                             value={packaging}
                                             onChange={(e) => setPackaging(e.target.value)}
