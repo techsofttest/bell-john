@@ -52,6 +52,11 @@ export default function CartItem({ item, onRemove, onUpdateQty }: ItemProps) {
                                     {item.packagingLabel || "Pack"}: <span className="text-slate-900">{item.packaging}</span>
                                 </span>
                             )}
+                            {item.custom && Object.entries(item.custom).map(([key, val]) => (
+                                <span key={key} className="text-[10px] text-slate-600 font-bold uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
+                                    {key}: <span className="text-slate-900">{val as string}</span>
+                                </span>
+                            ))}
                         </div>
                     )}
 

@@ -10,6 +10,8 @@ interface ProductVariantsSelectorProps {
     setColor: (c: string) => void;
     packaging: string;
     setPackaging: (p: string) => void;
+    customValues?: Record<string, string>;
+    setCustomValue?: (groupLabel: string, value: string) => void;
 }
 
 export default function ProductVariantsSelector({
@@ -19,7 +21,9 @@ export default function ProductVariantsSelector({
     color,
     setColor,
     packaging,
-    setPackaging
+    setPackaging,
+    customValues = {},
+    setCustomValue = () => {}
 }: ProductVariantsSelectorProps) {
     return (
         <div className="space-y-5 py-2">
@@ -76,6 +80,24 @@ export default function ProductVariantsSelector({
                     </select>
                 </div>
             )}
+
+            {/* Custom/Extra Variants */}
+            {variants?.customGroups && variants.customGroups.map(group => (
+                <div key={group.label}>
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 block">
+                        {group.label}
+                    </label>
+                    <select
+                        value={customValues[group.label] || ""}
+                        onChange={(e) => setCustomValue(group.label, e.target.value)}
+                        className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 bg-white text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 hover:border-slate-400 cursor-pointer"
+                    >
+                        {group.attributes.map(attr => (
+                            <option key={attr} value={attr}>{attr}</option>
+                        ))}
+                    </select>
+                </div>
+            ))}
         </div>
     );
 }

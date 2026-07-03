@@ -3,6 +3,11 @@ export interface ProductTag {
     scheme?: 'new' | 'bestSeller' | 'premium' | 'standard' | 'outOfStock';
 }
 
+export interface VariantGroup {
+    label: string;
+    attributes: string[];
+}
+
 export interface ProductVariants {
     sizes?: string[];
     sizesLabel?: string;
@@ -10,6 +15,7 @@ export interface ProductVariants {
     colorsLabel?: string;
     packaging?: string[];
     packagingLabel?: string;
+    customGroups?: VariantGroup[];
 }
 
 export interface Product {
@@ -49,7 +55,7 @@ export function mapLaravelProduct(laravelProduct: any): Product {
     }
     
     // Map variants
-    const variants: ProductVariants = {};
+    const variants: ProductVariants = { customGroups: [] };
     if (Array.isArray(laravelProduct.variant_options)) {
         laravelProduct.variant_options.forEach((group: any) => {
             const labelLower = group.label?.toLowerCase() || '';
@@ -63,10 +69,10 @@ export function mapLaravelProduct(laravelProduct: any): Product {
                 variants.packaging = group.attributes;
                 variants.packagingLabel = group.label;
             } else {
-                if (!variants.packaging) {
-                    variants.packaging = group.attributes;
-                    variants.packagingLabel = group.label;
-                }
+                variants.customGroups?.push({
+                    label: group.label,
+                    attributes: group.attributes
+                });
             }
         });
     }

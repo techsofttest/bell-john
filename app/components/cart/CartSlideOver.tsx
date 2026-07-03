@@ -58,6 +58,9 @@ export default function CartSlideOver() {
                                                 {item.size && <span>{item.sizeLabel || "Size"}: {item.size}</span>}
                                                 {item.color && <span>{item.colorLabel || "Color"}: {item.color}</span>}
                                                 {item.packaging && <span>{item.packagingLabel || "Pack"}: {item.packaging}</span>}
+                                                {item.custom && Object.entries(item.custom).map(([key, val]) => (
+                                                    <span key={key}>{key}: {val as string}</span>
+                                                ))}
                                                 <span>Qty: {item.qty}</span>
                                             </div>
                                             <button

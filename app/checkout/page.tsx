@@ -115,15 +115,24 @@ export default function CheckoutPage() {
             state: formData.state,
             zip: formData.zip,
             currency: selectedCountry?.code || "INR",
-            items: cartItems.map(item => ({
-                product_id: item.id,
-                qty: item.qty,
-                variant_id: null,
-                sku: item.sku || null,
-                size: item.size || null,
-                color: item.color || null,
-                packaging: item.packaging || null
-            }))
+            items: cartItems.map(item => {
+                const itemPayload: any = {
+                    product_id: item.id,
+                    qty: item.qty,
+                    variant_id: null,
+                    sku: item.sku || null,
+                    size: item.size || null,
+                    color: item.color || null,
+                    packaging: item.packaging || null
+                };
+                if (item.custom) {
+                    Object.entries(item.custom).forEach(([key, val]) => {
+                        const cleanKey = key.toLowerCase().replace(/\s+/g, '_');
+                        itemPayload[cleanKey] = val;
+                    });
+                }
+                return itemPayload;
+            })
         };
 
         try {

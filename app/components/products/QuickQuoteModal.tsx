@@ -24,6 +24,10 @@ interface QuickQuoteModalProps {
             colorsLabel?: string;
             packaging?: string[];
             packagingLabel?: string;
+            customGroups?: {
+                label: string;
+                attributes: string[];
+            }[];
         };
     };
 }
@@ -36,6 +40,7 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
     const [size, setSize] = useState("");
     const [color, setColor] = useState("");
     const [packaging, setPackaging] = useState("");
+    const [customValues, setCustomValues] = useState<Record<string, string>>({});
 
     const [mounted, setMounted] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
@@ -51,6 +56,16 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
             if (product.variants?.sizes?.length) setSize(product.variants.sizes[0]);
             if (product.variants?.colors?.length) setColor(product.variants.colors[0]);
             if (product.variants?.packaging?.length) setPackaging(product.variants.packaging[0]);
+            
+            const defaults: Record<string, string> = {};
+            if (product.variants?.customGroups) {
+                product.variants.customGroups.forEach((group: any) => {
+                    if (group.attributes?.[0]) {
+                        defaults[group.label] = group.attributes[0];
+                    }
+                });
+            }
+            setCustomValues(defaults);
         } else {
             document.body.style.overflow = 'unset';
         }
@@ -74,7 +89,8 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                 color: color || undefined,
                 colorLabel: product.variants?.colorsLabel || undefined,
                 packaging: packaging || undefined,
-                packagingLabel: product.variants?.packagingLabel || undefined
+                packagingLabel: product.variants?.packagingLabel || undefined,
+                custom: customValues
             });
 
             setIsAdding(false);
@@ -187,6 +203,24 @@ export default function QuickQuoteModal({ isOpen, onClose, product }: QuickQuote
                                         </select>
                                     </div>
                                 )}
+
+                                {/* Custom/Extra Variants */}
+                                {product.variants?.customGroups && product.variants.customGroups.map(group => (
+                                    <div key={group.label}>
+                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 block">
+                                            {group.label}
+                                        </label>
+                                        <select
+                                            value={customValues[group.label] || ""}
+                                            onChange={(e) => setCustomValues(prev => ({ ...prev, [group.label]: e.target.value }))}
+                                            className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-200 bg-white text-slate-600 font-medium focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all duration-300 hover:border-slate-300 cursor-pointer"
+                                        >
+                                            {group.attributes.map(attr => (
+                                                <option key={attr} value={attr}>{attr}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                ))}
 
                                 {/* Quantity */}
                                 <div>

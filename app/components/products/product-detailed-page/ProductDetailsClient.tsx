@@ -30,7 +30,12 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
     const isWishlisted = isInWishlist(product.id);
-    const hasVariants = !!(product.variants?.sizes?.length || product.variants?.colors?.length || product.variants?.packaging?.length);
+    const hasVariants = !!(
+        product.variants?.sizes?.length || 
+        product.variants?.colors?.length || 
+        product.variants?.packaging?.length ||
+        product.variants?.customGroups?.length
+    );
 
     // State for interactive features
     const [selectedImage, setSelectedImage] = useState(product.image);
@@ -40,6 +45,25 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
     const [color, setColor] = useState(product.variants?.colors?.[0] || "");
     const [packaging, setPackaging] = useState(product.variants?.packaging?.[0] || "");
     const [selectedSku, setSelectedSku] = useState(product.skus?.[0] || "");
+    
+    const [customValues, setCustomValues] = useState<Record<string, string>>(() => {
+        const defaults: Record<string, string> = {};
+        if (product.variants?.customGroups) {
+            product.variants.customGroups.forEach(group => {
+                if (group.attributes?.[0]) {
+                    defaults[group.label] = group.attributes[0];
+                }
+            });
+        }
+        return defaults;
+    });
+
+    const setCustomValue = (groupLabel: string, value: string) => {
+        setCustomValues(prev => ({
+            ...prev,
+            [groupLabel]: value
+        }));
+    };
 
     const [isAdding, setIsAdding] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
@@ -58,7 +82,8 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                 colorLabel: product.variants?.colorsLabel || undefined,
                 packaging: packaging || undefined,
                 packagingLabel: product.variants?.packagingLabel || undefined,
-                sku: selectedSku || undefined
+                sku: selectedSku || undefined,
+                custom: customValues
             });
             setIsAdding(false);
             setIsAdded(true);
@@ -168,6 +193,8 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
                         setColor={setColor}
                         packaging={packaging}
                         setPackaging={setPackaging}
+                        customValues={customValues}
+                        setCustomValue={setCustomValue}
                     />
                 </div>
             )}

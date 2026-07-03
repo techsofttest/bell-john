@@ -17,6 +17,7 @@ interface CartItem {
     packaging?: string;
     packagingLabel?: string;
     sku?: string;
+    custom?: Record<string, string>;
 }
 
 interface CheckoutSummaryProps {
@@ -79,11 +80,14 @@ export default function CheckoutSummary({
                                             {item.size && <p>{item.sizeLabel || "Size"}: <span className="text-slate-800">{item.size}</span></p>}
                                             {item.color && <p>{item.colorLabel || "Color"}: <span className="text-slate-800">{item.color}</span></p>}
                                             {item.packaging && <p>{item.packagingLabel || "Packaging"}: <span className="text-slate-800">{item.packaging}</span></p>}
+                                            {item.custom && Object.entries(item.custom).map(([key, val]) => (
+                                                <p key={key}>{key}: <span className="text-slate-800">{val as string}</span></p>
+                                            ))}
                                         </div>
                                     </div>
 
                                     {/* Accordion toggle for details */}
-                                    {(item.sku || item.size || item.color || item.packaging) && (
+                                    {(item.sku || item.size || item.color || item.packaging || (item.custom && Object.keys(item.custom).length > 0)) && (
                                         <button 
                                             onClick={() => setExpandedItem(isExpanded ? null : item.id)}
                                             className="text-[10px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1 mt-1 hover:text-slate-900"

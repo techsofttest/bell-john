@@ -14,6 +14,7 @@ interface CartItem {
     packaging?: string;
     packagingLabel?: string;
     sku?: string;
+    custom?: Record<string, string>;
 }
 
 interface CartContextType {
@@ -40,7 +41,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 i.size === item.size && 
                 i.color === item.color &&
                 i.packaging === item.packaging &&
-                i.sku === item.sku
+                i.sku === item.sku &&
+                JSON.stringify(i.custom || {}) === JSON.stringify(item.custom || {})
             );
             if (existing) {
                 return prev.map((i) => (
@@ -48,7 +50,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
                     i.size === item.size && 
                     i.color === item.color &&
                     i.packaging === item.packaging &&
-                    i.sku === item.sku
+                    i.sku === item.sku &&
+                    JSON.stringify(i.custom || {}) === JSON.stringify(item.custom || {})
                 ) ? { ...i, qty: i.qty + item.qty } : i);
             }
             return [...prev, item];
