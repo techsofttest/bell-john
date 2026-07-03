@@ -56,11 +56,11 @@ export default function CheckoutSummary({
                             <div key={index} className="flex gap-4 border-b border-slate-200/40 pb-4 last:border-b-0 last:pb-0 group">
                                 {/* Image container with exact round item count circle badge overlay */}
                                 <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-white border border-slate-200 flex-shrink-0">
-                                    <Image 
-                                        src={item.image} 
-                                        alt={item.title} 
-                                        fill 
-                                        className="object-cover" 
+                                    <Image
+                                        src={item.image}
+                                        alt={item.title}
+                                        fill
+                                        className="object-cover"
                                     />
                                     <div className="absolute -top-1.5 -right-1.5 bg-slate-900 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm z-10">
                                         {item.qty}
@@ -73,7 +73,7 @@ export default function CheckoutSummary({
                                         <h4 className="text-xs font-bold text-slate-800 leading-snug group-hover:text-brand transition-colors line-clamp-2">
                                             {item.title}
                                         </h4>
-                                        
+
                                         {/* Variant Specifications */}
                                         <div className="text-[10px] text-slate-500 mt-1 space-y-0.5 font-semibold uppercase tracking-wider">
                                             {item.sku && <p>SKU: <span className="text-slate-800">{item.sku}</span></p>}
@@ -88,7 +88,7 @@ export default function CheckoutSummary({
 
                                     {/* Accordion toggle for details */}
                                     {(item.sku || item.size || item.color || item.packaging || (item.custom && Object.keys(item.custom).length > 0)) && (
-                                        <button 
+                                        <button
                                             onClick={() => setExpandedItem(isExpanded ? null : item.id)}
                                             className="text-[10px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1 mt-1 hover:text-slate-900"
                                         >

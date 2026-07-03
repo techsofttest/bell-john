@@ -106,7 +106,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                             <span className="w-10 h-[1px] bg-brand"></span>
                             <span className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-bold text-brand">Industry Standards</span>
                         </div>
-                        <h2 className="font-serif text-xl md:text-3xl text-slate-900 font-medium">Featured Solutions</h2>
+                        <h2 className="font-serif text-xl md:text-3xl text-slate-900 font-medium">Best Sellers</h2>
                     </div>
 
                     {/* Navigation */}
