@@ -6,7 +6,7 @@ import Script from "next/script";
 export default function AisensyScript() {
   const { selectedCountry } = useRegion();
 
-  if (selectedCountry?.code.toLowerCase() !== "united arab emirates") {
+  if (selectedCountry?.code.toLowerCase() !== "uae") {
     return null;
   }
 
