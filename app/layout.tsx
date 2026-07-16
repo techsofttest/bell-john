@@ -5,6 +5,9 @@ import { AuthProvider } from "@/app/context/AuthContext";
 import CartSlideOver from "@/app/components/cart/CartSlideOver";
 import RegionSelectorModal from "@/app/components/global/RegionSelectorModal";
 import "./globals.css";
+import Script from "next/script";
+
+
 
 export const metadata = {
   title: "Bell & John",
@@ -14,6 +17,14 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+	<head>
+	<script 
+      type="text/javascript"
+      src="https://d3mkw6s8thqya7.cloudfront.net/integration-plugin.js"
+      id="aisensy-wa-widget"
+      widget-id="aab3zm">
+    </script>
+	</head>
       <body>
         <RegionProvider>
           <AuthProvider>
