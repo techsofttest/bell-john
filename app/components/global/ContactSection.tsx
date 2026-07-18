@@ -24,6 +24,10 @@ export default function ContactSection() {
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
         
+        if (selectedCountry) {
+            data.country = selectedCountry.name;
+        }
+        
         try {
             const res = await fetch(`${API_URL}/contact`, {
                 method: 'POST',
