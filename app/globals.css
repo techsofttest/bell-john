@@ -32,3 +32,9 @@
     @apply font-serif;
   }
 }
+
+@media (max-width: 768px) {
+  .df-btn {
+    bottom: 85px !important;
+  }
+}
