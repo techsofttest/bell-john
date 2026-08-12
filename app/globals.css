@@ -34,9 +34,9 @@
 }
 
 @media (max-width: 768px) {
-  .df-btn {
+  div.df-btn {
 
     bottom: 85px !important;
-    
+
   }
 }
